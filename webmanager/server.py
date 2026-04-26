@@ -7,10 +7,18 @@ from flask import Flask, jsonify, send_from_directory, request, render_template
 
 try:
     from webmanager.helpfile import help_file, buildings
-    from webmanager.utils import DataReader, BotManager, MapBuilder, BuildingTemplateManager
+    from webmanager.utils import (
+        DataReader, BotManager, MapBuilder, BuildingTemplateManager,
+        TroopTemplateManager, OffensiveTemplateManager
+    )
+    from webmanager.stats import StatsBuilder
 except ImportError:
     from helpfile import help_file, buildings
-    from utils import DataReader, BotManager, MapBuilder, BuildingTemplateManager
+    from utils import (
+        DataReader, BotManager, MapBuilder, BuildingTemplateManager,
+        TroopTemplateManager, OffensiveTemplateManager
+    )
+    from stats import StatsBuilder
 
 bm = BotManager()
 
@@ -143,7 +151,10 @@ def pre_process_village_config(village_id):
 def sync():
     reports = DataReader.cache_grab("reports")
     villages = DataReader.cache_grab("villages")
-    attacks = DataReader.cache_grab("attacks")
+    attacks = DataReader.cache_grab("farms")
+    legacy_attacks = DataReader.cache_grab("attacks")
+    for key, value in legacy_attacks.items():
+        attacks.setdefault(key, value)
     config = DataReader.config_grab()
     managed = DataReader.cache_grab("managed")
     bot_status = bm.is_running()
@@ -153,6 +164,7 @@ def sync():
 
     out_struct = {
         "attacks": attacks,
+        "farms": attacks,
         "villages": villages,
         "config": config,
         "reports": n_items,
@@ -162,9 +174,26 @@ def sync():
     return out_struct
 
 
+def stats_sync():
+    farms = DataReader.cache_grab("farms")
+    legacy_attacks = DataReader.cache_grab("attacks")
+    for key, value in legacy_attacks.items():
+        farms.setdefault(key, value)
+    return StatsBuilder.build(
+        DataReader.cache_grab("reports"),
+        farms,
+        DataReader.cache_grab("managed"),
+    )
+
+
 @app.route('/api/get', methods=['GET'])
 def get_vars():
     return jsonify(sync())
+
+
+@app.route('/api/stats', methods=['GET'])
+def get_stats_api():
+    return jsonify(stats_sync())
 
 
 @app.route('/bot/start')
@@ -177,6 +206,15 @@ def start_bot():
 def stop_bot():
     bm.stop()
     return jsonify(not bm.is_running())
+
+
+@app.route('/bot/session', methods=['POST'])
+def set_bot_session():
+    raw = request.form.get('raw', '') or (request.get_json(silent=True) or {}).get('raw', '')
+    if not DataReader.set_session_cookies(raw):
+        return jsonify({"ok": False, "error": "No valid cookies parsed"}), 400
+    restarted = bm.restart()
+    return jsonify({"ok": True, "restarted": restarted})
 
 
 @app.route('/config', methods=['GET'])
@@ -206,13 +244,18 @@ def get_village_overview():
     return render_template('villages.html', data=sync())
 
 
+@app.route('/stats', methods=['GET'])
+def get_stats():
+    return render_template('stats.html', data=sync(), stats=stats_sync())
+
+
 @app.route('/building_templates', methods=['GET', 'POST'])
 def get_building_templates():
     if request.form.get('new', None):
         plain = os.path.basename(request.form.get('new'))
         if not plain.endswith('.txt'):
             plain = "%s.txt" % plain
-        tempfile = '../templates/builder/%s' % plain
+        tempfile = BuildingTemplateManager.template_path(plain)
         if not os.path.exists(tempfile):
             with open(tempfile, 'w') as ouf:
                 ouf.write("")
@@ -221,6 +264,78 @@ def get_building_templates():
                            templates=BuildingTemplateManager.template_cache_list(),
                            selected=selected,
                            buildings=buildings)
+
+
+@app.route('/building_templates/save', methods=['POST'])
+def save_building_template():
+    payload = request.get_json(silent=True) or {}
+    template = payload.get("template")
+    rows = payload.get("rows", [])
+    if not template:
+        return jsonify({"ok": False, "error": "Missing template"}), 400
+    saved = BuildingTemplateManager.save_template(template, rows)
+    return jsonify({"ok": True, "rows": saved})
+
+
+@app.route('/troop_templates', methods=['GET', 'POST'])
+def get_troop_templates():
+    if request.form.get('new', None):
+        plain = os.path.basename(request.form.get('new'))
+        if not plain.endswith('.txt'):
+            plain = "%s.txt" % plain
+        path = TroopTemplateManager.template_path(plain)
+        if not os.path.exists(path):
+            with open(path, 'w') as output_file:
+                output_file.write("[]\n")
+    selected = request.args.get('t', None)
+    return render_template(
+        'troop_templates.html',
+        templates=TroopTemplateManager.template_cache_list(),
+        selected=selected,
+        buildings=buildings
+    )
+
+
+@app.route('/troop_templates/save', methods=['POST'])
+def save_troop_template():
+    payload = request.get_json(silent=True) or {}
+    template = payload.get("template")
+    rows = payload.get("rows", [])
+    if not template:
+        return jsonify({"ok": False, "error": "Missing template"}), 400
+    saved = TroopTemplateManager.save_template(template, rows)
+    return jsonify({"ok": True, "rows": len(saved)})
+
+
+@app.route('/offensive_templates', methods=['GET', 'POST'])
+def get_offensive_templates():
+    if request.form.get('new', None):
+        plain = os.path.basename(request.form.get('new'))
+        if not plain.endswith('.txt'):
+            plain = "%s.txt" % plain
+        path = OffensiveTemplateManager.template_path(plain)
+        if not os.path.exists(path):
+            with open(path, 'w') as output_file:
+                json.dump({"village": "any", "groups": []}, output_file, indent=2)
+                output_file.write("\n")
+    selected = request.args.get('t', None)
+    return render_template(
+        'offensive_templates.html',
+        templates=OffensiveTemplateManager.template_cache_list(),
+        selected=selected
+    )
+
+
+@app.route('/offensive_templates/save', methods=['POST'])
+def save_offensive_template():
+    payload = request.get_json(silent=True) or {}
+    template = payload.get("template")
+    rows = payload.get("rows", [])
+    village = payload.get("village", "any")
+    if not template:
+        return jsonify({"ok": False, "error": "Missing template"}), 400
+    saved = OffensiveTemplateManager.save_template(template, village, rows)
+    return jsonify({"ok": True, "rows": len(saved["groups"])})
 
 
 @app.route('/', methods=['GET'])
@@ -249,7 +364,8 @@ def config_set():
     return jsonify(sync())
 
 
-if len(sys.argv) > 1:
-    app.run(host="localhost", port=sys.argv[1])
-else:
-    app.run()
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        app.run(host="localhost", port=sys.argv[1])
+    else:
+        app.run()

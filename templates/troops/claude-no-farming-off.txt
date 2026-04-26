@@ -1,0 +1,166 @@
+[
+  {
+    "building": "barracks",
+    "level": 1,
+    "build": {
+      "barracks": {
+        "spear": 20,
+        "sword": 10
+      }
+    },
+    "farm": [
+        {"spear": 20}
+    ]
+  },
+  {
+    "building": "barracks",
+    "level": 3,
+    "upgrades": {
+        "spear": 1
+    },
+    "build": {
+      "barracks": {
+        "spear": 60,
+        "sword": 30
+      }
+    },
+    "farm": [
+        {"spear": 30}
+    ]
+  },
+  {
+    "building": "smith",
+    "level": 3,
+    "upgrades": {
+        "spear": 1,
+        "axe": 1
+    },
+    "build": {
+      "barracks": {
+        "spear": 100,
+        "sword": 30,
+        "axe": 40
+      }
+    },
+    "farm": [
+        {"axe": 15}
+    ]
+  },
+  {
+    "building": "stable",
+    "level": 1,
+    "upgrades": {
+        "spy": 1
+    },
+    "build": {
+      "barracks": {
+        "spear": 150,
+        "sword": 50,
+        "axe": 150
+      },
+      "stable": {
+        "spy": 30
+      }
+    },
+    "farm": [
+        {"axe": 20}
+    ]
+  },
+  {
+    "building": "stable",
+    "level": 3,
+    "upgrades": {
+        "axe": 2,
+        "light": 1,
+        "spy": 1
+    },
+    "build": {
+      "barracks": {
+        "spear": 200,
+        "sword": 50,
+        "axe": 500
+      },
+      "stable": {
+        "spy": 50,
+        "light": 50
+      }
+    },
+    "farm": [
+        {"axe": 25}
+    ]
+  },
+  {
+    "building": "barracks",
+    "level": 7,
+    "upgrades": {
+        "axe": 3,
+        "light": 2
+    },
+    "build": {
+      "barracks": {
+        "spear": 250,
+        "axe": 1200
+      },
+      "stable": {
+        "spy": 100,
+        "light": 400
+      }
+    },
+    "farm": [
+        {"axe": 30}
+    ]
+  },
+  {
+    "building": "stable",
+    "level": 8,
+    "upgrades": {
+        "axe": 4,
+        "light": 3,
+        "ram": 1
+    },
+    "build": {
+      "barracks": {
+        "spear": 250,
+        "axe": 2500
+      },
+      "stable": {
+        "spy": 200,
+        "light": 1200
+      },
+      "garage": {
+        "ram": 80
+      }
+    },
+    "farm": [
+        {"axe": 50, "spy": 1}
+    ]
+  },
+  {
+    "building": "barracks",
+    "level": 20,
+    "upgrades": {
+        "axe": 10,
+        "light": 10,
+        "ram": 10,
+        "catapult": 5,
+        "spy": 10
+    },
+    "build": {
+      "barracks": {
+        "spear": 250,
+        "axe": 4500
+      },
+      "stable": {
+        "spy": 400,
+        "light": 2500
+      },
+      "garage": {
+        "ram": 220,
+        "catapult": 50
+      }
+    },
+    "farm": [
+        {"axe": 100, "spy": 1}
+    ]
+  }
+]

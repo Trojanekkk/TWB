@@ -1,0 +1,67 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<h4 class="mt-3">Statistics</h4>
+
+<div class="row">
+    {% for label, window in stats.windows.items() %}
+    <div class="col-lg-4">
+        <div class="border rounded p-3 mb-3">
+            <h5>{{ label }}</h5>
+            <p class="mb-1">Loot: <strong>{{ window.loot_total }}</strong></p>
+            <p class="mb-1">
+                <img src="/static/images/wood.png" /> {{ window.loot.wood }}
+                <img src="/static/images/stone.png" /> {{ window.loot.stone }}
+                <img src="/static/images/iron.png" /> {{ window.loot.iron }}
+            </p>
+            <p class="mb-1">Attacks: {{ window.attacks }}</p>
+            <p class="mb-1">Scouts: {{ window.scouts }}</p>
+            <p class="mb-0">Losses: {{ window.losses }} ({{ window.loss_percentage }}%)</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <h5>Farm State</h5>
+        <table class="table table-sm table-striped">
+            <tbody>
+                <tr><th>Total farms</th><td>{{ stats.farms.total }}</td></tr>
+                <tr><th>High profile</th><td>{{ stats.farms.high_profile }}</td></tr>
+                <tr><th>Low profile</th><td>{{ stats.farms.low_profile }}</td></tr>
+                <tr><th>Unsafe</th><td>{{ stats.farms.unsafe }}</td></tr>
+                <tr><th>Draining</th><td>{{ stats.farms.draining }}</td></tr>
+                <tr><th>Managed villages</th><td>{{ stats.villages.managed }}</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-8">
+        <h5>Top Farms</h5>
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Village</th>
+                    <th>Loot</th>
+                    <th>Attacks</th>
+                    <th>Scouts</th>
+                    <th>Loss %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for farm in stats.top_farms %}
+                <tr>
+                    <td>{{ farm.target_vid }}</td>
+                    <td>{{ farm.loot_total }}</td>
+                    <td>{{ farm.attacks }}</td>
+                    <td>{{ farm.scouts }}</td>
+                    <td>{{ farm.loss_percentage }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="row mt-3">
+	{% if not selected %}
+	<div class="col-lg-12">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Template</th>
+					<th>Stages</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for template in templates %}
+				<tr>
+					<td><a href="?t={{template}}">{{template}}</a></td>
+					<td>{{ templates[template] | count }}</td>
+					<td><a class="btn btn-sm btn-success" href="?t={{template}}">Edit</a></td>
+				</tr>
+				{% endfor %}
+				<tr class="table-primary">
+					<form method="post">
+						<td><input type="text" class="form-control" name="new" placeholder="New template name"></td>
+						<td></td>
+						<td><input type="submit" class="btn btn-info btn-sm" value="Add"></td>
+					</form>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	{% else %}
+	<div class="col-lg-12">
+		<div class="d-flex align-items-center mb-2">
+			<h4 class="mb-0">{{ selected }}</h4>
+			<button id="save_template" class="btn btn-success btn-sm ml-3">Save</button>
+			<a class="btn btn-light btn-sm ml-2" href="/troop_templates">Back</a>
+		</div>
+		<table class="table table-sm table-striped" id="template_table">
+			<thead>
+				<tr>
+					<th style="width: 60px;">Line</th>
+					<th style="width: 135px;">Trigger</th>
+					<th>Barracks target</th>
+					<th>Stable target</th>
+					<th>Garage target</th>
+					<th>Upgrades</th>
+					<th>Farm waves</th>
+					<th style="width: 190px;">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for t in templates[selected] %}
+				<tr>
+					<td class="line-number">{{ loop.index }}</td>
+					<td>
+						<select class="form-control form-control-sm trigger-building mb-1">
+							{% for building in buildings %}
+							<option value="{{building}}" {% if building == t.building %}selected{% endif %}>{{building}}</option>
+							{% endfor %}
+						</select>
+						<input type="number" min="1" class="form-control form-control-sm trigger-level" value="{{ t.level }}">
+					</td>
+					<td><textarea class="form-control form-control-sm barracks" rows="2">{{ t.barracks }}</textarea></td>
+					<td><textarea class="form-control form-control-sm stable" rows="2">{{ t.stable }}</textarea></td>
+					<td><textarea class="form-control form-control-sm garage" rows="2">{{ t.garage }}</textarea></td>
+					<td><textarea class="form-control form-control-sm upgrades" rows="2">{{ t.upgrades }}</textarea></td>
+					<td><textarea class="form-control form-control-sm farm" rows="2">{{ t.farm }}</textarea></td>
+					<td>
+						<button class="btn btn-light btn-sm move-up" type="button">Up</button>
+						<button class="btn btn-light btn-sm move-down" type="button">Down</button>
+						<button class="btn btn-danger btn-sm remove-row" type="button">Remove</button>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<button id="add_row" class="btn btn-info btn-sm" type="button">Add stage</button>
+		<div class="text-muted mt-2">Use compact unit strings like <code>spear=500,sword=300</code>. Separate farm waves with <code>;</code>.</div>
+		<div id="template_status" class="mt-2"></div>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if selected %}
+<script>
+function renumber_rows() {
+	$('#template_table tbody tr').each(function(index) {
+		$(this).find('.line-number').text(index + 1);
+	});
+}
+
+function trigger_options() {
+	var options = '';
+	{% for building in buildings %}
+	options += '<option value="{{building}}">{{building}}</option>';
+	{% endfor %}
+	return options;
+}
+
+function row_html() {
+	return '<tr>' +
+		'<td class="line-number"></td>' +
+		'<td><select class="form-control form-control-sm trigger-building mb-1">' + trigger_options() + '</select>' +
+		'<input type="number" min="1" class="form-control form-control-sm trigger-level" value="1"></td>' +
+		'<td><textarea class="form-control form-control-sm barracks" rows="2"></textarea></td>' +
+		'<td><textarea class="form-control form-control-sm stable" rows="2"></textarea></td>' +
+		'<td><textarea class="form-control form-control-sm garage" rows="2"></textarea></td>' +
+		'<td><textarea class="form-control form-control-sm upgrades" rows="2"></textarea></td>' +
+		'<td><textarea class="form-control form-control-sm farm" rows="2"></textarea></td>' +
+		'<td><button class="btn btn-light btn-sm move-up" type="button">Up</button> ' +
+		'<button class="btn btn-light btn-sm move-down" type="button">Down</button> ' +
+		'<button class="btn btn-danger btn-sm remove-row" type="button">Remove</button></td>' +
+		'</tr>';
+}
+
+function collect_rows() {
+	var rows = [];
+	$('#template_table tbody tr').each(function() {
+		rows.push({
+			building: $(this).find('.trigger-building').val(),
+			level: parseInt($(this).find('.trigger-level').val(), 10),
+			barracks: $(this).find('.barracks').val(),
+			stable: $(this).find('.stable').val(),
+			garage: $(this).find('.garage').val(),
+			upgrades: $(this).find('.upgrades').val(),
+			farm: $(this).find('.farm').val()
+		});
+	});
+	return rows;
+}
+
+$(document).ready(function() {
+	renumber_rows();
+	$('#add_row').click(function() { $('#template_table tbody').append(row_html()); renumber_rows(); });
+	$('#template_table').on('click', '.remove-row', function() { $(this).closest('tr').remove(); renumber_rows(); });
+	$('#template_table').on('click', '.move-up', function() { var row = $(this).closest('tr'); row.prev().before(row); renumber_rows(); });
+	$('#template_table').on('click', '.move-down', function() { var row = $(this).closest('tr'); row.next().after(row); renumber_rows(); });
+	$('#save_template').click(function() {
+		$('#template_status').text('Saving...');
+		fetch('/troop_templates/save', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({template: '{{ selected }}', rows: collect_rows()})
+		})
+		.then(function(response) { return response.json().then(function(body) { return {ok: response.ok, body: body}; }); })
+		.then(function(result) {
+			$('#template_status').text(result.ok && result.body.ok ? 'Saved ' + result.body.rows + ' stages' : (result.body.error || 'Save failed'));
+		})
+		.catch(function() { $('#template_status').text('Save failed'); });
+	});
+});
+</script>
+{% endif %}
+{% endblock %}

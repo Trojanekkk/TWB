@@ -29,6 +29,15 @@
     "village_name_number_length": 3,
     "auto_set_village_names": false,
     "user_agent": null,
+    "request_rate_limit_enabled": true,
+    "idle_backoff_on_error_seconds": 300,
+    "pause_on_bot_protection": true,
+    "humanizer_enabled": false,
+    "humanizer_ambient_chance": 0.05,
+    "humanizer_idle_chance": 0.0,
+    "humanizer_idle_gap_min": 300,
+    "humanizer_idle_gap_max": 900,
+    "humanizer_warmup_after_seconds": 1800,
     "check_update": true
   },
   "building": {
@@ -74,11 +83,15 @@
     "default_away_time": 3600,
     "full_loot_away_time": 1800,
     "low_loot_away_time": 7200,
+    "priority_ratio": 50,
     "max_farms": 25,
     "attack_higher_points": false,
     "force_scout_if_available": true,
     "forced_peace_times": [],
-    "farm_scout_amount": 5
+    "farm_scout_amount": 5,
+    "night_bonus_start_hour": 23,
+    "night_bonus_end_hour": 7,
+    "night_bonus_troop_multiplier": 3.0
   },
   "market": {
     "auto_trade": true,
@@ -95,7 +108,9 @@
     "trade_for_premium": false,
     "archers_enabled": true,
     "building_destruction_enabled": true,
-    "boosters_enabled": null
+    "boosters_enabled": null,
+    "game_speed": 1.0,
+    "unit_speed": 1.0
   },
   "villages": {
 

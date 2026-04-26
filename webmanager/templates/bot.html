@@ -28,9 +28,9 @@
         <h4>Bot</h4>
         Status:
         {% if data.status %}
-            <button class="btn btn-sm btn-success">Active</button>
+            <button id="bot_toggle" class="btn btn-sm btn-success" onclick="stop_bot()">Active</button>
         {% else %}
-            <button class="btn btn-sm btn-warning">Inactive</button>
+            <button id="bot_toggle" class="btn btn-sm btn-warning" onclick="start_bot()">Inactive</button>
             <br />
             <i>Ignore this if you are running twb.py yourself</i>
         {% endif %}
@@ -43,8 +43,62 @@
 
 {% endblock %}
 {% block scripts %}
+<style>
+#twb_toast {
+    position: fixed; top: 20px; right: 20px; z-index: 1080;
+    min-width: 240px; padding: 10px 16px; border-radius: 4px;
+    color: #fff; background: #28a745; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    opacity: 0; transition: opacity .2s ease-in-out; pointer-events: none;
+}
+#twb_toast.show { opacity: 1; }
+#twb_toast.error { background: #dc3545; }
+</style>
+<div id="twb_toast"></div>
 <script>
+function show_toast(msg, isError) {
+    const t = document.getElementById('twb_toast');
+    t.textContent = msg;
+    t.classList.toggle('error', !!isError);
+    t.classList.add('show');
+    clearTimeout(show_toast._timer);
+    show_toast._timer = setTimeout(function () { t.classList.remove('show'); }, 3000);
+}
 
+function start_bot() {
+    const btn = document.getElementById('bot_toggle');
+    btn.disabled = true;
+    fetch('/bot/start')
+        .then(function (r) { return r.json(); })
+        .then(function () { window.location.reload(); })
+        .catch(function () { btn.disabled = false; });
+}
 
+function stop_bot() {
+    const btn = document.getElementById('bot_toggle');
+    btn.disabled = true;
+    fetch('/bot/stop')
+        .then(function (r) { return r.json(); })
+        .then(function () { window.location.reload(); })
+        .catch(function () { btn.disabled = false; });
+}
+
+function set_session_data() {
+    const input = document.getElementById('session_data');
+    const raw = input.value;
+    const body = new URLSearchParams();
+    body.append('raw', raw);
+    fetch('/bot/session', { method: 'POST', body: body })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+        .then(function (res) {
+            if (!res.ok || !res.body.ok) {
+                show_toast(res.body.error || 'Failed to update cookie', true);
+                return;
+            }
+            show_toast(res.body.restarted
+                ? 'Bot restarted with new cookie'
+                : 'Cookie updated (bot was not running)');
+        })
+        .catch(function () { show_toast('Network error', true); });
+}
 </script>
 {% endblock %}

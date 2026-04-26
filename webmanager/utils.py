@@ -1,9 +1,33 @@
 import collections
 import json
 import os
+import signal
 import subprocess
+import tempfile
+import threading
 
 import psutil
+
+
+_CONFIG_LOCK = threading.Lock()
+BUILDINGS = ["main", "barracks", "stable", "watchtower", "smith", "garage", "place", "statue", "market", "wood",
+             "stone", "iron", "farm", "hide", "wall", "snob", "church"]
+UNITS = ["spear", "sword", "axe", "archer", "spy", "light", "marcher", "heavy", "ram", "catapult", "knight", "snob"]
+
+
+def _atomic_write_json(path, data):
+    directory = os.path.dirname(os.path.abspath(path))
+    fd, tmp = tempfile.mkstemp(prefix=".config-", suffix=".json", dir=directory)
+    try:
+        with os.fdopen(fd, 'w') as tmpfile:
+            json.dump(data, tmpfile, indent=2, sort_keys=False)
+            tmpfile.flush()
+            os.fsync(tmpfile.fileno())
+        os.replace(tmp, path)
+    except Exception:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+        raise
 
 
 class DataReader:
@@ -16,6 +40,8 @@ class DataReader:
             "cache",
             cache_location
         )
+        if not os.path.isdir(c_path):
+            return output
         for existing in os.listdir(c_path):
             existing = str(existing)
             if not existing.endswith(".json"):
@@ -55,33 +81,33 @@ class DataReader:
         except:
             pass
         config_file_path = os.path.join(os.path.dirname(__file__), "..", "config.json")
-        with open(config_file_path, 'r') as config_file:
-            template = json.load(config_file, object_pairs_hook=collections.OrderedDict)
+        with _CONFIG_LOCK:
+            with open(config_file_path, 'r') as config_file:
+                template = json.load(config_file, object_pairs_hook=collections.OrderedDict)
             if "." in parameter:
                 section, param = parameter.split('.')
                 template[section][param] = value
             else:
                 template[parameter] = value
-            with open(config_file_path, 'w') as newcf:
-                json.dump(template, newcf, indent=2, sort_keys=False)
-                print("Deployed new configuration file")
-                return True
+            _atomic_write_json(config_file_path, template)
+            print("Deployed new configuration file")
+            return True
 
     @staticmethod
     def village_config_set(village_id, parameter, value):
         config_file_path = os.path.join(os.path.dirname(__file__), "..", "config.json")
-        with open(config_file_path, 'r') as config_file:
-            template = json.load(config_file, object_pairs_hook=collections.OrderedDict)
+        with _CONFIG_LOCK:
+            with open(config_file_path, 'r') as config_file:
+                template = json.load(config_file, object_pairs_hook=collections.OrderedDict)
             if village_id not in template['villages']:
                 return False
             try:
                 template['villages'][str(village_id)][parameter] = json.loads(value)
             except json.decoder.JSONDecodeError:
                 template['villages'][str(village_id)][parameter] = value
-            with open(config_file_path, 'w') as newcf:
-                json.dump(template, newcf, indent=2, sort_keys=False)
-                print("Deployed new configuration file")
-                return True
+            _atomic_write_json(config_file_path, template)
+            print("Deployed new configuration file")
+            return True
 
     @staticmethod
     def get_session():
@@ -96,39 +122,259 @@ class DataReader:
             session_data['raw'] = ';'.join(cookies)
             return session_data
 
+    @staticmethod
+    def set_session_cookies(raw):
+        cookies = {}
+        for item in raw.split(';'):
+            item = item.strip()
+            if not item or '=' not in item:
+                continue
+            k, _, v = item.partition('=')
+            k = k.strip()
+            if k:
+                cookies[k] = v.strip()
+        if not cookies:
+            return False
+        c_path = os.path.join(os.path.dirname(__file__), "..", "cache", "session.json")
+        with _CONFIG_LOCK:
+            if os.path.exists(c_path):
+                with open(c_path, 'r') as session_file:
+                    session_data = json.load(session_file, object_pairs_hook=collections.OrderedDict)
+            else:
+                session_data = collections.OrderedDict()
+            session_data['cookies'] = cookies
+            _atomic_write_json(c_path, session_data)
+        return True
+
 
 class BuildingTemplateManager:
+    base_path = os.path.join(os.path.dirname(__file__), "..", "templates", "builder")
+
+    @staticmethod
+    def template_path(template):
+        plain = os.path.basename(template)
+        if not plain.endswith(".txt"):
+            plain = "%s.txt" % plain
+        return os.path.join(BuildingTemplateManager.base_path, plain)
 
     @staticmethod
     def template_cache_list():
-        c_path = os.path.join(os.path.dirname(__file__), "..", "templates", "builder")
         output = {}
-        for existing in os.listdir(c_path):
+        for existing in os.listdir(BuildingTemplateManager.base_path):
             if not existing.endswith(".txt"):
                 continue
-            with open(os.path.join(os.path.dirname(__file__), "..", "templates", "builder", existing),
-                      'r') as template_file:
+            with open(BuildingTemplateManager.template_path(existing), 'r') as template_file:
                 output[existing] = BuildingTemplateManager.template_to_dict(
                     [x.strip() for x in template_file.readlines()])
         return output
 
     @staticmethod
     def template_to_dict(t_list):
-        out_data = {}
         rows = []
 
         for entry in t_list:
             if entry.startswith('#') or ':' not in entry:
                 continue
-            building, next_level = entry.split(':')
-            next_level = int(next_level)
-            old = 0
-            if building in out_data:
-                old = out_data[building]
-            rows.append({'building': building, 'from': old, 'to': next_level})
-            out_data[building] = next_level
+            building, next_level = entry.split(':', 1)
+            rows.append({
+                'order': len(rows) + 1,
+                'building': building,
+                'level': int(next_level),
+                'entry': "%s:%d" % (building, int(next_level)),
+            })
 
         return rows
+
+    @staticmethod
+    def save_template(template, rows):
+        clean_rows = []
+        for row in rows:
+            building = str(row.get("building", "")).strip()
+            if building not in BUILDINGS:
+                continue
+            try:
+                level = int(row.get("level", 0))
+            except (TypeError, ValueError):
+                continue
+            if level <= 0:
+                continue
+            clean_rows.append("%s:%d" % (building, level))
+
+        path = BuildingTemplateManager.template_path(template)
+        with open(path, 'w') as template_file:
+            template_file.write("# %s\n" % os.path.basename(path).replace(".txt", ""))
+            template_file.write("# Managed from the web UI. Format: building:target_level\n\n")
+            template_file.write("\n".join(clean_rows))
+            if clean_rows:
+                template_file.write("\n")
+        return clean_rows
+
+
+class UnitTemplateTools:
+    @staticmethod
+    def dict_to_text(data):
+        if not data:
+            return ""
+        parts = []
+        for key in sorted(data.keys()):
+            parts.append("%s=%s" % (key, data[key]))
+        return ", ".join(parts)
+
+    @staticmethod
+    def text_to_dict(raw, allowed=None):
+        allowed = allowed or UNITS
+        output = {}
+        for item in str(raw or "").replace("\n", ",").split(","):
+            item = item.strip()
+            if not item or "=" not in item:
+                continue
+            key, _, value = item.partition("=")
+            key = key.strip()
+            if key not in allowed:
+                continue
+            try:
+                amount = int(value.strip())
+            except ValueError:
+                continue
+            if amount > 0:
+                output[key] = amount
+        return output
+
+
+class TroopTemplateManager:
+    base_path = os.path.join(os.path.dirname(__file__), "..", "templates", "troops")
+
+    @staticmethod
+    def template_path(template):
+        plain = os.path.basename(template)
+        if not plain.endswith(".txt"):
+            plain = "%s.txt" % plain
+        return os.path.join(TroopTemplateManager.base_path, plain)
+
+    @staticmethod
+    def template_cache_list():
+        output = {}
+        for existing in os.listdir(TroopTemplateManager.base_path):
+            if not existing.endswith(".txt"):
+                continue
+            with open(TroopTemplateManager.template_path(existing), 'r') as template_file:
+                try:
+                    output[existing] = TroopTemplateManager.template_to_rows(json.load(template_file))
+                except Exception:
+                    output[existing] = []
+        return output
+
+    @staticmethod
+    def template_to_rows(template):
+        rows = []
+        for entry in template or []:
+            build = entry.get("build", {})
+            farm = []
+            for farm_entry in entry.get("farm", []):
+                farm.append(UnitTemplateTools.dict_to_text(farm_entry))
+            rows.append({
+                "order": len(rows) + 1,
+                "building": entry.get("building", "barracks"),
+                "level": int(entry.get("level", 1)),
+                "barracks": UnitTemplateTools.dict_to_text(build.get("barracks", {})),
+                "stable": UnitTemplateTools.dict_to_text(build.get("stable", {})),
+                "garage": UnitTemplateTools.dict_to_text(build.get("garage", {})),
+                "upgrades": UnitTemplateTools.dict_to_text(entry.get("upgrades", {})),
+                "farm": "; ".join(farm),
+            })
+        return rows
+
+    @staticmethod
+    def save_template(template, rows):
+        output = []
+        for row in rows:
+            building = str(row.get("building", "barracks")).strip()
+            if building not in BUILDINGS:
+                continue
+            try:
+                level = int(row.get("level", 1))
+            except (TypeError, ValueError):
+                continue
+            if level <= 0:
+                continue
+
+            entry = {"building": building, "level": level}
+            build = {}
+            for recruit_building in ["barracks", "stable", "garage"]:
+                units = UnitTemplateTools.text_to_dict(row.get(recruit_building, ""))
+                if units:
+                    build[recruit_building] = units
+            if build:
+                entry["build"] = build
+
+            upgrades = UnitTemplateTools.text_to_dict(row.get("upgrades", ""))
+            if upgrades:
+                entry["upgrades"] = upgrades
+
+            farm = []
+            for farm_entry in str(row.get("farm", "") or "").split(";"):
+                units = UnitTemplateTools.text_to_dict(farm_entry)
+                if units:
+                    farm.append(units)
+            if farm:
+                entry["farm"] = farm
+            output.append(entry)
+
+        with open(TroopTemplateManager.template_path(template), 'w') as template_file:
+            json.dump(output, template_file, indent=2)
+            template_file.write("\n")
+        return output
+
+
+class OffensiveTemplateManager:
+    base_path = os.path.join(os.path.dirname(__file__), "..", "templates", "offensive")
+
+    @staticmethod
+    def template_path(template):
+        plain = os.path.basename(template)
+        if not plain.endswith(".txt"):
+            plain = "%s.txt" % plain
+        return os.path.join(OffensiveTemplateManager.base_path, plain)
+
+    @staticmethod
+    def template_cache_list():
+        output = {}
+        for existing in os.listdir(OffensiveTemplateManager.base_path):
+            if not existing.endswith(".txt"):
+                continue
+            with open(OffensiveTemplateManager.template_path(existing), 'r') as template_file:
+                try:
+                    output[existing] = OffensiveTemplateManager.template_to_rows(json.load(template_file))
+                except Exception:
+                    output[existing] = {"village": "any", "groups": []}
+        return output
+
+    @staticmethod
+    def template_to_rows(template):
+        rows = []
+        for group in template.get("groups", []):
+            rows.append({
+                "order": len(rows) + 1,
+                "units": UnitTemplateTools.dict_to_text(group.get("units", {})),
+                "await": bool(group.get("await", False)),
+            })
+        return {"village": template.get("village", "any"), "groups": rows}
+
+    @staticmethod
+    def save_template(template, village, rows):
+        output = {"village": village or "any", "groups": []}
+        for row in rows:
+            units = UnitTemplateTools.text_to_dict(row.get("units", ""))
+            if not units:
+                continue
+            output["groups"].append({
+                "units": units,
+                "await": bool(row.get("await", False)),
+            })
+        with open(OffensiveTemplateManager.template_path(template), 'w') as template_file:
+            json.dump(output, template_file, indent=2)
+            template_file.write("\n")
+        return output
 
 
 class MapBuilder:
@@ -196,12 +442,26 @@ class BotManager:
         return False
 
     def start(self):
+        if self.is_running():
+            return
         wd = os.path.join(os.path.dirname(__file__), "..")
-        proc = subprocess.Popen("python twb.py", cwd=wd, shell=True)
+        proc = subprocess.Popen(["python3", "twb.py"], cwd=wd)
         self.pid = proc.pid
         print("Bot started successfully")
 
     def stop(self):
         if self.is_running():
-            os.kill(self.pid, sig=0)
+            os.kill(self.pid, signal.SIGTERM)
+            try:
+                psutil.Process(self.pid).wait(timeout=10)
+            except (psutil.NoSuchProcess, psutil.TimeoutExpired):
+                pass
+            self.pid = None
             print("Bot stopped successfully")
+
+    def restart(self):
+        was_running = self.is_running()
+        if was_running:
+            self.stop()
+            self.start()
+        return was_running

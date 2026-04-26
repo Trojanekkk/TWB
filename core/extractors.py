@@ -49,6 +49,40 @@ class Extractor:
         return None
 
     @staticmethod
+    def unmet_building_requirements(res):
+        """
+        Fetches locked buildings and the requirements that still need to be met.
+        """
+        if type(res) != str:
+            res = res.text
+
+        table = re.search(r'(?s)<table id="buildings_unmet".*?</table>', res)
+        if not table:
+            return {}
+
+        result = {}
+        rows = re.findall(
+            r'(?s)<tr>\s*<td>.*?screen=([a-z_]+)".*?</td>\s*<td>\s*<div class="unmet_req">(.*?)</div>\s*</td>\s*</tr>',
+            table.group(0),
+        )
+        for building, requirements_html in rows:
+            requirements = []
+            matches = re.findall(
+                r'(?s)<img src="[^"]*/graphic/buildings/mid/(?:grey/)?([a-z_]+?)(?:\d+)?\.webp"[^>]*>.*?\((\d+)\)</span>',
+                requirements_html,
+            )
+            for required_building, required_level in matches:
+                requirements.append(
+                    {
+                        "building": required_building,
+                        "level": int(required_level),
+                    }
+                )
+            if requirements:
+                result[building] = requirements
+        return result
+
+    @staticmethod
     def get_quests(res):
         """
         Gets quest data on almost any page

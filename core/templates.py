@@ -17,4 +17,10 @@ class TemplateManager:
         path = f"templates/{category}/{template}.txt"
         if output_json:
             return FileManager.load_json_file(path)
-        return FileManager.read_file(path).strip().split()
+        entries = []
+        for line in FileManager.read_file(path).splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or ":" not in line:
+                continue
+            entries.append(line)
+        return entries

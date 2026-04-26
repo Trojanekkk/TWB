@@ -1,71 +1,161 @@
 {% extends "main.html" %}
 
 {% block content %}
-<div class="row">
+<div class="row mt-3">
 	{% if not selected %}
 	<div class="col-lg-12">
 		<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Template</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for template in templates %}
+			<thead>
 				<tr>
-					<td><a href="?t={{template}}">{{template}}</a></td>
-					<td>{{templates[template] | count}}</td>
+					<th>Template</th>
+					<th>Steps</th>
+					<th></th>
 				</tr>
-			{% endfor %}
-			<tr class="table-primary">
-				<form method="post">
-					<td><input type="text" class="form-control" name="new" placeholder="New template (should end with .txt)"></td>
-					<td><input type="submit" class="btn btn-info btn-inline" name="add" value="Add new"></td>
-				</form>
-			</tr>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for template in templates %}
+					<tr>
+						<td><a href="?t={{template}}">{{template}}</a></td>
+						<td>{{templates[template] | count}}</td>
+						<td><a class="btn btn-sm btn-success" href="?t={{template}}">Edit</a></td>
+					</tr>
+				{% endfor %}
+				<tr class="table-primary">
+					<form method="post">
+						<td><input type="text" class="form-control" name="new" placeholder="New template name"></td>
+						<td></td>
+						<td><input type="submit" class="btn btn-info btn-sm" name="add" value="Add"></td>
+					</form>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	{% else %}
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Order</th>
-				<th>Building</th>
-				<th>Levels</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td></td>
-				<td>
-					<select id="new_row" class="form-control">
-						{% for building in buildings %}
-						<option value="{{building}}">{{building}}</option>
-						{% endfor %}
-					</select>
-				</td>
-				<td class="form-inline">
-					<input type="number" class="form-control" value="0" id="new_val_start"/>
-					-&gt;
-					<input type="number" class="form-control" value="1" id="new_val_end"/>
-				</td>
-				<td><input type="button" class="btn btn-success btn-inline" value="Add row"></td>
-			</tr>
-		{% for t in templates[selected] %}
-			<tr>
-				<td>{{ loop.index }}</td>
-				<td>{{ t.building }}</td>
-				<td>{{ t.from }} -&gt; {{ t.to }}</td>
-				<td></td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+	<div class="col-lg-12">
+		<div class="d-flex align-items-center mb-2">
+			<h4 class="mb-0">{{ selected }}</h4>
+			<button id="save_template" class="btn btn-success btn-sm ml-3">Save</button>
+			<a class="btn btn-light btn-sm ml-2" href="/building_templates">Back</a>
+		</div>
+		<table class="table table-sm table-striped" id="template_table">
+			<thead>
+				<tr>
+					<th style="width: 90px;">Line</th>
+					<th>Building</th>
+					<th style="width: 180px;">Target level</th>
+					<th style="width: 190px;">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for t in templates[selected] %}
+				<tr>
+					<td class="line-number">{{ loop.index }}</td>
+					<td>
+						<select class="form-control form-control-sm template-building">
+							{% for building in buildings %}
+							<option value="{{building}}" {% if building == t.building %}selected{% endif %}>{{building}}</option>
+							{% endfor %}
+						</select>
+					</td>
+					<td><input type="number" min="1" class="form-control form-control-sm template-level" value="{{ t.level }}"></td>
+					<td>
+						<button class="btn btn-light btn-sm move-up" type="button">Up</button>
+						<button class="btn btn-light btn-sm move-down" type="button">Down</button>
+						<button class="btn btn-danger btn-sm remove-row" type="button">Remove</button>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<button id="add_row" class="btn btn-info btn-sm" type="button">Add step</button>
+		<div id="template_status" class="mt-2"></div>
+	</div>
 	{% endif %}
-
 </div>
+{% endblock %}
 
+{% block scripts %}
+{% if selected %}
+<script>
+function renumber_rows() {
+	$('#template_table tbody tr').each(function(index) {
+		$(this).find('.line-number').text(index + 1);
+	});
+}
+
+function row_html() {
+	var options = '';
+	{% for building in buildings %}
+	options += '<option value="{{building}}">{{building}}</option>';
+	{% endfor %}
+	return '<tr>' +
+		'<td class="line-number"></td>' +
+		'<td><select class="form-control form-control-sm template-building">' + options + '</select></td>' +
+		'<td><input type="number" min="1" class="form-control form-control-sm template-level" value="1"></td>' +
+		'<td>' +
+		'<button class="btn btn-light btn-sm move-up" type="button">Up</button> ' +
+		'<button class="btn btn-light btn-sm move-down" type="button">Down</button> ' +
+		'<button class="btn btn-danger btn-sm remove-row" type="button">Remove</button>' +
+		'</td>' +
+		'</tr>';
+}
+
+function collect_rows() {
+	var rows = [];
+	$('#template_table tbody tr').each(function() {
+		rows.push({
+			building: $(this).find('.template-building').val(),
+			level: parseInt($(this).find('.template-level').val(), 10)
+		});
+	});
+	return rows;
+}
+
+$(document).ready(function() {
+	renumber_rows();
+
+	$('#add_row').click(function() {
+		$('#template_table tbody').append(row_html());
+		renumber_rows();
+	});
+
+	$('#template_table').on('click', '.remove-row', function() {
+		$(this).closest('tr').remove();
+		renumber_rows();
+	});
+
+	$('#template_table').on('click', '.move-up', function() {
+		var row = $(this).closest('tr');
+		row.prev().before(row);
+		renumber_rows();
+	});
+
+	$('#template_table').on('click', '.move-down', function() {
+		var row = $(this).closest('tr');
+		row.next().after(row);
+		renumber_rows();
+	});
+
+	$('#save_template').click(function() {
+		$('#template_status').text('Saving...');
+		fetch('/building_templates/save', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({template: '{{ selected }}', rows: collect_rows()})
+		})
+		.then(function(response) { return response.json().then(function(body) { return {ok: response.ok, body: body}; }); })
+		.then(function(result) {
+			if (!result.ok || !result.body.ok) {
+				$('#template_status').text(result.body.error || 'Save failed');
+				return;
+			}
+			$('#template_status').text('Saved ' + result.body.rows.length + ' steps');
+		})
+		.catch(function() {
+			$('#template_status').text('Save failed');
+		});
+	});
+});
+</script>
+{% endif %}
 {% endblock %}

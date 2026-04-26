@@ -308,6 +308,7 @@ class TWB:
             reporter_enabled=config["reporting"]["enabled"],
             reporter_constr=config["reporting"]["connection_string"],
         )
+        self.wrapper.configure_from_bot_config(config["bot"])
 
         self.wrapper.start()
         if not config["bot"].get("user_agent", None):
@@ -343,6 +344,9 @@ class TWB:
                 time.sleep(sleep)
             else:
                 config = self.config()
+                self.wrapper.configure_from_bot_config(config["bot"])
+                warmup_village = next(iter(config["villages"]), None)
+                self.wrapper.maybe_humanize(warmup_village, warmup=True)
                 overview_page, config = self.get_overview(config)
                 has_changed, new_cf = self.get_world_options(overview_page, config)
                 if has_changed:
@@ -377,6 +381,7 @@ class TWB:
                         village.village_set_name = template
 
                     village.run(config=config)
+                    self.wrapper.maybe_humanize(village.village_id)
 
                     if (
                             village.get_config(
@@ -427,7 +432,9 @@ class TWB:
             "cache/world",
             "cache/logs",
             "cache/managed",
-            "cache/hunter"
+            "cache/hunter",
+            "cache/farms",
+            "cache/request_events",
         ]
         FileManager.create_directories(directories)
 

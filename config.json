@@ -1,0 +1,136 @@
+{
+  "build": {
+    "name": "tw_bot",
+    "version": "2.1",
+    "author": "stefan2200"
+  },
+  "server": {
+    "server": "pl229",
+    "endpoint": "https://pl229.plemiona.pl/game.php",
+    "server_on_twstats": false
+  },
+  "reporting": {
+    "enabled": false,
+    "connection_string": "file://cache/logs/twb_{ts}.log"
+  },
+  "notifications": {
+    "enabled": false,
+    "channel_id": "",
+    "token": ""
+  },
+  "bot": {
+    "active_hours": "6-23",
+    "delay_factor": 2,
+    "active_delay": 300,
+    "inactive_still_active": true,
+    "inactive_delay": 2000,
+    "add_new_villages": true,
+    "village_name_template": "Dw\u00f3r Carycy {num}",
+    "village_name_number_length": 2,
+    "auto_set_village_names": true,
+    "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+    "request_rate_limit_enabled": true,
+    "idle_backoff_on_error_seconds": 300,
+    "pause_on_bot_protection": true,
+    "humanizer_enabled": false,
+    "humanizer_ambient_chance": 0.05,
+    "humanizer_idle_chance": 0,
+    "humanizer_idle_gap_min": 300,
+    "humanizer_idle_gap_max": 900,
+    "humanizer_warmup_after_seconds": 900,
+    "check_update": true
+  },
+  "building": {
+    "manage_buildings": true,
+    "default": "claude-farming-deff",
+    "max_lookahead": 2,
+    "max_queued_items": 2
+  },
+  "units": {
+    "recruit": true,
+    "upgrade": true,
+    "default": "claude-farming-deff",
+    "batch_size": 25,
+    "manage_defence": false,
+    "remove_manual_queued": false,
+    "randomize_unit_queue": true
+  },
+  "village_template": {
+    "building": "claude-farming-deff",
+    "units": "claude-farming-deff",
+    "managed": true,
+    "scout_first": false,
+    "additional_farms": [],
+    "prioritize_building": true,
+    "prioritize_snob": false,
+    "trade_for_premium": false,
+    "gather_enabled": true,
+    "gather_selection": 3,
+    "advanced_gather": true,
+    "snobs": 0,
+    "evacuate_fragile_units_on_attack": false,
+    "support_others": false,
+    "support_others_factor": 0.25,
+    "support_others_max_villages": 2,
+    "request_support_on_attack": false
+  },
+  "farms": {
+    "farm": true,
+    "min_points": 0,
+    "max_points": 1500,
+    "find_player_owned": false,
+    "search_radius": 15,
+    "default_away_time": 3600,
+    "full_loot_away_time": 1400,
+    "low_loot_away_time": 7200,
+    "priority_ratio": 50,
+    "max_farms": 25,
+    "attack_higher_points": false,
+    "force_scout_if_available": false,
+    "forced_peace_times": [],
+    "farm_scout_amount": 5,
+    "night_bonus_start_hour": 23,
+    "night_bonus_end_hour": 7,
+    "night_bonus_troop_multiplier": 3.0
+  },
+  "market": {
+    "auto_trade": true,
+    "max_trade_duration": 1,
+    "auto_remove": true,
+    "trade_multiplier": true,
+    "trade_multiplier_value": 1.0,
+    "trade_max_per_hour": 5
+  },
+  "world": {
+    "knight_enabled": true,
+    "flags_enabled": false,
+    "quests_enabled": true,
+    "trade_for_premium": false,
+    "archers_enabled": true,
+    "building_destruction_enabled": true,
+    "boosters_enabled": true,
+    "game_speed": 1.25,
+    "unit_speed": 0.8
+  },
+  "villages": {
+    "5844": {
+      "building": "claude-farming-deff",
+      "units": "claude-farming-deff",
+      "managed": true,
+      "scout_first": false,
+      "additional_farms": [],
+      "prioritize_building": true,
+      "prioritize_snob": false,
+      "trade_for_premium": false,
+      "gather_enabled": true,
+      "gather_selection": 3,
+      "advanced_gather": true,
+      "snobs": 0,
+      "evacuate_fragile_units_on_attack": false,
+      "support_others": false,
+      "support_others_factor": 0.25,
+      "support_others_max_villages": 2,
+      "request_support_on_attack": false
+    }
+  }
+}

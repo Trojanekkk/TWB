@@ -10,6 +10,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from core.filemanager import FileManager
+from game.simulator import Simulator
 
 
 class AttackManager:
@@ -44,6 +45,31 @@ class AttackManager:
     farm_high_prio_wait = 1200
     farm_default_wait = 3600
     farm_low_prio_wait = 7200
+    farm_priority_ratio = 50
+    farm_high_loot_threshold = 500
+    farm_low_loot_threshold = 100
+
+    # Night bonus protection: defenders get +200% defence during night-bonus
+    # hours, so a normal-sized farm bleeds troops. Instead of skipping, the
+    # bot multiplies the troop template by `night_bonus_troop_multiplier`
+    # for any attack whose ARRIVAL lands inside the night-bonus window.
+    night_bonus_start_hour = 23
+    night_bonus_end_hour = 7
+    night_bonus_troop_multiplier = 3.0
+
+    # World speed parameters (used to estimate arrival time locally so we
+    # can decide BEFORE sending whether the attack lands in night bonus).
+    # Effective unit speed = game_speed * unit_speed. For a default world
+    # both are 1.0; on this user's world (1.25 game / 0.8 unit) effective
+    # is 1.0 too, so units travel at simulator base speeds.
+    game_speed = 1.0
+    unit_speed = 1.0
+
+    # Scout-first policy. When False (default), the bot will blind-attack
+    # any target that has no recent report. When True, the bot scouts new
+    # targets first (provided spies are available) and skips them this
+    # cycle. A target with a loss-report is ALWAYS skipped regardless.
+    scout_first = False
 
     def __init__(self, wrapper=None, village_id=None, troopmanager=None, map=None):
         """
@@ -56,14 +82,79 @@ class AttackManager:
 
     def enough_in_village(self, units):
         """
-        Checks if there are enough troops in a village
+        Checks if there are enough troops in a village.
+        Rejects requests with non-positive amounts so we never send
+        an empty/invalid attack.
         """
         for unit in units:
+            wanted = units[unit]
+            if not isinstance(wanted, int) or wanted <= 0:
+                return f"{unit} (invalid amount: {wanted})"
             if unit not in self.troopmanager.troops:
-                return f"{unit} (0/{units[unit]})"
-            if units[unit] > int(self.troopmanager.troops[unit]):
-                return f"{unit} ({self.troopmanager.troops[unit]}/{units[unit]})"
+                return f"{unit} (0/{wanted})"
+            available = int(self.troopmanager.troops[unit])
+            if wanted > available:
+                return f"{unit} ({available}/{wanted})"
         return False
+
+    def _is_night_bonus_hour(self, hour):
+        """
+        True if the given hour falls inside the configured night-bonus window.
+        Handles wrap-around (e.g. 23-7).
+        """
+        start = self.night_bonus_start_hour
+        end = self.night_bonus_end_hour
+        if start == end:
+            return False
+        if start < end:
+            return start <= hour < end
+        return hour >= start or hour < end
+
+    def _estimate_travel_seconds(self, template, distance):
+        """
+        Estimate one-way travel time in seconds for `template` at given distance.
+        Uses the slowest unit's base speed (min/field) from the simulator,
+        adjusted by world game_speed * unit_speed.
+        """
+        speeds = []
+        for unit in template:
+            entry = Simulator.pool.get(unit)
+            if entry and "speed" in entry:
+                speeds.append(entry["speed"])
+        if not speeds:
+            return None
+        slowest_min_per_field = max(speeds)
+        effective = max(self.game_speed * self.unit_speed, 0.0001)
+        return (distance * slowest_min_per_field * 60.0) / effective
+
+    def _arrival_in_night_bonus(self, template, distance):
+        """
+        True if a farm sent right now with `template` over `distance` fields
+        would land inside the night-bonus window.
+        """
+        seconds = self._estimate_travel_seconds(template, distance)
+        if seconds is None:
+            return False
+        arrival = datetime.now() + timedelta(seconds=seconds)
+        return self._is_night_bonus_hour(arrival.hour)
+
+    def _scale_template(self, template, multiplier):
+        """
+        Scale every troop count in `template` by `multiplier`, rounded up.
+        Knights are clamped to 1 (only one knight per village exists).
+        Empty/zero entries are dropped.
+        """
+        if multiplier <= 1.0:
+            return dict(template)
+        scaled = {}
+        for unit, amount in template.items():
+            if not isinstance(amount, int) or amount <= 0:
+                continue
+            if unit == "knight":
+                scaled[unit] = 1
+                continue
+            scaled[unit] = max(1, int(round(amount * multiplier)))
+        return scaled
 
     def run(self):
         """
@@ -74,8 +165,11 @@ class AttackManager:
             return False
         self.get_targets()
         ignored = []
+        sent = 0
         # Limits the amount of villages that are farmed from the current village
-        for target in self.targets[0: self.max_farms]:
+        for target in self.targets:
+            if sent >= self.max_farms:
+                break
             if type(self.template) == list:
                 f = False
                 for template in self.template:
@@ -84,6 +178,7 @@ class AttackManager:
                     out_res = self.send_farm(target, template)
                     if out_res == 1:
                         f = True
+                        sent += 1
                         break
                     elif out_res == -1:
                         ignored.append(template)
@@ -91,58 +186,114 @@ class AttackManager:
                     continue
             else:
                 out_res = self.send_farm(target, self.template)
+                if out_res == 1:
+                    sent += 1
                 if out_res == -1:
                     break
 
     def send_farm(self, target, template):
         """
-        Send a farming run
+        Send a farming run.
+
+        If the predicted arrival lands during the night-bonus window the
+        template is scaled up by `night_bonus_troop_multiplier` to overpower
+        the +200% defence; if the village cannot supply the scaled count we
+        return -1 so the caller falls through to the next farm template.
         """
-        target, _ = target
-        missing = self.enough_in_village(template)
-        if not missing:
-            cached = self.can_attack(vid=target["id"], clear=False)
-            if cached:
-                attack_result = self.attack(target["id"], troops=template)
-                if attack_result == "forced_peace":
-                    return 0
-                self.logger.info(
-                    "Attacking %s -> %s (%s)" ,self.village_id, target["id"], str(template)
+        target_village, distance = target[0], target[1]
+        send_template = dict(template)
+        scaled_for_night = False
+
+        if (
+            self.night_bonus_troop_multiplier > 1.0
+            and self._arrival_in_night_bonus(template, distance)
+        ):
+            send_template = self._scale_template(
+                template, self.night_bonus_troop_multiplier
+            )
+            scaled_for_night = True
+            self.logger.info(
+                "Night-bonus arrival predicted for %s -> %s, scaling troops x%.2f: %s",
+                self.village_id, target_village["id"],
+                self.night_bonus_troop_multiplier, str(send_template)
+            )
+
+        missing = self.enough_in_village(send_template)
+        if missing:
+            if scaled_for_night:
+                self.logger.debug(
+                    "Not enough troops for night-scaled template (%s); trying next",
+                    missing
                 )
-                self.wrapper.reporter.report(
-                    self.village_id,
-                    "TWB_FARM",
-                    "Attacking %s -> %s (%s)"
-                    % (self.village_id, target["id"], str(template)),
-                )
-                if attack_result:
-                    for u in template:
-                        self.troopmanager.troops[u] = str(
-                            int(self.troopmanager.troops[u]) - template[u]
-                        )
-                    self.attacked(
-                        target["id"],
-                        scout=True,
-                        safe=True,
-                        high_profile=cached["high_profile"]
-                        if type(cached) == dict
-                        else False,
-                        low_profile=cached["low_profile"]
-                        if type(cached) == dict and "low_profile" in cached
-                        else False,
-                    )
-                    return 1
-                else:
-                    self.logger.debug(
-                        "Ignoring target %s because unable to attack", target["id"]
-                    )
-                    self._unknown_ignored.append(target["id"])
-        else:
+                return -1
             self.logger.debug(
                 "Not sending additional farm because not enough units: %s", missing
             )
             return -1
+
+        cached = self.can_attack(vid=target_village["id"], clear=False)
+        if not cached:
+            return 0
+
+        attack_result = self.attack(target_village["id"], troops=send_template)
+        if attack_result == "forced_peace":
+            return 0
+        self.logger.info(
+            "Attacking %s -> %s (%s)",
+            self.village_id, target_village["id"], str(send_template)
+        )
+        self.wrapper.reporter.report(
+            self.village_id,
+            "TWB_FARM",
+            "Attacking %s -> %s (%s)"
+            % (self.village_id, target_village["id"], str(send_template)),
+        )
+        if attack_result:
+            for u in send_template:
+                self.troopmanager.troops[u] = str(
+                    int(self.troopmanager.troops[u]) - send_template[u]
+                )
+            self.attacked(
+                target_village["id"],
+                scout=True,
+                safe=True,
+                high_profile=cached["high_profile"]
+                if type(cached) == dict
+                else False,
+                low_profile=cached["low_profile"]
+                if type(cached) == dict and "low_profile" in cached
+                else False,
+            )
+            return 1
+        self.logger.debug(
+            "Ignoring target %s because unable to attack", target_village["id"]
+        )
+        self._unknown_ignored.append(target_village["id"])
         return 0
+
+    def farm_priority_score(self, vid, distance):
+        """
+        Higher scores are farmed first. The priority ratio is the amount of
+        average loot a target must gain per extra field of distance to outrank
+        a closer farm.
+        """
+        cache_entry = AttackCache.get_cache(vid)
+        if not cache_entry:
+            return 50 - (distance * self.farm_priority_ratio)
+        if cache_entry.get("safe") is False and cache_entry.get("scout"):
+            return -100000
+
+        score = float(cache_entry.get("avg_loot", 0) or 0)
+        if cache_entry.get("high_profile"):
+            score += self.farm_high_loot_threshold
+        if cache_entry.get("low_profile"):
+            score -= self.farm_low_loot_threshold
+        if cache_entry.get("latest_resources"):
+            score += min(
+                250,
+                sum(int(value or 0) for value in cache_entry["latest_resources"].values()) / 10,
+            )
+        return score - (distance * self.farm_priority_ratio)
 
     def get_targets(self):
         """
@@ -213,24 +364,36 @@ class AttackManager:
                 self.logger.debug("Removed %s from farm ignore list", vid)
                 self.ignored.remove(vid)
 
-            output.append([village, distance])
+            output.append([village, distance, self.farm_priority_score(vid, distance)])
         self.logger.info(
             "Farm targets: %d Ignored targets: %d", len(output), len(self.ignored)
         )
-        self.targets = sorted(output, key=lambda x: x[1])
+        self.targets = sorted(output, key=lambda x: (-x[2], x[1]))
 
-    def attacked(self, vid, scout=False, high_profile=False, safe=True, low_profile=False):
+    def attacked(
+            self,
+            vid,
+            scout=False,
+            high_profile=False,
+            safe=True,
+            low_profile=False,
+            attack_type="attack",
+    ):
         """
         The farm was sent and this is a callback on what happened
         """
-        cache_entry = {
-            "scout": scout,
-            "safe": safe,
-            "high_profile": high_profile,
-            "low_profile": low_profile,
-            "last_attack": int(time.time()),
-        }
-        AttackCache.set_cache(vid, cache_entry)
+        AttackCache.set_cache(
+            vid,
+            {
+                "scout": scout,
+                "safe": safe,
+                "high_profile": high_profile,
+                "low_profile": low_profile,
+            },
+            source_village_id=self.village_id,
+            action=attack_type,
+            repman=self.repman,
+        )
 
     def scout(self, vid):
         """
@@ -243,7 +406,7 @@ class AttackManager:
             return False
         troops = {"spy": self.scout_farm_amount}
         if self.attack(vid, troops=troops):
-            self.attacked(vid, scout=True, safe=False)
+            self.attacked(vid, scout=True, safe=False, attack_type="scout")
 
     def can_attack(self, vid, clear=False):
         """
@@ -264,13 +427,19 @@ class AttackManager:
             status = self.repman.safe_to_engage(vid)
             if status == 1:
                 return True
-
-            if self.troopmanager.can_scout:
+            if status == 0:
+                # Existing report shows we lost troops on this target.
+                # Never attack blind, even with scout_first off.
+                self.logger.debug(
+                    "Skipping %s: previous report shows losses, not engaging",
+                    vid
+                )
+                return False
+            # status == -1: no intel for this target.
+            if self.scout_first and self.troopmanager.can_scout:
                 self.scout(vid)
                 return False
-            self.logger.warning(
-                "%s will be attacked but scouting is not possible (yet), going in blind!", vid
-            )
+            # Policy: blind attack with normal troops on first contact.
             return True
 
         if not cache_entry["safe"] or clear:
@@ -397,18 +566,207 @@ class AttackManager:
 
 
 class AttackCache:
-    @staticmethod
-    def get_cache(village_id):
-        return FileManager.load_json_file(f"cache/attacks/{village_id}.json")
+    schema_version = 2
+    cache_dir = "cache/farms"
+    legacy_cache_dir = "cache/attacks"
 
     @staticmethod
-    def set_cache(village_id, entry):
-        return FileManager.save_json_file(entry, f"cache/attacks/{village_id}.json")
+    def _now():
+        return int(time.time())
+
+    @staticmethod
+    def _base_entry(village_id):
+        return {
+            "schema_version": AttackCache.schema_version,
+            "target_vid": str(village_id),
+            "scout": False,
+            "safe": False,
+            "high_profile": False,
+            "low_profile": False,
+            "last_attack": 0,
+            "last_scout": 0,
+            "last_attacker": None,
+            "latest_resources": {},
+            "latest_buildings": {},
+            "latest_defence_units": {},
+            "latest_report_at": 0,
+            "last_loot": 0,
+            "total_loot": 0,
+            "avg_loot": 0,
+            "loot_reports": 0,
+            "total_capacity": 0,
+            "filled_capacity": 0,
+            "avg_fill_rate": 0,
+            "last_fill_rate": 0,
+            "loss_percentage": 0,
+            "sources": {},
+        }
+
+    @staticmethod
+    def _merge_report_intel(entry, repman):
+        if not repman:
+            return entry
+
+        newest = None
+        for report_id in repman.last_reports:
+            report = repman.last_reports[report_id]
+            if str(report.get("dest")) != str(entry["target_vid"]):
+                continue
+            when = int(report.get("extra", {}).get("when", 0) or 0)
+            if newest is None or when > int(newest.get("extra", {}).get("when", 0) or 0):
+                newest = report
+
+        if not newest:
+            return entry
+
+        extra = newest.get("extra", {})
+        entry["latest_report_at"] = int(extra.get("when", 0) or 0)
+        if extra.get("resources") is not None:
+            entry["latest_resources"] = extra.get("resources", {})
+        if extra.get("buildings") is not None:
+            entry["latest_buildings"] = extra.get("buildings", {})
+        if extra.get("defence_units") is not None:
+            entry["latest_defence_units"] = extra.get("defence_units", {})
+        return entry
+
+    @staticmethod
+    def _normalize(village_id, entry):
+        normalized = AttackCache._base_entry(village_id)
+        if not entry:
+            return None
+
+        if entry.get("schema_version") == AttackCache.schema_version:
+            normalized.update(entry)
+            normalized["target_vid"] = str(normalized.get("target_vid") or village_id)
+            normalized.setdefault("sources", {})
+            for key in [
+                "last_loot",
+                "total_loot",
+                "avg_loot",
+                "loot_reports",
+                "total_capacity",
+                "filled_capacity",
+                "avg_fill_rate",
+                "last_fill_rate",
+                "loss_percentage",
+            ]:
+                normalized[key] = normalized.get(key, 0)
+            return normalized
+
+        last_attack = int(entry.get("last_attack", 0) or 0)
+        normalized.update({
+            "scout": bool(entry.get("scout", False)),
+            "safe": bool(entry.get("safe", False)),
+            "high_profile": bool(entry.get("high_profile", False)),
+            "low_profile": bool(entry.get("low_profile", False)),
+            "last_attack": last_attack,
+            "last_scout": last_attack if entry.get("scout") and not entry.get("safe") else 0,
+            "last_attacker": entry.get("last_attacker"),
+        })
+        if normalized["last_attacker"]:
+            normalized["sources"][str(normalized["last_attacker"])] = {
+                "last_attack": last_attack,
+                "last_scout": normalized["last_scout"],
+                "attacks": 1 if last_attack else 0,
+                "scouts": 1 if normalized["last_scout"] else 0,
+                "safe": normalized["safe"],
+            }
+        return normalized
+
+    @staticmethod
+    def get_cache(village_id):
+        FileManager.create_directories([AttackCache.cache_dir])
+        current = FileManager.load_json_file(
+            f"{AttackCache.cache_dir}/{village_id}.json"
+        )
+        if current:
+            return AttackCache._normalize(village_id, current)
+
+        legacy = FileManager.load_json_file(
+            f"{AttackCache.legacy_cache_dir}/{village_id}.json"
+        )
+        normalized = AttackCache._normalize(village_id, legacy)
+        if normalized:
+            FileManager.save_json_file(
+                normalized,
+                f"{AttackCache.cache_dir}/{village_id}.json"
+            )
+        return normalized
+
+    @staticmethod
+    def get_legacy_cache(village_id):
+        return AttackCache._normalize(
+            village_id,
+            FileManager.load_json_file(f"{AttackCache.legacy_cache_dir}/{village_id}.json")
+        )
+
+    @staticmethod
+    def set_cache(village_id, entry, source_village_id=None, action="update", repman=None):
+        now = AttackCache._now()
+        current = AttackCache.get_cache(village_id) or AttackCache._base_entry(village_id)
+        source = str(source_village_id) if source_village_id else None
+
+        current.update({
+            "schema_version": AttackCache.schema_version,
+            "target_vid": str(village_id),
+            "scout": bool(entry.get("scout", current.get("scout", False))),
+            "safe": bool(entry.get("safe", current.get("safe", False))),
+            "high_profile": bool(entry.get("high_profile", current.get("high_profile", False))),
+            "low_profile": bool(entry.get("low_profile", current.get("low_profile", False))),
+        })
+        for key in [
+            "last_loot",
+            "total_loot",
+            "avg_loot",
+            "loot_reports",
+            "total_capacity",
+            "filled_capacity",
+            "avg_fill_rate",
+            "last_fill_rate",
+            "loss_percentage",
+        ]:
+            if key in entry:
+                current[key] = entry[key]
+        if action in ["attack", "scout"]:
+            current["last_attack"] = now
+            current["last_attacker"] = source
+            if action == "scout":
+                current["last_scout"] = now
+
+        if source and action in ["attack", "scout"]:
+            source_entry = current["sources"].get(source, {
+                "last_attack": 0,
+                "last_scout": 0,
+                "attacks": 0,
+                "scouts": 0,
+                "safe": False,
+            })
+            source_entry["last_attack"] = now
+            source_entry["attacks"] = int(source_entry.get("attacks", 0)) + 1
+            source_entry["safe"] = current["safe"]
+            if action == "scout":
+                source_entry["last_scout"] = now
+                source_entry["scouts"] = int(source_entry.get("scouts", 0)) + 1
+            current["sources"][source] = source_entry
+
+        current = AttackCache._merge_report_intel(current, repman)
+        FileManager.create_directories([AttackCache.cache_dir])
+        return FileManager.save_json_file(
+            current,
+            f"{AttackCache.cache_dir}/{village_id}.json"
+        )
 
     @staticmethod
     def cache_grab():
         output = {}
 
-        for existing in FileManager.list_directory("cache/attacks", ends_with=".json"):
-            output[existing.replace(".json", "")] = FileManager.load_json_file(f"cache/attacks/{existing}")
+        FileManager.create_directories([AttackCache.cache_dir, AttackCache.legacy_cache_dir])
+
+        for existing in FileManager.list_directory(AttackCache.legacy_cache_dir, ends_with=".json"):
+            village_id = existing.replace(".json", "")
+            output[village_id] = AttackCache.get_cache(village_id)
+
+        for existing in FileManager.list_directory(AttackCache.cache_dir, ends_with=".json"):
+            village_id = existing.replace(".json", "")
+            output[village_id] = AttackCache.get_cache(village_id)
         return output

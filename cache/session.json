@@ -1,0 +1,13 @@
+{
+  "endpoint": "https://pl229.plemiona.pl/game.php",
+  "server": "pl229",
+  "cookies": {
+    "cid": "1891538024",
+    "pl_auth": "dc359bec9615:e333e6c4b1efa57576eb01c93e849f91633deefb41b379f057d4725f43ba1939",
+    "ref": "start",
+    "websocket_available": "true",
+    "PHPSESSID": "4smdoc5j4p29crjfadle4ie4bf034joav01ldsm4pme1iboh",
+    "global_village_id": "5844",
+    "sid": "0%3A99648ff0c8a7006d0a16e9d9ecd3e24bc24e81f6dbfc424603c08dc3417378060277700c90b3c1bc8fbd1a88ae3ca0275e7efcaa4b5327c91d7ff5321dfda00e"
+  }
+}

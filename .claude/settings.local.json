@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:daniel.dmvandenberg.nl)",
+      "WebFetch(domain:forum.tribalwars.net)",
+      "WebFetch(domain:tw.gamers411.net)",
+      "WebFetch(domain:mytwstrategy.blogspot.com)",
+      "WebFetch(domain:trueniev.wordpress.com)",
+      "WebFetch(domain:help.tribalwars.net)",
+      "WebFetch(domain:ultimatetribalwarsbot.net)",
+      "WebFetch(domain:twscripts.dev)",
+      "WebFetch(domain:sntbot.org)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

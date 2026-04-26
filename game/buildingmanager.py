@@ -34,6 +34,11 @@ class BuildingManager:
     max_queue_len = 2
     resman = None
     raw_template = None
+    previous_levels = None
+    repair_targets = {}
+    destruction_repair_enabled = True
+    queue_status = {}
+    unmet_requirements = {}
 
     can_build_three_min = False
 
@@ -43,6 +48,82 @@ class BuildingManager:
         """
         self.wrapper = wrapper
         self.village_id = village_id
+        self.previous_levels = None
+        self.repair_targets = {}
+        self.destruction_repair_enabled = True
+        self.queue_status = {}
+        self.unmet_requirements = {}
+
+    @staticmethod
+    def _parse_queue_entry(entry):
+        if ":" not in entry:
+            return None, None
+        building, level = entry.split(":", 1)
+        try:
+            return building, int(level)
+        except ValueError:
+            return None, None
+
+    def requeue_destroyed_buildings(self, previous_levels, current_levels):
+        """
+        Re-add template entries for buildings that were downgraded after being
+        completed earlier. Repair targets are kept until the current level has
+        climbed back to the highest observed pre-destruction level.
+        """
+        if not previous_levels:
+            return []
+
+        for building, previous_level in previous_levels.items():
+            if building not in current_levels:
+                continue
+            current_level = int(current_levels[building])
+            previous_level = int(previous_level)
+            if current_level < previous_level:
+                target = max(
+                    previous_level,
+                    int(self.repair_targets.get(building, 0) or 0),
+                )
+                self.repair_targets[building] = target
+                self.logger.warning(
+                    "Detected building destruction in %s: %d -> %d; requeueing repairs to %d",
+                    building,
+                    previous_level,
+                    current_level,
+                    target,
+                )
+
+        for building in list(self.repair_targets.keys()):
+            if int(current_levels.get(building, 0) or 0) >= int(self.repair_targets[building]):
+                self.logger.info(
+                    "Repair target reached for %s:%d",
+                    building,
+                    self.repair_targets[building],
+                )
+                self.repair_targets.pop(building, None)
+
+        existing = set()
+        for entry in self.queue:
+            building, level = self._parse_queue_entry(entry)
+            if building and level:
+                existing.add((building, level))
+
+        repair_entries = []
+        for building, target_level in self.repair_targets.items():
+            current_level = int(current_levels.get(building, 0) or 0)
+            for level in range(current_level + 1, int(target_level) + 1):
+                key = (building, level)
+                if key in existing:
+                    continue
+                repair_entries.append("%s:%d" % (building, level))
+                existing.add(key)
+
+        if repair_entries:
+            self.queue = repair_entries + self.queue
+            self.logger.info(
+                "Queued destroyed-building repairs first: %s",
+                ", ".join(repair_entries),
+            )
+        return repair_entries
 
     def create_update_links(self, extracted_buildings):
         """
@@ -57,6 +138,77 @@ class BuildingManager:
             extracted_buildings[building]["build_link"] = _link
 
         return extracted_buildings
+
+    def update_queue_status(self, existing_queue=0):
+        next_entry = self.queue[0] if self.queue else None
+        position = None
+        if next_entry and self.raw_template:
+            try:
+                position = self.raw_template.index(next_entry) + 1
+            except ValueError:
+                position = None
+
+        building, level = self._parse_queue_entry(next_entry) if next_entry else (None, None)
+        self.queue_status = {
+            "active_items": existing_queue,
+            "next_entry": next_entry,
+            "next_building": building,
+            "next_level": level,
+            "template_position": position,
+            "remaining": len(self.queue),
+            "repair": bool(next_entry and position is None),
+        }
+        return self.queue_status
+
+    def _find_queue_entry_index(self, building, min_level, start_index=0):
+        """
+        Finds the first queue entry for a building that can satisfy a level requirement.
+        """
+        current_level = int(self.levels.get(building, 0) or 0)
+        for index in range(start_index, len(self.queue)):
+            queue_building, queue_level = self._parse_queue_entry(self.queue[index])
+            if not queue_building:
+                continue
+            if queue_building != building:
+                continue
+            if queue_level < min_level:
+                continue
+            if queue_level <= current_level:
+                continue
+            return index
+        return None
+
+    def _find_prerequisite_index(self, building):
+        """
+        Returns the earliest queued prerequisite for a locked building, if any.
+        """
+        requirements = self.unmet_requirements.get(building, [])
+        if not requirements:
+            return None
+
+        current_levels = self.levels
+        candidate = None
+        for requirement in requirements:
+            required_building = requirement["building"]
+            required_level = int(requirement["level"])
+            if int(current_levels.get(required_building, 0) or 0) >= required_level:
+                continue
+            queue_index = self._find_queue_entry_index(required_building, required_level)
+            if queue_index is None:
+                continue
+            if candidate is None or queue_index < candidate[0]:
+                candidate = (queue_index, required_building, required_level)
+
+        if candidate:
+            if self.logger:
+                self.logger.info(
+                    "Prioritizing prerequisite %s:%d for locked building %s",
+                    candidate[1],
+                    candidate[2],
+                    building,
+                )
+            return candidate[0]
+        return None
 
     def start_update(self, build=False, set_village_name=None):
         """
@@ -73,6 +225,7 @@ class BuildingManager:
             return self.start_update(build=build, set_village_name=set_village_name)
         self.costs = Extractor.building_data(main_data)
         self.costs = self.create_update_links(self.costs)
+        self.unmet_requirements = Extractor.unmet_building_requirements(main_data)
 
         if self.resman:
             self.resman.update(self.game_state)
@@ -90,7 +243,11 @@ class BuildingManager:
         for e in tmp:
             tmp[e] = int(tmp[e])
         self.levels = tmp
+        if self.destruction_repair_enabled:
+            self.requeue_destroyed_buildings(self.previous_levels, self.levels)
+        self.previous_levels = dict(self.levels)
         existing_queue = Extractor.active_building_queue(main_data)
+        self.update_queue_status(existing_queue)
         if existing_queue == 0:
             self.waits = []
             self.waits_building = []
@@ -120,6 +277,7 @@ class BuildingManager:
             r = self.max_queue_len - len(self.waits)
         for x in range(r):
             result = self.get_next_building_action()
+            self.update_queue_status(existing_queue)
             if not result:
                 self.logger.info(
                     "No build more operations where executed (%d current, %d left)",
@@ -245,11 +403,14 @@ class BuildingManager:
 
         return "%d:%02d:%02d" % (hour, minutes, seconds)
 
-    def get_next_building_action(self, index=0):
+    def get_next_building_action(self, index=0, allow_deep_scan=False):
         """
         Calculates the next best possible building action
         """
-        if index >= len(self.queue) or index >= self.max_lookahead:
+        if index >= len(self.queue):
+            self.logger.debug("Not building anything because insufficient resources or index out of range")
+            return False
+        if index >= self.max_lookahead and not allow_deep_scan:
             self.logger.debug("Not building anything because insufficient resources or index out of range")
             return False
 
@@ -276,17 +437,29 @@ class BuildingManager:
             min_lvl = int(min_lvl)
             if min_lvl <= self.levels[entry]:
                 self.queue.pop(index)
-                return self.get_next_building_action(index)
+                return self.get_next_building_action(index, allow_deep_scan=allow_deep_scan)
             if entry not in self.costs:
+                prereq_index = self._find_prerequisite_index(entry)
+                if prereq_index is not None and prereq_index != index:
+                    return self.get_next_building_action(
+                        prereq_index,
+                        allow_deep_scan=True,
+                    )
                 self.logger.debug("Ignoring %s because not yet available", entry)
-                return self.get_next_building_action(index + 1)
+                return self.get_next_building_action(
+                    index + 1,
+                    allow_deep_scan=allow_deep_scan,
+                )
             check = self.costs[entry]
             if "max_level" in check and min_lvl > check["max_level"]:
                 self.logger.debug(
                     "Removing entry %s because max_level exceeded", entry
                 )
                 self.queue.pop(index)
-                return self.get_next_building_action(index)
+                return self.get_next_building_action(
+                    index,
+                    allow_deep_scan=allow_deep_scan,
+                )
             if check["can_build"] and self.has_enough(check) and "build_link" in check:
                 queue = self.put_wait(check["build_time"])
                 self.logger.info(
@@ -324,9 +497,13 @@ class BuildingManager:
                 self.costs = Extractor.building_data(response)
                 # Trigger function again because game state is changed
                 self.costs = self.create_update_links(self.costs)
+                self.unmet_requirements = Extractor.unmet_building_requirements(response)
                 if self.resman and "building" in self.resman.requested:
                     # Build something, remove request
                     self.resman.requested["building"] = {}
                 return True
             else:
-                return self.get_next_building_action(index + 1)
+                return self.get_next_building_action(
+                    index + 1,
+                    allow_deep_scan=allow_deep_scan,
+                )

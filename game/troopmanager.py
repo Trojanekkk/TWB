@@ -62,6 +62,7 @@ class TroopManager:
 
     resman = None
     template = None
+    protected_resources = {}
 
     def __init__(self, wrapper=None, village_id=None):
         """
@@ -69,6 +70,7 @@ class TroopManager:
         """
         self.wrapper = wrapper
         self.village_id = village_id
+        self.protected_resources = {}
         self.wait_for[village_id] = {"barracks": 0, "stable": 0, "garage": 0}
         if not self.resman:
             self.resman = ResourceManager(
@@ -156,23 +158,28 @@ class TroopManager:
         self.logger.info("Recruitment:%s up-to-date", building)
         return False
 
-    def get_min_possible(self, entry):
+    def get_min_possible(self, entry, protected=None):
         """
         Calculates which units are needed the most
         To get some balance of the total amount
         """
+        protected = protected or {}
+        village = self.game_data["village"]
+
+        def available(resource):
+            return max(0, int(village[resource]) - int(protected.get(resource, 0)))
+
+        pop_available = (
+                int(village["pop_max"])
+                - int(village["pop"])
+                - int(protected.get("pop", 0))
+        )
         return min(
             [
-                math.floor(self.game_data["village"]["wood"] / entry["wood"]),
-                math.floor(self.game_data["village"]["stone"] / entry["stone"]),
-                math.floor(self.game_data["village"]["iron"] / entry["iron"]),
-                math.floor(
-                    (
-                            self.game_data["village"]["pop_max"]
-                            - self.game_data["village"]["pop"]
-                    )
-                    / entry["pop"]
-                ),
+                math.floor(available("wood") / entry["wood"]),
+                math.floor(available("stone") / entry["stone"]),
+                math.floor(available("iron") / entry["iron"]),
+                math.floor(max(0, pop_available) / entry["pop"]),
             ]
         )
 
@@ -386,130 +393,140 @@ class TroopManager:
 
         # ADVANCED GATHER: Goes from gather_selection to 1, trying the same time (approximately) for every gather. Active hours exclude LC and Axes, at night everything is used for gather (except Paladin)
 
+        # Time-equalising weights. Setting T(group) equal across groups means
+        # cap_i * ratio_i = const, so cap weights are inverse to haul ratios:
+        #   group 1 ratio 0.10 -> weight 15
+        #   group 2 ratio 0.25 -> weight 6
+        #   group 3 ratio 0.50 -> weight 3
+        #   group 4 ratio 0.75 -> weight 2
+        group_weights = {1: 15, 2: 6, 3: 3, 4: 2}
+
+        # Pre-filter: only groups within `selection` that are unlocked and idle.
+        # Without this the original code would `break` on the first locked or
+        # busy group and never send to lower-numbered (still-available) groups.
+        usable_options = []
+        for opt_key in sorted(village_data['options'].keys(), key=lambda k: int(k)):
+            opt = int(opt_key)
+            if opt > selection:
+                continue
+            info = village_data['options'][opt_key]
+            if info.get('is_locked'):
+                self.logger.debug("Group %d is locked, skipping", opt)
+                continue
+            if info.get('scavenging_squad') is not None:
+                self.logger.debug("Group %d already has a squad underway, skipping", opt)
+                continue
+            usable_options.append(opt_key)
+
+        if not usable_options:
+            self.logger.info("No scavenging groups available right now")
+            return True
+
+        troops = {key: int(value) for key, value in troops.items()}
+
         if advanced_gather:
-            selection_map = [15, 21, 24,
-                             26]  # Divider in order to split the total carrying capacity of the troops into pieces that can fit into pretty much the same time frame
+            # Divider is the sum of weights of *actually-usable* groups, not
+            # the static selection_map[selection-1]. Using the static value
+            # wasted 8-13% of carry whenever a sub-group was locked or busy.
+            total_weight = sum(group_weights[int(k)] for k in usable_options)
 
-            batch_multiplier = [15, 6, 3,
-                                2]  # Multiplier for equal distribution of troops. Time(gather1) = Time(gather2) if gather2 = 2.5 * gather1
-
-            troops = {key: int(value) for key, value in troops.items()}
             total_carry = 0
             for item in haul_dict:
-                item, carry = item.split(":")
-                if item == "knight":
+                item_name, carry = item.split(":")
+                if item_name == "knight" or item_name in disabled_units:
                     continue
-                if item in disabled_units:
-                    continue
-                if item in troops and int(troops[item]) > 0:
-                    total_carry += int(carry) * int(troops[item])
-                else:
-                    pass
-            gather_batch = math.floor(total_carry / selection_map[selection - 1])
+                if item_name in troops and troops[item_name] > 0:
+                    total_carry += int(carry) * troops[item_name]
 
-            for option in list(reversed(sorted(village_data['options'].keys())))[4 - selection:]:
-                self.logger.debug(
-                    f"Option: {option} Locked? {village_data['options'][option]['is_locked']} Is underway? {village_data['options'][option]['scavenging_squad'] != None}")
-                if int(option) <= selection and not village_data['options'][option]['is_locked'] and not \
-                village_data['options'][option]['scavenging_squad'] != None:
-                    available_selection = int(option)
-                    self.logger.info(f"Gather operation {available_selection} is ready to start.")
+            if total_carry == 0:
+                self.logger.info("No troops available for gathering")
+                return True
 
-                    payload = {
-                        "squad_requests[0][village_id]": self.village_id,
-                        "squad_requests[0][option_id]": str(available_selection),
-                        "squad_requests[0][use_premium]": "false",
-                    }
+            gather_batch = math.floor(total_carry / total_weight)
+            self.logger.debug(
+                "Gather batch=%d, total_weight=%d, usable_groups=%s",
+                gather_batch, total_weight, usable_options
+            )
 
-                    curr_haul = gather_batch * batch_multiplier[available_selection - 1]
-                    temp_haul = curr_haul
+            # Iterate biggest-share first so the largest haul gets first pick.
+            for opt_key in sorted(usable_options, key=lambda k: -group_weights[int(k)]):
+                opt = int(opt_key)
+                weight = group_weights[opt]
+                curr_haul = gather_batch * weight
+                temp_haul = curr_haul
 
-                    self.logger.debug(
-                        f"Current Haul: {curr_haul} = Gather Batch ({gather_batch}) * Batch Multiplier {available_selection} ({batch_multiplier[available_selection - 1]})")
+                payload = {
+                    "squad_requests[0][village_id]": self.village_id,
+                    "squad_requests[0][option_id]": opt_key,
+                    "squad_requests[0][use_premium]": "false",
+                }
 
-                    for item in haul_dict:
-                        item, carry = item.split(":")
-                        if item == "knight":
-                            continue
-                        if item in disabled_units:
-                            continue
+                for item in haul_dict:
+                    item_name, carry = item.split(":")
+                    if item_name == "knight" or item_name in disabled_units:
+                        continue
+                    unit_carry = int(carry)
+                    if item_name in troops and troops[item_name] > 0 and unit_carry > 0:
+                        max_by_haul = temp_haul // unit_carry
+                        troops_selected = min(troops[item_name], max_by_haul)
+                        if troops_selected > 0:
+                            troops[item_name] -= troops_selected
+                            temp_haul -= troops_selected * unit_carry
+                        payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item_name] = str(troops_selected)
+                    else:
+                        payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item_name] = "0"
 
-                        if item in troops and int(troops[item]) > 0:
-                            troops_int = int(troops[item])
-                            troops_selected = 0
-                            for troop in range(troops_int):
-                                if (temp_haul - int(carry) < 0):
-                                    break
-                                else:
-                                    troops_selected += 1
-                                    temp_haul -= int(carry)
-                            troops_int -= troops_selected
-                            troops[item] = str(troops_int)
-                            payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item] = str(troops_selected)
-                        else:
-                            payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item] = "0"
-                    payload["squad_requests[0][candidate_squad][carry_max]"] = str(curr_haul)
-                    payload["h"] = self.wrapper.last_h
-                    self.wrapper.get_api_action(
-                        action="send_squads",
-                        params={"screen": "scavenge_api"},
-                        data=payload,
-                        village_id=self.village_id,
-                    )
-                    sleep += random.randint(1, 5)
-                    time.sleep(sleep)
-                    self.last_gather = int(time.time())
-                    self.logger.info(f"Using troops for gather operation: {available_selection}")
-                else:
-                    # Gathering already exists or locked
-                    break
+                payload["squad_requests[0][candidate_squad][carry_max]"] = str(curr_haul)
+                payload["h"] = self.wrapper.last_h
+                self.wrapper.get_api_action(
+                    action="send_squads",
+                    params={"screen": "scavenge_api"},
+                    data=payload,
+                    village_id=self.village_id,
+                )
+                sleep += random.randint(1, 5)
+                time.sleep(sleep)
+                self.last_gather = int(time.time())
+                self.logger.info("Sent troops for gather operation %d (weight %d, haul %d)", opt, weight, curr_haul)
 
         else:
-            for option in reversed(sorted(village_data['options'].keys())):
-                self.logger.debug(
-                    f"Option: {option} Locked? {village_data['options'][option]['is_locked']} Is underway? {village_data['options'][option]['scavenging_squad'] != None}")
-                if int(option) <= selection and not village_data['options'][option]['is_locked'] and not \
-                village_data['options'][option]['scavenging_squad'] != None:
-                    available_selection = int(option)
-                    self.logger.info(f"Gather operation {available_selection} is ready to start.")
-                    selection = available_selection
+            # Non-advanced mode: send everything available to the highest
+            # usable group within `selection`.
+            opt_key = max(usable_options, key=lambda k: int(k))
+            opt = int(opt_key)
 
-                    payload = {
-                        "squad_requests[0][village_id]": self.village_id,
-                        "squad_requests[0][option_id]": str(available_selection),
-                        "squad_requests[0][use_premium]": "false",
-                    }
-                    total_carry = 0
-                    for item in haul_dict:
-                        item, carry = item.split(":")
-                        if item == "knight":
-                            continue
-                        if item in disabled_units:
-                            continue
-                        if item in troops and int(troops[item]) > 0:
-                            payload[
-                                "squad_requests[0][candidate_squad][unit_counts][%s]" % item
-                                ] = troops[item]
-                            total_carry += int(carry) * int(troops[item])
-                        else:
-                            payload[
-                                "squad_requests[0][candidate_squad][unit_counts][%s]" % item
-                                ] = "0"
-                    payload["squad_requests[0][candidate_squad][carry_max]"] = str(total_carry)
-                    if total_carry > 0:
-                        payload["h"] = self.wrapper.last_h
-                        self.wrapper.get_api_action(
-                            action="send_squads",
-                            params={"screen": "scavenge_api"},
-                            data=payload,
-                            village_id=self.village_id,
-                        )
-                        self.last_gather = int(time.time())
-                        self.logger.info(f"Using troops for gather operation: {selection}")
+            payload = {
+                "squad_requests[0][village_id]": self.village_id,
+                "squad_requests[0][option_id]": opt_key,
+                "squad_requests[0][use_premium]": "false",
+            }
+            total_carry = 0
+            for item in haul_dict:
+                item_name, carry = item.split(":")
+                if item_name == "knight" or item_name in disabled_units:
+                    continue
+                if item_name in troops and troops[item_name] > 0:
+                    payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item_name] = str(troops[item_name])
+                    total_carry += int(carry) * troops[item_name]
                 else:
-                    # Gathering already exists or locked
-                    break
-        self.logger.info("All gather operations are underway.")
+                    payload["squad_requests[0][candidate_squad][unit_counts][%s]" % item_name] = "0"
+
+            if total_carry == 0:
+                self.logger.info("No troops available for gathering")
+                return True
+
+            payload["squad_requests[0][candidate_squad][carry_max]"] = str(total_carry)
+            payload["h"] = self.wrapper.last_h
+            self.wrapper.get_api_action(
+                action="send_squads",
+                params={"screen": "scavenge_api"},
+                data=payload,
+                village_id=self.village_id,
+            )
+            self.last_gather = int(time.time())
+            self.logger.info("Sent troops for gather operation %d (haul %d)", opt, total_carry)
+
+        self.logger.info("Gather dispatch complete")
         return True
 
     def cancel(self, building, id):
@@ -575,6 +592,13 @@ class TroopManager:
             return False
 
         get_min = self.get_min_possible(resources)
+        protected_min = self.get_min_possible(resources, self.protected_resources)
+        if self.protected_resources and protected_min < get_min:
+            self.logger.debug(
+                "Builder reservation limits %s recruitment from %d to %d",
+                unit_type, get_min, protected_min
+            )
+            get_min = protected_min
         if get_min == 0:
             self.logger.info(
                 "Recruitment of %d %s failed because of not enough resources"

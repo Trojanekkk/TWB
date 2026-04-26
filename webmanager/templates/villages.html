@@ -39,7 +39,20 @@
 						{% endfor %}
 					</td>
 					<td>
-						Building: {{data.bot[village_id].queued | count}}
+						{% set build_status = data.bot[village_id].building_queue_status if data.bot[village_id].building_queue_status is defined else {} %}
+						Building:
+						{% if build_status.next_entry %}
+							<strong>{{ build_status.next_entry }}</strong>
+							{% if build_status.template_position %}
+								(line {{ build_status.template_position }})
+							{% elif build_status.repair %}
+								(repair)
+							{% endif %}
+							<br />
+							<small>{{ build_status.active_items }} active, {{ build_status.remaining }} queued locally</small>
+						{% else %}
+							no local queue
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}

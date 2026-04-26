@@ -248,6 +248,12 @@ class Village:
                 wrapper=self.wrapper, village_id=self.village_id
             )
             self.builder.resman = self.resman
+            cached = FileManager.load_json_file(f"cache/managed/{self.village_id}.json")
+            if cached:
+                self.builder.previous_levels = (
+                    cached.get("building_levels")
+                    or cached.get("buidling_levels")
+                )
             # manage buildings (has to always run because recruit check depends on building levels)
         self.build_config = self.get_village_config(
             self.village_id, parameter="building", default=None
@@ -279,6 +285,9 @@ class Village:
         )
         self.builder.max_queue_len = self.get_config(
             section="building", parameter="max_queued_items", default=2
+        )
+        self.builder.destruction_repair_enabled = self.get_config(
+            section="world", parameter="building_destruction_enabled", default=True
         )
         self.builder.start_update(
             build=self.get_config(
@@ -359,6 +368,95 @@ class Village:
         ):
             self.units.attempt_upgrade()
 
+    def builder_resource_reservation(self):
+        """
+        Finds the best build candidate to protect from recruitment spending.
+
+        Preference goes to a currently queueable item, then the cheapest item
+        in lookahead with the smallest missing amount. The returned reserve
+        protects only resources already accumulated toward that item, leaving
+        any true surplus available for recruitment.
+        """
+        if not self.builder or not self.resman:
+            return None
+        if not self.builder.queue or self.builder.is_queued():
+            return None
+
+        candidates = []
+        max_index = min(len(self.builder.queue), self.builder.max_lookahead)
+        for index in range(max_index):
+            queue_entry = self.builder.queue[index]
+            if ":" not in queue_entry:
+                continue
+            building, level = queue_entry.split(":", 1)
+            level = int(level)
+            if building not in self.builder.levels or level <= self.builder.levels[building]:
+                continue
+            if building not in self.builder.costs:
+                continue
+            cost = self.builder.costs[building]
+            if not cost.get("can_build") or "build_link" not in cost:
+                continue
+            if "max_level" in cost and level > cost["max_level"]:
+                continue
+            if (
+                    cost["wood"] > self.resman.storage
+                    or cost["stone"] > self.resman.storage
+                    or cost["iron"] > self.resman.storage
+            ):
+                continue
+
+            missing = 0
+            reserve = {}
+            missing_resources = {}
+            for resource in ["wood", "stone", "iron"]:
+                needed = int(cost[resource])
+                available = int(self.resman.actual[resource])
+                needed_missing = max(0, needed - available)
+                missing += needed_missing
+                missing_resources[resource] = needed_missing
+                reserve[resource] = min(needed, available)
+            pop_needed = int(cost.get("pop", 0))
+            pop_available = int(self.resman.actual["pop"])
+            pop_missing = max(0, pop_needed - pop_available)
+            missing += pop_missing
+            missing_resources["pop"] = pop_missing
+            reserve["pop"] = min(pop_needed, pop_available)
+            total_cost = int(cost["wood"]) + int(cost["stone"]) + int(cost["iron"])
+            candidates.append({
+                "missing": missing,
+                "missing_resources": missing_resources,
+                "total_cost": total_cost,
+                "building": building,
+                "level": level,
+                "reserve": reserve,
+                "queueable": missing == 0,
+            })
+
+        if not candidates:
+            self.logger.debug("Prioritize building: no actionable build candidate found")
+            return None
+
+        candidates = sorted(
+            candidates,
+            key=lambda item: (
+                0 if item["queueable"] else 1,
+                item["missing"],
+                item["total_cost"],
+            )
+        )
+        candidate = candidates[0]
+        self.logger.info(
+            "Prioritizing building resources for %s:%d (missing resources: %d)",
+            candidate["building"], candidate["level"], candidate["missing"]
+        )
+        for resource, amount in candidate["missing_resources"].items():
+            self.resman.request(source="building", resource=resource, amount=amount)
+        return candidate
+
+    def builder_should_reserve_resources(self):
+        return self.builder_resource_reservation() is not None
+
     def do_recruit(self):
         """
         Recruits new units
@@ -371,19 +469,18 @@ class Village:
                 section="units", parameter="randomize_unit_queue", default=True
             )
             # prioritize_building: will only recruit when builder has sufficient funds for queue items
-            if (
-                    self.get_village_config(
-                        self.village_id, parameter="prioritize_building", default=False
-                    )
-                    and not self.resman.can_recruit()
+            builder_reservation = None
+            if self.get_village_config(
+                    self.village_id, parameter="prioritize_building", default=False
             ):
-                self.logger.info(
-                    "Not recruiting because builder has insufficient funds"
+                builder_reservation = self.builder_resource_reservation()
+                self.units.protected_resources = (
+                    builder_reservation["reserve"] if builder_reservation else {}
                 )
-                for x in list(self.resman.requested.keys()):
-                    if "recruitment_" in x:
-                        self.resman.requested.pop(f"{x}", None)
-            elif (
+            else:
+                self.units.protected_resources = {}
+
+            if (
                     self.get_village_config(
                         self.village_id, parameter="prioritize_snob", default=False
                     )
@@ -396,6 +493,12 @@ class Village:
                     if "recruitment_" in x:
                         self.resman.requested.pop(f"{x}", None)
             else:
+                if builder_reservation:
+                    self.logger.info(
+                        "Recruiting with builder reserve for %s:%d",
+                        builder_reservation["building"],
+                        builder_reservation["level"],
+                    )
                 # do a build run for every
                 for building in self.units.wanted:
                     if not self.builder.get_level(building):
@@ -443,8 +546,29 @@ class Village:
         self.attack.farm_low_prio_wait = self.get_config(
             section="farms", parameter="low_loot_away_time", default=7200
         )
+        self.attack.farm_priority_ratio = self.get_config(
+            section="farms", parameter="priority_ratio", default=50
+        )
         self.attack.scout_farm_amount = self.get_config(
             section="farms", parameter="farm_scout_amount", default=5
+        )
+        self.attack.night_bonus_start_hour = self.get_config(
+            section="farms", parameter="night_bonus_start_hour", default=23
+        )
+        self.attack.night_bonus_end_hour = self.get_config(
+            section="farms", parameter="night_bonus_end_hour", default=7
+        )
+        self.attack.night_bonus_troop_multiplier = self.get_config(
+            section="farms", parameter="night_bonus_troop_multiplier", default=3.0
+        )
+        self.attack.game_speed = self.get_config(
+            section="world", parameter="game_speed", default=1.0
+        )
+        self.attack.unit_speed = self.get_config(
+            section="world", parameter="unit_speed", default=1.0
+        )
+        self.attack.scout_first = self.get_village_config(
+            self.village_id, parameter="scout_first", default=False
         )
         if self.current_unit_entry:
             self.attack.template = self.current_unit_entry["farm"]
@@ -672,8 +796,10 @@ class Village:
             "resources": self.resman.actual,
             "required_resources": self.resman.requested,
             "available_troops": self.units.troops,
+            "building_levels": self.builder.levels,
             "buidling_levels": self.builder.levels,
             "building_queue": self.builder.queue,
+            "building_queue_status": self.builder.queue_status,
             "troops": self.units.total_troops,
             "under_attack": self.def_man.under_attack,
             "last_run": int(time.time()),

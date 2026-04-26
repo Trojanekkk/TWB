@@ -6,6 +6,31 @@
         {{ config | safe }}
     </div>
     <div class="col-lg-4">
+        {% if current_select and current_select in data.bot %}
+        {% set build_status = data.bot[current_select].building_queue_status if data.bot[current_select].building_queue_status is defined else {} %}
+        <h4>Building Queue</h4>
+        <table class="table table-sm table-striped">
+            <tbody>
+                <tr>
+                    <th>Now</th>
+                    <td>
+                        {% if build_status.next_entry %}
+                            {{ build_status.next_entry }}
+                            {% if build_status.template_position %}
+                                (line {{ build_status.template_position }})
+                            {% elif build_status.repair %}
+                                (repair)
+                            {% endif %}
+                        {% else %}
+                            No local queue
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr><th>Active</th><td>{{ build_status.active_items if build_status.active_items is defined else 0 }}</td></tr>
+                <tr><th>Remaining</th><td>{{ build_status.remaining if build_status.remaining is defined else 0 }}</td></tr>
+            </tbody>
+        </table>
+        {% endif %}
         <h4>Villages</h4>
         <ul class="list-group">
                 {% for village in data.bot %}

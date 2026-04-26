@@ -1,0 +1,16 @@
+{
+  "id": "10009",
+  "name": "Wioska Thom",
+  "location": [
+    440,
+    579
+  ],
+  "bonus": null,
+  "points": 450,
+  "safe": false,
+  "scout": false,
+  "tribe": "170",
+  "owner": "90200",
+  "buildings": {},
+  "resources": {}
+}
