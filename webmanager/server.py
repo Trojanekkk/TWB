@@ -292,7 +292,10 @@ def get_stats():
 def get_logs():
     data = sync()
     logs = LogReader.from_config(data["config"])
-    entries, pagination = paginate_items(logs["entries"])
+    entries, pagination = paginate_items(
+        logs["entries"],
+        per_page=positive_int_arg("per_page", 50, max_value=200),
+    )
     logs["total_entries"] = len(logs["entries"])
     logs["entries"] = entries
     return render_template('logs.html', data=data, logs=logs, pagination=pagination)

@@ -13,7 +13,7 @@ import psutil
 
 _CONFIG_LOCK = threading.Lock()
 BUILDINGS = ["main", "barracks", "stable", "watchtower", "smith", "garage", "place", "statue", "market", "wood",
-             "stone", "iron", "farm", "hide", "wall", "snob", "church"]
+             "stone", "iron", "farm", "storage", "hide", "wall", "snob", "church"]
 UNITS = ["spear", "sword", "axe", "archer", "spy", "light", "marcher", "heavy", "ram", "catapult", "knight", "snob"]
 
 

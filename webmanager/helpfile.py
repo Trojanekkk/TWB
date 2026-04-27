@@ -82,4 +82,4 @@ help_file = {
     'village.request_support_on_attack': 'Allows automatic requesting of support units'
 }
 buildings = ["main", "barracks", "stable", "watchtower", "smith", "garage", "place", "statue", "market", "wood",
-             "stone", "iron", "farm", "hide", "wall", "snob", "church"]
+             "stone", "iron", "farm", "storage", "hide", "wall", "snob", "church"]
