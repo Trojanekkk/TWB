@@ -40,18 +40,27 @@
 					</td>
 					<td>
 						{% set build_status = data.bot[village_id].building_queue_status if data.bot[village_id].building_queue_status is defined else {} %}
-						Building:
+						{% if build_status.currently_building %}
+							Now:
+							{% for entry in build_status.currently_building %}
+								<strong>{{ entry.building }}{% if entry.level %} {{ entry.level }}{% endif %}</strong>
+								<span class="js-finish" data-ts="{{ entry.finishes_at }}"></span>{% if not loop.last %}, {% endif %}
+							{% endfor %}
+							<br />
+						{% else %}
+							Now: <em>idle</em><br />
+						{% endif %}
 						{% if build_status.next_entry %}
-							<strong>{{ build_status.next_entry }}</strong>
+							Next: <strong>{{ build_status.next_entry }}</strong>
 							{% if build_status.template_position %}
 								(line {{ build_status.template_position }})
 							{% elif build_status.repair %}
 								(repair)
 							{% endif %}
 							<br />
-							<small>{{ build_status.active_items }} active, {{ build_status.remaining }} queued locally</small>
+							<small>{{ build_status.active_items }} active, {{ build_status.remaining }} template entries left</small>
 						{% else %}
-							no local queue
+							<small>{{ build_status.active_items if build_status.active_items is defined else 0 }} active, no template entries left</small>
 						{% endif %}
 					</td>
 				</tr>
@@ -60,4 +69,19 @@
 	</table>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.js-finish').forEach(function(el) {
+        var ts = parseInt(el.getAttribute('data-ts'), 10);
+        if (!ts) return;
+        var diff = Math.max(0, Math.floor((ts * 1000 - Date.now()) / 1000));
+        var h = Math.floor(diff / 3600);
+        var m = Math.floor((diff % 3600) / 60);
+        var s = diff % 60;
+        var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+        el.textContent = '(in ' + h + ':' + pad(m) + ':' + pad(s) + ')';
+    });
+</script>
 {% endblock %}

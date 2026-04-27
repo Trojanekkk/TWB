@@ -393,14 +393,6 @@ class TroopManager:
 
         # ADVANCED GATHER: Goes from gather_selection to 1, trying the same time (approximately) for every gather. Active hours exclude LC and Axes, at night everything is used for gather (except Paladin)
 
-        # Time-equalising weights. Setting T(group) equal across groups means
-        # cap_i * ratio_i = const, so cap weights are inverse to haul ratios:
-        #   group 1 ratio 0.10 -> weight 15
-        #   group 2 ratio 0.25 -> weight 6
-        #   group 3 ratio 0.50 -> weight 3
-        #   group 4 ratio 0.75 -> weight 2
-        group_weights = {1: 15, 2: 6, 3: 3, 4: 2}
-
         # Pre-filter: only groups within `selection` that are unlocked and idle.
         # Without this the original code would `break` on the first locked or
         # busy group and never send to lower-numbered (still-available) groups.
@@ -421,6 +413,12 @@ class TroopManager:
         if not usable_options:
             self.logger.info("No scavenging groups available right now")
             return True
+
+        # Time-equalising carry weights for default scavenge config.
+        # TW formula: T = (carry / duration_factor)^0.45 * duration_initial_seconds
+        # with default duration_factors {2,5,10,15} -> equal T when
+        # carry ratios are 15:6:3:2 across groups 1..4.
+        group_weights = {1: 15, 2: 6, 3: 3, 4: 2}
 
         troops = {key: int(value) for key, value in troops.items()}
 

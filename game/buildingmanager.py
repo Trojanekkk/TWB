@@ -21,8 +21,7 @@ class BuildingManager:
     max_lookahead = 2
 
     queue = []
-    waits = []
-    waits_building = []
+    server_queue = []
 
     costs = {}
 
@@ -53,6 +52,7 @@ class BuildingManager:
         self.destruction_repair_enabled = True
         self.queue_status = {}
         self.unmet_requirements = {}
+        self.server_queue = []
 
     @staticmethod
     def _parse_queue_entry(entry):
@@ -139,7 +139,7 @@ class BuildingManager:
 
         return extracted_buildings
 
-    def update_queue_status(self, existing_queue=0):
+    def update_queue_status(self):
         next_entry = self.queue[0] if self.queue else None
         position = None
         if next_entry and self.raw_template:
@@ -149,14 +149,20 @@ class BuildingManager:
                 position = None
 
         building, level = self._parse_queue_entry(next_entry) if next_entry else (None, None)
+        is_repair = bool(
+            next_entry
+            and building
+            and int(self.repair_targets.get(building, 0) or 0) >= (level or 0)
+        )
         self.queue_status = {
-            "active_items": existing_queue,
+            "currently_building": list(self.server_queue),
+            "active_items": len(self.server_queue),
             "next_entry": next_entry,
             "next_building": building,
             "next_level": level,
             "template_position": position,
             "remaining": len(self.queue),
-            "repair": bool(next_entry and position is None),
+            "repair": is_repair,
         }
         return self.queue_status
 
@@ -246,42 +252,27 @@ class BuildingManager:
         if self.destruction_repair_enabled:
             self.requeue_destroyed_buildings(self.previous_levels, self.levels)
         self.previous_levels = dict(self.levels)
-        existing_queue = Extractor.active_building_queue(main_data)
-        self.update_queue_status(existing_queue)
-        if existing_queue == 0:
-            self.waits = []
-            self.waits_building = []
+        self.server_queue = Extractor.active_building_queue(main_data)
+        self.update_queue_status()
         if self.is_queued():
             self.logger.info(
-                "No build operation was executed: queue full, %d left", len(self.queue)
+                "No build operation was executed: queue full (%d active, %d left)",
+                len(self.server_queue),
+                len(self.queue),
             )
             return False
         if not build:
             return False
 
-        if existing_queue != 0 and existing_queue != len(self.waits):
-            if existing_queue > 1:
-                self.logger.warning(
-                    "Building queue out of sync, waiting until %d manual actions are finished!",
-                    existing_queue
-                )
-                return True
-            else:
-                self.logger.info(
-                    "Just 1 manual action left, trying to queue next building"
-                )
-
-        if existing_queue == 1:
-            r = self.max_queue_len - 1
-        else:
-            r = self.max_queue_len - len(self.waits)
-        for x in range(r):
+        slots = self.max_queue_len - len(self.server_queue)
+        for _ in range(slots):
             result = self.get_next_building_action()
-            self.update_queue_status(existing_queue)
+            self.update_queue_status()
             if not result:
                 self.logger.info(
-                    "No build more operations where executed (%d current, %d left)",
-                    len(self.waits), len(self.queue)
+                    "No more build operations were executed (%d active, %d left)",
+                    len(self.server_queue),
+                    len(self.queue),
                 )
                 return False
         # Check for instant build after putting something in the queue
@@ -307,33 +298,17 @@ class BuildingManager:
             return result
         return False
 
-    def put_wait(self, wait_time):
-        """
-        Puts an item in the active building queue
-        Blocking entries until the building is completed
-        """
-        self.is_queued()
-        if len(self.waits) == 0:
-            f_time = time.time() + wait_time
-            self.waits.append(f_time)
-            return f_time
-        else:
-            lastw = self.waits[-1]
-            f_time = lastw + wait_time
-            self.waits.append(f_time)
-            self.logger.debug("Building finish time: %s", str(f_time))
-            return f_time
-
     def is_queued(self):
         """
-        Checks if a building is already queued
+        Returns True if the server-side build queue is at capacity.
+        Expired entries (finish time in the past) are dropped first so the
+        check stays accurate when this is called multiple times within a run.
         """
-        if len(self.waits) == 0:
-            return False
-        for w in list(self.waits):
-            if w < time.time():
-                self.waits.pop(0)
-        return len(self.waits) >= self.max_queue_len
+        now = time.time()
+        self.server_queue = [
+            entry for entry in self.server_queue if entry["finishes_at"] > now
+        ]
+        return len(self.server_queue) >= self.max_queue_len
 
     def has_enough(self, build_item):
         """
@@ -416,7 +391,7 @@ class BuildingManager:
 
         queue_check = self.is_queued()
         if queue_check:
-            self.logger.debug("Not building because of queued items: %s", self.waits)
+            self.logger.debug("Not building because server queue is full: %s", self.server_queue)
             return False
 
         if self.resman and self.resman.in_need_of("pop"):
@@ -461,14 +436,25 @@ class BuildingManager:
                     allow_deep_scan=allow_deep_scan,
                 )
             if check["can_build"] and self.has_enough(check) and "build_link" in check:
-                queue = self.put_wait(check["build_time"])
+                # Predict finish time based on the slot we'll occupy: the
+                # current run's last server-queue entry, or now if empty.
+                last_finish = max(
+                    [e["finishes_at"] for e in self.server_queue],
+                    default=time.time(),
+                )
+                finishes_at = last_finish + check["build_time"]
+                self.server_queue.append({
+                    "building": entry,
+                    "level": min_lvl,
+                    "finishes_at": int(finishes_at),
+                })
                 self.logger.info(
                     "Building %s %d -> %d (finishes: %s)"
                     % (
                         entry,
                         self.levels[entry],
                         self.levels[entry] + 1,
-                        self.readable_ts(queue),
+                        self.readable_ts(finishes_at),
                     )
                 )
                 self.wrapper.reporter.report(
@@ -479,7 +465,7 @@ class BuildingManager:
                         entry,
                         self.levels[entry],
                         self.levels[entry] + 1,
-                        self.readable_ts(queue),
+                        self.readable_ts(finishes_at),
                     ),
                 )
                 self.levels[entry] += 1

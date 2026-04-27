@@ -11,7 +11,8 @@
       "WebFetch(domain:ultimatetribalwarsbot.net)",
       "WebFetch(domain:twscripts.dev)",
       "WebFetch(domain:sntbot.org)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('game/buildingmanager.py'\\).read\\(\\)\\); ast.parse\\(open\\('core/extractors.py'\\).read\\(\\)\\); print\\('OK'\\)\")"
     ]
   }
 }

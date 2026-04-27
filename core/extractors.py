@@ -191,15 +191,46 @@ class Extractor:
     @staticmethod
     def active_building_queue(res):
         """
-        Detects queued building entries
+        Parses the build queue table on the main building page.
+        Returns a list of dicts: {"building": str, "level": int|None, "finishes_at": int}.
+
+        Each row in the live game looks roughly like:
+            <tr id="buildorder_<id>" ...>
+              <td><img class="... building_image_<name> ..." />
+                  <span ...>localized name (level X)</span></td>
+              <td><span class="timer-default" data-endtime="<unix_ts>">...</span></td>
+              <td><a class="btn btn-cancel" ...>cancel</a></td>
+            </tr>
+        Returns an empty list when the queue is empty or the table is missing.
         """
         if type(res) != str:
             res = res.text
-        builder = re.search('(?s)<table id="build_queue"(.+?)</table>', res)
-        if not builder:
-            return 0
+        table = re.search(r'(?s)<table[^>]*id="build_queue"(.+?)</table>', res)
+        if not table:
+            return []
 
-        return builder.group(1).count('<a class="btn btn-cancel"')
+        entries = []
+        for row in re.finditer(
+            r'(?s)<tr[^>]*id="buildorder_\d+"[^>]*>(.+?)</tr>',
+            table.group(1),
+        ):
+            body = row.group(1)
+            if 'btn-cancel' not in body:
+                continue
+            building_match = (
+                re.search(r'building_image_([a-z_]+)', body)
+                or re.search(r'/([a-z_]+)\.png', body)
+            )
+            end_match = re.search(r'data-endtime="(\d+)"', body)
+            if not (building_match and end_match):
+                continue
+            level_match = re.search(r'\(\D*?(\d+)\D*?\)', body)
+            entries.append({
+                "building": building_match.group(1),
+                "level": int(level_match.group(1)) if level_match else None,
+                "finishes_at": int(end_match.group(1)),
+            })
+        return entries
 
     @staticmethod
     def active_recruit_queue(res):

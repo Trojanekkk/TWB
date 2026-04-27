@@ -14,6 +14,22 @@
                 <tr>
                     <th>Now</th>
                     <td>
+                        {% if build_status.currently_building %}
+                            {% for entry in build_status.currently_building %}
+                                <div>
+                                    <strong>{{ entry.building }}</strong>
+                                    {% if entry.level %}&rarr; lvl {{ entry.level }}{% endif %}
+                                    <small class="text-muted">finishes <span class="js-finish" data-ts="{{ entry.finishes_at }}">{{ entry.finishes_at }}</span></small>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <em>idle</em>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Next</th>
+                    <td>
                         {% if build_status.next_entry %}
                             {{ build_status.next_entry }}
                             {% if build_status.template_position %}
@@ -22,12 +38,12 @@
                                 (repair)
                             {% endif %}
                         {% else %}
-                            No local queue
+                            <em>no template entries left</em>
                         {% endif %}
                     </td>
                 </tr>
-                <tr><th>Active</th><td>{{ build_status.active_items if build_status.active_items is defined else 0 }}</td></tr>
-                <tr><th>Remaining</th><td>{{ build_status.remaining if build_status.remaining is defined else 0 }}</td></tr>
+                <tr><th>Active</th><td>{{ build_status.active_items if build_status.active_items is defined else 0 }} / {{ data.config.building.max_queued_items if data.config.building is defined and data.config.building.max_queued_items is defined else 2 }}</td></tr>
+                <tr><th>Template left</th><td>{{ build_status.remaining if build_status.remaining is defined else 0 }}</td></tr>
             </tbody>
         </table>
         {% endif %}
@@ -50,6 +66,17 @@
 
 {% block scripts %}
 <script>
+    document.querySelectorAll('.js-finish').forEach(function(el) {
+        var ts = parseInt(el.getAttribute('data-ts'), 10);
+        if (!ts) return;
+        var d = new Date(ts * 1000);
+        var diff = Math.max(0, Math.floor((ts * 1000 - Date.now()) / 1000));
+        var h = Math.floor(diff / 3600);
+        var m = Math.floor((diff % 3600) / 60);
+        var s = diff % 60;
+        var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+        el.textContent = 'in ' + h + ':' + pad(m) + ':' + pad(s) + ' (' + d.toLocaleTimeString() + ')';
+    });
     var set_values = {};
 	function set_config(parameter, value) {
 		$.getJSON("/app/config/set?village_id={{current_select}}&parameter="+encodeURIComponent(parameter)+"&value="+encodeURIComponent(value), function(data){
