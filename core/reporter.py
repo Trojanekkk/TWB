@@ -2,6 +2,7 @@
 This module can be used in order to report actions to a file or remote MySQL server
 """
 import logging
+import os
 import time
 import warnings
 
@@ -11,6 +12,12 @@ try:
     HAS_PYMYSQL = True
 except ImportError:
     HAS_PYMYSQL = False
+
+
+def resolve_file_log_path(connection_string):
+    if not connection_string or not connection_string.startswith('file://'):
+        return None
+    return connection_string.split("://", 1)[1].replace('{ts}', str(int(time.time())))
 
 
 class RemoteReporter:
@@ -70,7 +77,10 @@ class FileReporter:
         """
         Make sure the logfile exists
         """
-        with open(connection, 'w', encoding="utf-8") as f:
+        directory = os.path.dirname(connection)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        with open(connection, 'a', encoding="utf-8") as f:
             f.write("Starting bot at %d\n" % time.time())
 
 
@@ -205,8 +215,7 @@ class ReporterObject:
                 self.logger.info("Unable to set-up MySQL logging, disabling!")
                 self.enabled = False
         elif connection_string.startswith('file://'):
-            outfile = connection_string.split("://")[1]
-            outfile = outfile.replace('{ts}', str(int(time.time())))
+            outfile = resolve_file_log_path(connection_string)
             self.connection = outfile
             self.object = FileReporter()
             self.object.setup(self.connection)

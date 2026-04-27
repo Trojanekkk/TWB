@@ -41,6 +41,7 @@ from manager import VillageManager
 from pages.overview import OverviewPage
 from core.exceptions import UnsupportedPythonVersion
 from core.extractors import Extractor
+from core.reporter import resolve_file_log_path
 
 coloredlogs.install(
     level=logging.DEBUG if "-q" not in sys.argv else logging.INFO,
@@ -75,6 +76,35 @@ class TWB:
     should_run = True
     runs = 0
     found_villages = []
+    python_log_handler = None
+
+    @staticmethod
+    def configure_python_file_logging(logging_config):
+        if not logging_config.get("enabled", False):
+            return logging_config.get("connection_string")
+
+        connection_string = logging_config.get("connection_string")
+        log_path = resolve_file_log_path(connection_string)
+        if not log_path:
+            return connection_string
+
+        log_dir = os.path.dirname(log_path)
+        if log_dir:
+            os.makedirs(log_dir, exist_ok=True)
+
+        root_logger = logging.getLogger()
+        if TWB.python_log_handler:
+            root_logger.removeHandler(TWB.python_log_handler)
+            TWB.python_log_handler.close()
+
+        handler = logging.FileHandler(log_path, mode="a", encoding="utf-8")
+        handler.setLevel(logging.DEBUG if "-q" not in sys.argv else logging.INFO)
+        handler.setFormatter(
+            logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        )
+        root_logger.addHandler(handler)
+        TWB.python_log_handler = handler
+        return f"file://{log_path}"
 
     @staticmethod
     def internet_online():
@@ -327,7 +357,7 @@ class TWB:
             server=config["server"]["server"],
             endpoint=config["server"]["endpoint"],
             reporter_enabled=config["logging"]["enabled"],
-            reporter_constr=config["logging"]["connection_string"],
+            reporter_constr=self.configure_python_file_logging(config["logging"]),
         )
         self.wrapper.configure_from_bot_config(config["bot"])
 

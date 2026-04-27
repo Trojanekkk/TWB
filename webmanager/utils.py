@@ -194,6 +194,28 @@ class LogReader:
             return value
 
     @staticmethod
+    def _timestamp_value(value):
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            pass
+
+        for fmt in ("%Y-%m-%d %H:%M:%S,%f", "%Y-%m-%d %H:%M:%S"):
+            try:
+                return datetime.datetime.strptime(value, fmt).timestamp()
+            except (TypeError, ValueError):
+                continue
+        return 0
+
+    @staticmethod
+    def _is_epoch_timestamp(value):
+        try:
+            float(value)
+            return True
+        except (TypeError, ValueError):
+            return False
+
+    @staticmethod
     def _parse_line(line):
         line = line.strip()
         if not line:
@@ -203,6 +225,7 @@ class LogReader:
             timestamp = line.replace("Starting bot at ", "", 1)
             return {
                 "timestamp": LogReader._format_timestamp(timestamp),
+                "sort_ts": LogReader._timestamp_value(timestamp),
                 "village_id": "",
                 "action": "BOT_START",
                 "data": "Starting bot",
@@ -211,8 +234,19 @@ class LogReader:
 
         parts = line.split(" - ", 3)
         if len(parts) == 4:
+            if not LogReader._is_epoch_timestamp(parts[0]):
+                return {
+                    "timestamp": parts[0].split(",", 1)[0],
+                    "sort_ts": LogReader._timestamp_value(parts[0]),
+                    "village_id": parts[1],
+                    "action": parts[2],
+                    "data": parts[3],
+                    "raw": line,
+                }
+
             return {
                 "timestamp": LogReader._format_timestamp(parts[0]),
+                "sort_ts": LogReader._timestamp_value(parts[0]),
                 "village_id": parts[1],
                 "action": parts[2],
                 "data": parts[3],
@@ -221,6 +255,7 @@ class LogReader:
 
         return {
             "timestamp": "",
+            "sort_ts": 0,
             "village_id": "",
             "action": "RAW",
             "data": line,
@@ -274,6 +309,7 @@ class LogReader:
                 entry_with_file["file"] = rel_path
                 log_data["entries"].append(entry_with_file)
 
+        log_data["entries"].sort(key=lambda entry: entry["sort_ts"], reverse=True)
         return log_data
 
 

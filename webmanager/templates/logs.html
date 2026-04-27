@@ -20,8 +20,11 @@
         {% else %}
             <div class="mb-3">
                 <span class="badge badge-secondary">{{ logs.files|length }} files</span>
-                <span class="badge badge-secondary">{{ logs.entries|length }} entries</span>
+                <span class="badge badge-secondary">{{ logs.total_entries }} entries</span>
                 <code class="ml-2">{{ logs.connection_string }}</code>
+            </div>
+            <div class="mb-2">
+                Showing {{ pagination.start }}-{{ pagination.end }} of {{ pagination.total }} log entries
             </div>
 
             {% for file in logs.files %}
@@ -36,7 +39,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Time</th>
-                        <th>Village</th>
+                        <th>Village / Logger</th>
                         <th>Action</th>
                         <th>Data</th>
                         <th>File</th>
@@ -54,6 +57,19 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <nav aria-label="Log pages">
+                <ul class="pagination">
+                    <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                        <a class="page-link" href="/logs?page={{ pagination.prev_page }}&per_page={{ pagination.per_page }}">Previous</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ pagination.page }} of {{ pagination.total_pages }}</span>
+                    </li>
+                    <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                        <a class="page-link" href="/logs?page={{ pagination.next_page }}&per_page={{ pagination.per_page }}">Next</a>
+                    </li>
+                </ul>
+            </nav>
 
             <h5 class="mt-4">Files</h5>
             <table class="table table-sm table-bordered">

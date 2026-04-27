@@ -26,6 +26,39 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
+def positive_int_arg(name, default, max_value=None):
+    try:
+        value = int(request.args.get(name, default))
+    except (TypeError, ValueError):
+        value = default
+    value = max(1, value)
+    if max_value:
+        value = min(value, max_value)
+    return value
+
+
+def paginate_items(items, page=None, per_page=None):
+    page = page or positive_int_arg("page", 1)
+    per_page = per_page or positive_int_arg("per_page", 25, max_value=200)
+    total = len(items)
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    page = min(page, total_pages)
+    start = (page - 1) * per_page
+    end = start + per_page
+    return items[start:end], {
+        "page": page,
+        "per_page": per_page,
+        "total": total,
+        "total_pages": total_pages,
+        "has_prev": page > 1,
+        "has_next": page < total_pages,
+        "prev_page": page - 1,
+        "next_page": page + 1,
+        "start": start + 1 if total else 0,
+        "end": min(end, total),
+    }
+
+
 def pre_process_bool(key, value, village_id=None):
     if village_id:
         if value:
@@ -159,15 +192,21 @@ def sync():
     managed = DataReader.cache_grab("managed")
     bot_status = bm.is_running()
 
-    sort_reports = {key: value for key, value in sorted(reports.items(), key=lambda item: int(item[0]))}
-    n_items = {k: sort_reports[k] for k in list(sort_reports)[:100]}
+    sort_reports = {
+        key: value
+        for key, value in sorted(
+            reports.items(),
+            key=lambda item: int(item[0]),
+            reverse=True,
+        )
+    }
 
     out_struct = {
         "attacks": attacks,
         "farms": attacks,
         "villages": villages,
         "config": config,
-        "reports": n_items,
+        "reports": sort_reports,
         "bot": managed,
         "status": bot_status
     }
@@ -252,7 +291,11 @@ def get_stats():
 @app.route('/logs', methods=['GET'])
 def get_logs():
     data = sync()
-    return render_template('logs.html', data=data, logs=LogReader.from_config(data["config"]))
+    logs = LogReader.from_config(data["config"])
+    entries, pagination = paginate_items(logs["entries"])
+    logs["total_entries"] = len(logs["entries"])
+    logs["entries"] = entries
+    return render_template('logs.html', data=data, logs=logs, pagination=pagination)
 
 
 @app.route('/building_templates', methods=['GET', 'POST'])
@@ -347,7 +390,23 @@ def save_offensive_template():
 @app.route('/', methods=['GET'])
 def get_home():
     session = DataReader.get_session()
-    return render_template('bot.html', data=sync(), session=session)
+    data = sync()
+    reports = [
+        {
+            "id": report_id,
+            "type": report_data.get("type", ""),
+            "data": report_data,
+        }
+        for report_id, report_data in data["reports"].items()
+    ]
+    reports, pagination = paginate_items(reports)
+    return render_template(
+        'bot.html',
+        data=data,
+        session=session,
+        reports=reports,
+        pagination=pagination,
+    )
 
 
 @app.route('/app/js', methods=['GET'])
