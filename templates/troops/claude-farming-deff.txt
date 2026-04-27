@@ -67,29 +67,6 @@
     ]
   },
   {
-    "building": "barracks",
-    "level": 5,
-    "upgrades": {
-        "spear": 2,
-        "sword": 2,
-        "archer": 1
-    },
-    "build": {
-      "barracks": {
-        "spear": 400,
-        "sword": 300,
-        "archer": 150
-      },
-      "stable": {
-        "spy": 50
-      }
-    },
-    "farm": [
-        {"spear": 50},
-        {"sword": 30}
-    ]
-  },
-  {
     "building": "stable",
     "level": 3,
     "upgrades": {
@@ -111,7 +88,8 @@
     },
     "farm": [
         {"light": 10},
-        {"spear": 50}
+        {"sword": 30},
+        {"spear": 40}
     ]
   },
   {

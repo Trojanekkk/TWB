@@ -48,6 +48,8 @@ class AttackManager:
     farm_priority_ratio = 50
     farm_high_loot_threshold = 500
     farm_low_loot_threshold = 100
+    farm_exploration_ratio = 0.25
+    farm_exploration_min_targets = 2
 
     # Night bonus protection: defenders get +200% defence during night-bonus
     # hours, so a normal-sized farm bleeds troops. Instead of skipping, the
@@ -295,6 +297,60 @@ class AttackManager:
             )
         return score - (distance * self.farm_priority_ratio)
 
+    def exploration_sort_key(self, target):
+        """
+        Prefer targets this village has attacked least recently, then least often.
+        This keeps farming from collapsing onto the same high-score targets forever.
+        """
+        village, distance, score = target
+        cache_entry = AttackCache.get_cache(village["id"]) or {}
+        source_entry = cache_entry.get("sources", {}).get(str(self.village_id), {})
+        last_attack = int(
+            source_entry.get("last_attack")
+            or cache_entry.get("last_attack")
+            or 0
+        )
+        attacks = int(source_entry.get("attacks", 0) or 0)
+        return last_attack, attacks, distance, -score
+
+    def diversify_targets(self, targets):
+        """
+        Keep most slots score-driven, but reserve a slice for exploration.
+        The returned order matters because run() stops after max_farms sends.
+        """
+        if self.max_farms <= 1 or self.farm_exploration_ratio <= 0:
+            return targets
+
+        explore_slots = int(round(self.max_farms * self.farm_exploration_ratio))
+        explore_slots = max(self.farm_exploration_min_targets, explore_slots)
+        explore_slots = min(explore_slots, self.max_farms - 1)
+        if explore_slots <= 0:
+            return targets
+
+        exploit_slots = max(1, self.max_farms - explore_slots)
+        if len(targets) <= exploit_slots:
+            return targets
+
+        priority_targets = targets[:exploit_slots]
+        remaining_targets = targets[exploit_slots:]
+        exploration_targets = sorted(
+            remaining_targets,
+            key=self.exploration_sort_key,
+        )[:explore_slots]
+        exploration_ids = {
+            target[0]["id"] for target in exploration_targets
+        }
+        rest = [
+            target for target in remaining_targets
+            if target[0]["id"] not in exploration_ids
+        ]
+
+        self.logger.info(
+            "Farm target mix: %d priority, %d exploration, %d overflow",
+            len(priority_targets), len(exploration_targets), len(rest)
+        )
+        return priority_targets + exploration_targets + rest
+
     def get_targets(self):
         """
         Gets all possible farming targets based on distance
@@ -368,7 +424,8 @@ class AttackManager:
         self.logger.info(
             "Farm targets: %d Ignored targets: %d", len(output), len(self.ignored)
         )
-        self.targets = sorted(output, key=lambda x: (-x[2], x[1]))
+        ranked_targets = sorted(output, key=lambda x: (-x[2], x[1]))
+        self.targets = self.diversify_targets(ranked_targets)
 
     def attacked(
             self,
