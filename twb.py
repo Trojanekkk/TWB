@@ -170,6 +170,9 @@ class TWB:
             sys.exit(1)
 
         config = FileManager.load_json_file("config.json", object_pairs_hook=collections.OrderedDict)
+        config, migrated = self.migrate_reporting_to_logging(config)
+        if migrated:
+            FileManager.save_json_file(config, "config.json")
 
         if template and config["build"]["version"] != template["build"]["version"]:
             print(
@@ -184,6 +187,24 @@ class TWB:
             print("Deployed new configuration file")
 
         return config
+
+    @staticmethod
+    def migrate_reporting_to_logging(config):
+        """
+        Renames the old reporting config section to logging while preserving values.
+        """
+        if "reporting" not in config:
+            return config, False
+
+        migrated_config = collections.OrderedDict()
+        for section, value in config.items():
+            if section == "reporting":
+                if "logging" not in config:
+                    migrated_config["logging"] = value
+                continue
+            migrated_config[section] = value
+
+        return migrated_config, True
 
     @staticmethod
     def merge_configs(old_config, new_config):
@@ -305,8 +326,8 @@ class TWB:
             config["server"]["endpoint"],
             server=config["server"]["server"],
             endpoint=config["server"]["endpoint"],
-            reporter_enabled=config["reporting"]["enabled"],
-            reporter_constr=config["reporting"]["connection_string"],
+            reporter_enabled=config["logging"]["enabled"],
+            reporter_constr=config["logging"]["connection_string"],
         )
         self.wrapper.configure_from_bot_config(config["bot"])
 

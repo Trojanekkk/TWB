@@ -9,7 +9,7 @@
     "endpoint": "https://nlc1.tribalwars.nl/game.php",
     "server_on_twstats": false
   },
-  "reporting": {
+  "logging": {
     "enabled": false,
     "connection_string": "file://cache/logs/twb_{ts}.log"
   },

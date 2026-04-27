@@ -9,14 +9,14 @@ try:
     from webmanager.helpfile import help_file, buildings
     from webmanager.utils import (
         DataReader, BotManager, MapBuilder, BuildingTemplateManager,
-        TroopTemplateManager, OffensiveTemplateManager
+        TroopTemplateManager, OffensiveTemplateManager, LogReader
     )
     from webmanager.stats import StatsBuilder
 except ImportError:
     from helpfile import help_file, buildings
     from utils import (
         DataReader, BotManager, MapBuilder, BuildingTemplateManager,
-        TroopTemplateManager, OffensiveTemplateManager
+        TroopTemplateManager, OffensiveTemplateManager, LogReader
     )
     from stats import StatsBuilder
 
@@ -247,6 +247,12 @@ def get_village_overview():
 @app.route('/stats', methods=['GET'])
 def get_stats():
     return render_template('stats.html', data=sync(), stats=stats_sync())
+
+
+@app.route('/logs', methods=['GET'])
+def get_logs():
+    data = sync()
+    return render_template('logs.html', data=data, logs=LogReader.from_config(data["config"]))
 
 
 @app.route('/building_templates', methods=['GET', 'POST'])

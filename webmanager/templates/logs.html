@@ -1,0 +1,94 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-12">
+        <h4>Logs</h4>
+
+        {% if not logs.enabled %}
+            <div class="alert alert-warning">
+                Logging is disabled. Enable <strong>logging.enabled</strong> in the bot configuration to collect file logs.
+            </div>
+        {% elif not logs.file_logging %}
+            <div class="alert alert-info">
+                Logging is enabled, but this page can only read file logs. Current connection: <code>{{ logs.connection_string }}</code>
+            </div>
+        {% elif not logs.files %}
+            <div class="alert alert-info">
+                No log files were found for <code>{{ logs.connection_string }}</code>.
+            </div>
+        {% else %}
+            <div class="mb-3">
+                <span class="badge badge-secondary">{{ logs.files|length }} files</span>
+                <span class="badge badge-secondary">{{ logs.entries|length }} entries</span>
+                <code class="ml-2">{{ logs.connection_string }}</code>
+            </div>
+
+            {% for file in logs.files %}
+                {% if file.error %}
+                    <div class="alert alert-warning">
+                        Could not read <code>{{ file.path }}</code>: {{ file.error }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <table class="table table-sm table-striped table-bordered log-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Time</th>
+                        <th>Village</th>
+                        <th>Action</th>
+                        <th>Data</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in logs.entries %}
+                        <tr>
+                            <td class="text-nowrap">{{ entry.timestamp }}</td>
+                            <td class="text-nowrap">{{ entry.village_id }}</td>
+                            <td class="text-nowrap"><code>{{ entry.action }}</code></td>
+                            <td class="log-data">{{ entry.data }}</td>
+                            <td class="text-nowrap"><small>{{ entry.file }}</small></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h5 class="mt-4">Files</h5>
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Updated</th>
+                        <th>Entries</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in logs.files %}
+                        <tr>
+                            <td><code>{{ file.path }}</code></td>
+                            <td>{{ file.updated_at }}</td>
+                            <td>{{ file.entries|length }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.log-table {
+    font-size: 0.875rem;
+}
+
+.log-data {
+    max-width: 680px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+</style>
+{% endblock %}

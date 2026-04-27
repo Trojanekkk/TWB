@@ -164,7 +164,7 @@ class MySQLReporter(RemoteReporter):
 
 class ReporterObject:
     """
-    Base reporting object for a remote/local logger
+    Base logging object for a remote/local logger
     """
     enabled = False
     object = None

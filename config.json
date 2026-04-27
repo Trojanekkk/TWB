@@ -9,7 +9,7 @@
     "endpoint": "https://pl229.plemiona.pl/game.php",
     "server_on_twstats": false
   },
-  "reporting": {
+  "logging": {
     "enabled": false,
     "connection_string": "file://cache/logs/twb_{ts}.log"
   },

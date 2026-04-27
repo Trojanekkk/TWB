@@ -1,4 +1,6 @@
 import collections
+import datetime
+import glob
 import json
 import os
 import signal
@@ -31,6 +33,21 @@ def _atomic_write_json(path, data):
 
 
 class DataReader:
+    @staticmethod
+    def _migrate_reporting_to_logging(config):
+        if "reporting" not in config:
+            return config, False
+
+        migrated_config = collections.OrderedDict()
+        for section, value in config.items():
+            if section == "reporting":
+                if "logging" not in config:
+                    migrated_config["logging"] = value
+                continue
+            migrated_config[section] = value
+
+        return migrated_config, True
+
     @staticmethod
     def cache_grab(cache_location):
         output = {}
@@ -71,8 +88,14 @@ class DataReader:
 
     @staticmethod
     def config_grab():
-        with open(os.path.join(os.path.dirname(__file__), "..", "config.json"), 'r') as f:
-            return json.load(f)
+        config_file_path = os.path.join(os.path.dirname(__file__), "..", "config.json")
+        with _CONFIG_LOCK:
+            with open(config_file_path, 'r') as f:
+                config = json.load(f, object_pairs_hook=collections.OrderedDict)
+            config, migrated = DataReader._migrate_reporting_to_logging(config)
+            if migrated:
+                _atomic_write_json(config_file_path, config)
+            return config
 
     @staticmethod
     def config_set(parameter, value):
@@ -84,6 +107,11 @@ class DataReader:
         with _CONFIG_LOCK:
             with open(config_file_path, 'r') as config_file:
                 template = json.load(config_file, object_pairs_hook=collections.OrderedDict)
+            template, _ = DataReader._migrate_reporting_to_logging(template)
+            if parameter.startswith("reporting."):
+                parameter = parameter.replace("reporting.", "logging.", 1)
+            elif parameter == "reporting":
+                parameter = "logging"
             if "." in parameter:
                 section, param = parameter.split('.')
                 template[section][param] = value
@@ -145,6 +173,108 @@ class DataReader:
             session_data['cookies'] = cookies
             _atomic_write_json(c_path, session_data)
         return True
+
+
+class LogReader:
+    @staticmethod
+    def _root_path():
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    @staticmethod
+    def _resolve_path(path):
+        if os.path.isabs(path):
+            return path
+        return os.path.join(LogReader._root_path(), path)
+
+    @staticmethod
+    def _format_timestamp(value):
+        try:
+            return datetime.datetime.fromtimestamp(float(value)).strftime("%Y-%m-%d %H:%M:%S")
+        except (TypeError, ValueError, OSError, OverflowError):
+            return value
+
+    @staticmethod
+    def _parse_line(line):
+        line = line.strip()
+        if not line:
+            return None
+
+        if line.startswith("Starting bot at "):
+            timestamp = line.replace("Starting bot at ", "", 1)
+            return {
+                "timestamp": LogReader._format_timestamp(timestamp),
+                "village_id": "",
+                "action": "BOT_START",
+                "data": "Starting bot",
+                "raw": line,
+            }
+
+        parts = line.split(" - ", 3)
+        if len(parts) == 4:
+            return {
+                "timestamp": LogReader._format_timestamp(parts[0]),
+                "village_id": parts[1],
+                "action": parts[2],
+                "data": parts[3],
+                "raw": line,
+            }
+
+        return {
+            "timestamp": "",
+            "village_id": "",
+            "action": "RAW",
+            "data": line,
+            "raw": line,
+        }
+
+    @staticmethod
+    def from_config(config):
+        logging_config = config.get("logging", {})
+        connection_string = logging_config.get("connection_string", "")
+        log_data = {
+            "enabled": bool(logging_config.get("enabled", False)),
+            "file_logging": connection_string.startswith("file://"),
+            "connection_string": connection_string,
+            "files": [],
+            "entries": [],
+        }
+
+        if not log_data["enabled"] or not log_data["file_logging"]:
+            return log_data
+
+        log_pattern = connection_string.split("://", 1)[1].replace("{ts}", "*")
+        log_pattern = LogReader._resolve_path(log_pattern)
+        log_paths = [path for path in glob.glob(log_pattern) if os.path.isfile(path)]
+        log_paths.sort(key=os.path.getmtime, reverse=True)
+
+        root_path = LogReader._root_path()
+        for log_path in log_paths:
+            entries = []
+            error = None
+            try:
+                with open(log_path, "r", encoding="utf-8", errors="replace") as log_file:
+                    for line in log_file:
+                        entry = LogReader._parse_line(line)
+                        if entry:
+                            entries.append(entry)
+            except OSError as exc:
+                error = str(exc)
+
+            rel_path = os.path.relpath(log_path, root_path)
+            file_info = {
+                "name": os.path.basename(log_path),
+                "path": rel_path,
+                "updated_at": LogReader._format_timestamp(os.path.getmtime(log_path)),
+                "entries": entries,
+                "error": error,
+            }
+            log_data["files"].append(file_info)
+            for entry in entries:
+                entry_with_file = dict(entry)
+                entry_with_file["file"] = rel_path
+                log_data["entries"].append(entry_with_file)
+
+        return log_data
 
 
 class BuildingTemplateManager:
