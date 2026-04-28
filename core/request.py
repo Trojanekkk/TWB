@@ -9,6 +9,7 @@ from core.notification import Notification
 
 import logging
 import re
+import sys
 import time
 import random
 import uuid
@@ -203,18 +204,17 @@ class WebWrapper:
     def _handle_bot_protection(self, method, url, response):
         if not response or 'data-bot-protect="forced"' not in response.text:
             return False
-        self.logger.warning("Bot protection hit; pausing")
+        self.logger.warning("Bot protection hit; stopping bot")
         self._record_request_event(method, url, response.status_code, "bot_protection")
         self.reporter.report(
             0,
             "TWB_RECAPTCHA",
-            "Bot protection hit; pausing until manual review",
+            "Bot protection hit; stopping bot, restart manually",
         )
-        Notification.send("Bot protection hit; pausing until manual review")
+        Notification.send("Bot protection hit; bot stopped, restart manually")
         if self.pause_on_bot_protection:
-            input("Bot protection hit. Resolve it manually, then press enter...")
-        else:
-            time.sleep(int(self.idle_backoff_on_error_seconds))
+            sys.exit(1)
+        time.sleep(int(self.idle_backoff_on_error_seconds))
         return True
 
     def post_process(self, response):
