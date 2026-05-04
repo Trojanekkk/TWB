@@ -5,21 +5,29 @@
   "safe": true,
   "high_profile": false,
   "low_profile": true,
-  "last_attack": 1777236585,
-  "last_scout": 0,
-  "last_attacker": null,
+  "last_attack": 1777898788,
+  "last_scout": 1777847060,
+  "last_attacker": "5844",
   "latest_resources": {},
   "latest_buildings": {},
   "latest_defence_units": {},
-  "latest_report_at": 0,
-  "last_loot": 6,
-  "total_loot": 105,
-  "avg_loot": 21,
-  "loot_reports": 5,
-  "total_capacity": 2450,
-  "filled_capacity": 105,
-  "avg_fill_rate": 0.0429,
-  "last_fill_rate": 0.008,
-  "loss_percentage": 0.0,
-  "sources": {}
+  "latest_report_at": 1777892835,
+  "last_loot": 31,
+  "total_loot": 7079,
+  "avg_loot": 202,
+  "loot_reports": 35,
+  "total_capacity": 46800,
+  "filled_capacity": 7079,
+  "avg_fill_rate": 0.1513,
+  "last_fill_rate": 0.0689,
+  "loss_percentage": 0.09,
+  "sources": {
+    "5844": {
+      "last_attack": 1777898788,
+      "last_scout": 1777847060,
+      "attacks": 36,
+      "scouts": 2,
+      "safe": true
+    }
+  }
 }

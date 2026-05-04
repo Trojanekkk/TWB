@@ -1,16 +1,16 @@
 {
   "id": "8065",
-  "name": "Wioska Kr\u00f3l Artur wielkii",
+  "name": 0,
   "location": [
     442,
     571
   ],
   "bonus": null,
-  "points": 132,
+  "points": 129,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8926413",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

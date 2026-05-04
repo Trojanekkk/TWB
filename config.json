@@ -10,7 +10,7 @@
     "server_on_twstats": false
   },
   "logging": {
-    "enabled": false,
+    "enabled": true,
     "connection_string": "file://cache/logs/twb_{ts}.log"
   },
   "notifications": {
@@ -20,8 +20,8 @@
   },
   "bot": {
     "active_hours": "6-23",
-    "delay_factor": 2,
-    "active_delay": 300,
+    "delay_factor": 7,
+    "active_delay": 400,
     "inactive_still_active": true,
     "inactive_delay": 2000,
     "add_new_villages": true,
@@ -41,13 +41,13 @@
     "check_update": true
   },
   "building": {
-    "manage_buildings": true,
+    "manage_buildings": false,
     "default": "claude-farming-deff",
     "max_lookahead": 2,
     "max_queued_items": 2
   },
   "units": {
-    "recruit": true,
+    "recruit": false,
     "upgrade": true,
     "default": "claude-farming-deff",
     "batch_size": 25,
@@ -94,7 +94,7 @@
     "night_bonus_troop_multiplier": 3.0
   },
   "market": {
-    "auto_trade": true,
+    "auto_trade": false,
     "max_trade_duration": 1,
     "auto_remove": true,
     "trade_multiplier": true,

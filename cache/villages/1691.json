@@ -1,16 +1,16 @@
 {
   "id": "1691",
-  "name": "ALFA",
+  "name": 0,
   "location": [
     445,
     566
   ],
   "bonus": null,
-  "points": 213,
+  "points": 224,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "696355",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }
