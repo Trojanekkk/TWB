@@ -28,6 +28,7 @@ class AttackManager:
     extra_farm = []
     repman = None
     target_high_points = False
+    target_player_owned = False
     farm_radius = 50
     farm_minpoints = 0
     farm_maxpoints = 1000
@@ -361,15 +362,32 @@ class AttackManager:
             if self.village_id in self.map.villages
             else None
         )
+        allowed_player_farms = {str(farm) for farm in self.extra_farm}
         for vid in self.map.villages:
             village = self.map.villages[vid]
-            if village["owner"] != "0" and vid not in self.extra_farm:
+            if village["owner"] != "0":
+                if not self.target_player_owned:
+                    if vid not in self.ignored:
+                        self.logger.debug(
+                            "Ignoring village %s because player-owned farming is disabled",
+                            vid
+                        )
+                        self.ignored.append(vid)
+                    continue
+                if str(vid) not in allowed_player_farms:
+                    if vid not in self.ignored:
+                        self.logger.debug(
+                            "Ignoring village %s because player owned, add to additional_farms to auto attack",
+                            vid
+                        )
+                        self.ignored.append(vid)
+                    continue
+            if village["owner"] == "0" and str(vid) in allowed_player_farms:
                 if vid not in self.ignored:
                     self.logger.debug(
-                        "Ignoring village %s because player owned, add to additional_farms to auto attack", vid
+                        "Village %s is listed in additional_farms but is currently barbarian; treating as normal farm",
+                        vid
                     )
-                    self.ignored.append(vid)
-                continue
             if my_village and "points" in my_village and "points" in village:
                 if village["points"] >= self.farm_maxpoints:
                     if vid not in self.ignored:

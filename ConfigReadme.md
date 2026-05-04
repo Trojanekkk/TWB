@@ -68,6 +68,7 @@ This section will configure the farming options for all villages, every village 
 If no scouts are available or they are not yet researched the script will send 1 farm run. If it returns without any losses it should also get added to the farm list.
 
 By default the script will choose quantity over resources since other players could also be attacking this village. The "default_away_time" parameter sets the amount of seconds the bot will wait before attacking this village again. "full_loot_away_time" does the same but for high priority villages (full loot return).
+The "find_player_owned" parameter allows player-owned farms, but only for village IDs explicitly listed in the village "additional_farms" setting. When disabled, farming is limited to barbarian villages.
 
 ## Market
 The market feature automatically manages the resources in your village. This is especially nice whenever the builder is low on a certain resource and has plenty of others.
@@ -94,8 +95,8 @@ This will force the bot to reserve resources for snob creation, only the builder
 The amount of snobs that can be created in a village can be configured with the "snobs" parameter.
 
 **Custom farms**
-Each village can have a list of custom farms in the "additional_farms" parameter, the village ID's should be added as strings. 
-*Note: This option can be very dangerous! if the village gets captured by you or some other player the bot will still keep attacking until troops die or the entry gets disabled in the village cache file.*
+Each village can have a list of custom farms in the "additional_farms" parameter, the village ID's should be added as strings. Player-owned villages from this list are only eligible when "find_player_owned" is enabled.
+*Note: This option can be very dangerous! if the listed village changes owner, the bot will still keep attacking while "find_player_owned" is enabled until troops die, the entry is removed, or the target is disabled in the village cache file.*
 
 **Gathering**
 If troops are not used for farming and there is no incoming attack the village will automatically attempt to start a gather operation.

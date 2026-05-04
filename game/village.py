@@ -528,6 +528,9 @@ class Village:
         self.attack.target_high_points = self.get_config(
             section="farms", parameter="attack_higher_points", default=False
         )
+        self.attack.target_player_owned = self.get_config(
+            section="farms", parameter="find_player_owned", default=False
+        )
         self.attack.farm_minpoints = self.get_config(
             section="farms", parameter="min_points", default=24
         )
