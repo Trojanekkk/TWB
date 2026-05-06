@@ -19,7 +19,6 @@ TWB - an open source Tribal Wars bot
 #
 
 import collections
-import copy
 import datetime
 import json
 import logging
@@ -77,6 +76,14 @@ class TWB:
     runs = 0
     found_villages = []
     python_log_handler = None
+
+    def __init__(self):
+        self.res = None
+        self.villages = []
+        self.wrapper = None
+        self.should_run = True
+        self.runs = 0
+        self.found_villages = []
 
     @staticmethod
     def configure_python_file_logging(logging_config):
@@ -291,6 +298,29 @@ class TWB:
         print("Deployed new configuration file")
         return original
 
+    def sync_configured_villages(self, config):
+        """
+        Keeps the runtime village objects in sync with the current config.
+
+        New villages can be auto-added after the bot has already started. Without
+        this reconciliation they exist in config.json, but are not processed until
+        the whole bot process restarts.
+        """
+        existing = {str(village.village_id): village for village in self.villages}
+        synced_villages = []
+
+        for village_id in config["villages"]:
+            village_id = str(village_id)
+            if village_id in existing:
+                village = existing[village_id]
+                village.wrapper = self.wrapper
+            else:
+                print("Village %s is configured but not active yet. Adding to this run" % village_id)
+                village = Village(wrapper=self.wrapper, village_id=village_id)
+            synced_villages.append(village)
+
+        self.villages = synced_villages
+
     @staticmethod
     def get_world_options(overview_page: OverviewPage, config):
         """
@@ -370,9 +400,7 @@ class TWB:
             )
             return
         self.wrapper.headers["user-agent"] = config["bot"]["user_agent"]
-        for vid in config["villages"]:
-            v = Village(wrapper=self.wrapper, village_id=vid)
-            self.villages.append(copy.deepcopy(v))
+        self.sync_configured_villages(config)
         # setup additional builder
         rm = None
         defense_states = {}
@@ -399,6 +427,7 @@ class TWB:
                 warmup_village = next(iter(config["villages"]), None)
                 self.wrapper.maybe_humanize(warmup_village, warmup=True)
                 overview_page, config = self.get_overview(config)
+                self.sync_configured_villages(config)
                 has_changed, new_cf = self.get_world_options(overview_page, config)
                 if has_changed:
                     print("Updated world options")
