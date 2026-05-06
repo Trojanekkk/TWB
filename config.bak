@@ -61,7 +61,7 @@
     "managed": true,
     "scout_first": false,
     "additional_farms": [],
-    "prioritize_building": true,
+    "prioritize_building": false,
     "prioritize_snob": false,
     "trade_for_premium": false,
     "gather_enabled": true,

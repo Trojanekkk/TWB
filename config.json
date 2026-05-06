@@ -131,6 +131,25 @@
       "support_others_factor": 0.25,
       "support_others_max_villages": 2,
       "request_support_on_attack": false
+    },
+    "8054": {
+      "building": "claude-farming-deff",
+      "units": "claude-farming-deff",
+      "managed": true,
+      "scout_first": false,
+      "additional_farms": [],
+      "prioritize_building": false,
+      "prioritize_snob": false,
+      "trade_for_premium": false,
+      "gather_enabled": true,
+      "gather_selection": 3,
+      "advanced_gather": true,
+      "snobs": 0,
+      "evacuate_fragile_units_on_attack": false,
+      "support_others": false,
+      "support_others_factor": 0.25,
+      "support_others_max_villages": 2,
+      "request_support_on_attack": false
     }
   }
 }
