@@ -1,0 +1,7 @@
+{
+  "when": 1778025463,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?ajax=quest_popup&village=5844&screen=new_quests&tab=main-tab&quest=0",
+  "status": 200,
+  "event": "request"
+}

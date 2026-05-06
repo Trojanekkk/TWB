@@ -1,16 +1,16 @@
 {
   "id": "6381",
-  "name": "Wioska Lady Sophijja",
+  "name": 0,
   "location": [
     448,
     560
   ],
   "bonus": null,
-  "points": 36,
+  "points": 38,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849295861",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

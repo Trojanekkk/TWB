@@ -1,0 +1,20 @@
+{
+  "type": "attack",
+  "origin": "5844",
+  "dest": "8054",
+  "losses": {},
+  "extra": {
+    "when": 1778080893,
+    "units_sent": {
+      "spear": 50,
+      "sword": 100,
+      "spy": 50,
+      "light": 5,
+      "snob": 1
+    },
+    "units_losses": {},
+    "defence_units": {},
+    "defence_losses": {},
+    "loot": {}
+  }
+}
