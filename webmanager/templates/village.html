@@ -49,9 +49,19 @@
         {% endif %}
         <h4>Villages</h4>
         <ul class="list-group">
-                {% for village in data.bot %}
+                {% for village in data.config.villages %}
+                {% set bot_village = data.bot.get(village) %}
+                {% set public = bot_village.public if bot_village and bot_village.public else data.villages.get(village) %}
                 <li class="list-group-item {% if current_select == village %} active {% endif %} ">
-                    <a class="list-group-item-action" href="/village?id={{data.bot[village].public.id}}">{{data.bot[village].public.name}} ({{data.bot[village].public.location}})</a>
+                    <a class="list-group-item-action" href="/village?id={{village}}">
+                        {% if public %}
+                            {{public.name}} ({{public.location}})
+                        {% elif bot_village %}
+                            {{bot_village.name}}
+                        {% else %}
+                            {{village}}
+                        {% endif %}
+                    </a>
                     {% if current_select == village %}
                         <button id="save_config" class="btn btn-success btn-sm float-right disabled">Save</button>
                     {% endif %}
