@@ -190,7 +190,8 @@ def sync():
         attacks.setdefault(key, value)
     config = DataReader.config_grab()
     managed = DataReader.cache_grab("managed")
-    bot_status = bm.is_running()
+    bot_state = bm.status()
+    bot_status = bool(bot_state.get("running"))
 
     sort_reports = {
         key: value
@@ -208,7 +209,8 @@ def sync():
         "config": config,
         "reports": sort_reports,
         "bot": managed,
-        "status": bot_status
+        "status": bot_status,
+        "bot_state": bot_state
     }
     return out_struct
 
@@ -218,10 +220,12 @@ def stats_sync():
     legacy_attacks = DataReader.cache_grab("attacks")
     for key, value in legacy_attacks.items():
         farms.setdefault(key, value)
+    config = DataReader.config_grab()
     return StatsBuilder.build(
         DataReader.cache_grab("reports"),
         farms,
         DataReader.cache_grab("managed"),
+        config,
     )
 
 
@@ -237,14 +241,17 @@ def get_stats_api():
 
 @app.route('/bot/start')
 def start_bot():
-    bm.start()
-    return jsonify(bm.is_running())
+    return jsonify(bm.start())
 
 
 @app.route('/bot/stop')
 def stop_bot():
-    bm.stop()
-    return jsonify(not bm.is_running())
+    return jsonify(bm.stop())
+
+
+@app.route('/bot/status')
+def bot_status():
+    return jsonify(bm.status())
 
 
 @app.route('/bot/session', methods=['POST'])

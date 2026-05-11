@@ -2,66 +2,213 @@
 
 {% block content %}
 
-<h4 class="mt-3">Statistics</h4>
+<style>
+    .stats-chart {
+        align-items: flex-end;
+        border-bottom: 1px solid #adb5bd;
+        border-left: 1px solid #adb5bd;
+        display: flex;
+        gap: 4px;
+        height: 180px;
+        padding: 8px 4px 0 8px;
+    }
+    .stats-bar-slot {
+        align-items: flex-end;
+        display: flex;
+        flex: 1 1 0;
+        height: 100%;
+        min-width: 8px;
+        position: relative;
+    }
+    .stats-bar-loot {
+        background: #4e79a7;
+        border-radius: 2px 2px 0 0;
+        min-height: 0;
+        width: 100%;
+    }
+    .stats-bar-attacks {
+        background: #f28e2b;
+        border-radius: 2px 2px 0 0;
+        bottom: 0;
+        min-height: 0;
+        opacity: 0.78;
+        position: absolute;
+        right: 0;
+        width: 35%;
+    }
+    .stats-chart-labels {
+        display: flex;
+        gap: 4px;
+        padding-left: 8px;
+    }
+    .stats-chart-label {
+        flex: 1 1 0;
+        font-size: 0.72rem;
+        overflow: hidden;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .stats-muted {
+        color: #6c757d;
+        font-size: 0.85rem;
+    }
+    .stats-number {
+        font-variant-numeric: tabular-nums;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-end mt-3 mb-2">
+    <div>
+        <h4 class="mb-0">Statistics</h4>
+        <div class="stats-muted">
+            Generated: {{ stats.generated_at_label }}
+            {% if stats.latest_report_label %} | Latest report: {{ stats.latest_report_label }}{% endif %}
+        </div>
+    </div>
+    <div class="stats-muted">
+        Stored farm snapshots: {{ stats.snapshots.count }}
+    </div>
+</div>
 
 <div class="row">
     {% for label, window in stats.windows.items() %}
     <div class="col-lg-4">
         <div class="border rounded p-3 mb-3">
             <h5>{{ label }}</h5>
-            <p class="mb-1">Loot: <strong>{{ window.loot_total }}</strong></p>
+            <p class="mb-1">Loot: <strong class="stats-number">{{ window.loot_total }}</strong></p>
             <p class="mb-1">
-                <img src="/static/images/wood.png" /> {{ window.loot.wood }}
-                <img src="/static/images/stone.png" /> {{ window.loot.stone }}
-                <img src="/static/images/iron.png" /> {{ window.loot.iron }}
+                <img src="/static/images/wood.png" /> <span class="stats-number">{{ window.loot.wood }}</span>
+                <img src="/static/images/stone.png" /> <span class="stats-number">{{ window.loot.stone }}</span>
+                <img src="/static/images/iron.png" /> <span class="stats-number">{{ window.loot.iron }}</span>
             </p>
-            <p class="mb-1">Attacks: {{ window.attacks }}</p>
-            <p class="mb-1">Scouts: {{ window.scouts }}</p>
-            <p class="mb-0">Losses: {{ window.losses }} ({{ window.loss_percentage }}%)</p>
+            <p class="mb-1">Attacks: <span class="stats-number">{{ window.attacks }}</span> | Scouts: <span class="stats-number">{{ window.scouts }}</span></p>
+            <p class="mb-1">Avg loot: <span class="stats-number">{{ window.avg_loot }}</span> | Haul fill: <span class="stats-number">{{ (window.fill_rate * 100) | round(1) }}%</span></p>
+            <p class="mb-0">Losses: <span class="stats-number">{{ window.losses }}</span> (<span class="stats-number">{{ window.loss_percentage }}%</span>)</p>
         </div>
     </div>
     {% endfor %}
 </div>
 
 <div class="row">
+    <div class="col-lg-8">
+        <h5>Last {{ stats.chart.hours }} Hours</h5>
+        <div class="stats-chart">
+            {% for bucket in stats.chart.buckets %}
+            <div class="stats-bar-slot" title="{{ bucket.label }} | loot {{ bucket.loot_total }} | attacks {{ bucket.attacks }} | fill {{ (bucket.fill_rate * 100) | round(1) }}%">
+                <div class="stats-bar-loot" style="height: {{ bucket.loot_height }}%;"></div>
+                <div class="stats-bar-attacks" style="height: {{ bucket.attack_height }}%;"></div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="stats-chart-labels">
+            {% for bucket in stats.chart.buckets %}
+            <div class="stats-chart-label">{% if loop.index0 % 3 == 0 %}{{ bucket.label }}{% endif %}</div>
+            {% endfor %}
+        </div>
+        <div class="stats-muted mt-1">
+            Blue: loot, orange: attacks. Max loot bucket: {{ stats.chart.max_loot }}, max attacks bucket: {{ stats.chart.max_attacks }}.
+        </div>
+    </div>
     <div class="col-lg-4">
         <h5>Farm State</h5>
         <table class="table table-sm table-striped">
             <tbody>
-                <tr><th>Total farms</th><td>{{ stats.farms.total }}</td></tr>
-                <tr><th>High profile</th><td>{{ stats.farms.high_profile }}</td></tr>
-                <tr><th>Low profile</th><td>{{ stats.farms.low_profile }}</td></tr>
-                <tr><th>Unsafe</th><td>{{ stats.farms.unsafe }}</td></tr>
-                <tr><th>Draining</th><td>{{ stats.farms.draining }}</td></tr>
-                <tr><th>Managed villages</th><td>{{ stats.villages.managed }}</td></tr>
+                <tr><th>Total farms</th><td class="stats-number">{{ stats.farms.total }}</td></tr>
+                <tr><th>High profile</th><td class="stats-number">{{ stats.farms.high_profile }}</td></tr>
+                <tr><th>Low profile</th><td class="stats-number">{{ stats.farms.low_profile }}</td></tr>
+                <tr><th>Unsafe</th><td class="stats-number">{{ stats.farms.unsafe }}</td></tr>
+                <tr><th>Draining</th><td class="stats-number">{{ stats.farms.draining }}</td></tr>
+                <tr><th>Managed villages</th><td class="stats-number">{{ stats.villages.managed }}</td></tr>
             </tbody>
         </table>
-    </div>
-    <div class="col-lg-8">
-        <h5>Top Farms</h5>
-        <table class="table table-sm table-striped">
-            <thead>
-                <tr>
-                    <th>Village</th>
-                    <th>Loot</th>
-                    <th>Attacks</th>
-                    <th>Scouts</th>
-                    <th>Loss %</th>
-                </tr>
-            </thead>
+        {% if stats.snapshots.latest %}
+        <h6>Latest Snapshot</h6>
+        <table class="table table-sm">
             <tbody>
-                {% for farm in stats.top_farms %}
-                <tr>
-                    <td>{{ farm.target_vid }}</td>
-                    <td>{{ farm.loot_total }}</td>
-                    <td>{{ farm.attacks }}</td>
-                    <td>{{ farm.scouts }}</td>
-                    <td>{{ farm.loss_percentage }}</td>
-                </tr>
-                {% endfor %}
+                <tr><th>Loot</th><td class="stats-number">{{ stats.snapshots.latest.totals.loot }}</td></tr>
+                <tr><th>Fill</th><td class="stats-number">{{ (stats.snapshots.latest.totals.fill_rate * 100) | round(1) }}%</td></tr>
+                <tr><th>Loss</th><td class="stats-number">{{ stats.snapshots.latest.totals.loss_percentage }}%</td></tr>
+                <tr><th>Low farms</th><td class="stats-number">{{ stats.snapshots.latest.low_profile_farms }}</td></tr>
             </tbody>
         </table>
+        {% endif %}
     </div>
 </div>
+
+<h5 class="mt-4">Village Split</h5>
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Village</th>
+            <th>24h Loot</th>
+            <th>24h Attacks</th>
+            <th>24h Fill</th>
+            <th>24h Loss</th>
+            <th>Total Loot</th>
+            <th>Total Fill</th>
+            <th>Total Loss</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for village in stats.village_totals %}
+        <tr>
+            <td>
+                <strong>{{ village.village_id }}</strong>
+                <span class="stats-muted">{{ village.name }}</span>
+            </td>
+            <td class="stats-number">{{ village.windows["24h"].loot_total }}</td>
+            <td class="stats-number">{{ village.windows["24h"].attacks }}</td>
+            <td class="stats-number">{{ (village.windows["24h"].fill_rate * 100) | round(1) }}%</td>
+            <td class="stats-number">{{ village.windows["24h"].loss_percentage }}%</td>
+            <td class="stats-number">{{ village.loot_total }}</td>
+            <td class="stats-number">{{ (village.fill_rate * 100) | round(1) }}%</td>
+            <td class="stats-number">{{ village.loss_percentage }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h5 class="mt-4">Top Farms</h5>
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Target</th>
+            <th>Loot</th>
+            <th>Attacks</th>
+            <th>Avg Loot</th>
+            <th>Fill</th>
+            <th>Loss</th>
+            <th>Profile</th>
+            <th>Median Gap</th>
+            <th>Low After Long Gap</th>
+            <th>Sources</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for farm in stats.top_farms %}
+        <tr>
+            <td>{{ farm.target_vid }}</td>
+            <td class="stats-number">{{ farm.loot_total }}</td>
+            <td class="stats-number">{{ farm.attacks }}</td>
+            <td class="stats-number">{{ farm.avg_loot }}</td>
+            <td class="stats-number">{{ (farm.fill_rate * 100) | round(1) }}%</td>
+            <td class="stats-number">{{ farm.loss_percentage }}%</td>
+            <td>
+                {% if farm.safe is defined and not farm.safe %}unsafe{% elif farm.high_profile %}high{% elif farm.low_profile %}low{% else %}normal{% endif %}
+            </td>
+            <td class="stats-number">{{ (farm.median_gap_seconds / 60) | round(1) }}m</td>
+            <td class="stats-number">
+                {{ farm.low_fill_after_long_gap }}/{{ farm.long_gap_reports }}
+                ({{ (farm.low_fill_after_long_gap_rate * 100) | round(1) }}%)
+            </td>
+            <td>
+                {% for source, count in farm.source_reports.items() %}
+                    <span class="badge badge-secondary">{{ source }}: {{ count }}</span>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

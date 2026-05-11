@@ -4,10 +4,12 @@ Class for using one generic cookie jar, emulating a single tab
 
 import requests
 
+from core.botstatus import BotStatus
 from core.filemanager import FileManager
 from core.notification import Notification
 
 import logging
+import os
 import re
 import sys
 import time
@@ -213,6 +215,12 @@ class WebWrapper:
         )
         Notification.send("Bot protection hit; bot stopped, restart manually")
         if self.pause_on_bot_protection:
+            BotStatus.mark_bot_protection(
+                method,
+                url,
+                response.status_code,
+                pid=os.getpid(),
+            )
             sys.exit(1)
         time.sleep(int(self.idle_backoff_on_error_seconds))
         return True

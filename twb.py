@@ -31,6 +31,7 @@ import traceback
 import coloredlogs
 import requests
 
+from core.botstatus import BotStatus
 from core.notification import Notification
 from core.updater import check_update
 from core.filemanager import FileManager
@@ -57,6 +58,11 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 
 def signal_handler(sig, frame):
+    BotStatus.mark_stopped(
+        reason="signal",
+        message="Bot stopped by interrupt signal",
+        pid=os.getpid(),
+    )
     print('Exiting...')
     sys.exit(0)
 
@@ -517,6 +523,7 @@ class TWB:
             "cache/request_events",
         ]
         FileManager.create_directories(directories)
+        BotStatus.mark_started(os.getpid())
 
         self.run()
 
@@ -537,6 +544,11 @@ def main():
             traceback.print_exc()
 
     Notification.send("TWB has crashed 3 times, exiting")
+    BotStatus.mark_stopped(
+        reason="crashed",
+        message="TWB crashed 3 times, exiting",
+        pid=os.getpid(),
+    )
 
 
 def self_config_test():

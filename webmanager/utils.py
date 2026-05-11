@@ -10,6 +10,8 @@ import threading
 
 import psutil
 
+from core.botstatus import BotStatus
+
 
 _CONFIG_LOCK = threading.Lock()
 BUILDINGS = ["main", "barracks", "stable", "watchtower", "smith", "garage", "place", "statue", "market", "wood",
@@ -599,31 +601,83 @@ class MapBuilder:
 class BotManager:
     pid = None
 
+    @staticmethod
+    def _pid_is_twb(pid):
+        try:
+            process = psutil.Process(int(pid))
+            cmdline = " ".join(process.cmdline())
+            return "twb.py" in cmdline
+        except (psutil.NoSuchProcess, psutil.AccessDenied, TypeError, ValueError):
+            return False
+
     def is_running(self):
         if not self.pid:
+            status = BotStatus.read()
+            status_pid = status.get("pid")
+            if status.get("running") and self._pid_is_twb(status_pid):
+                self.pid = int(status_pid)
+                return True
+            if status.get("running"):
+                BotStatus.mark_stopped(
+                    reason="process_exited",
+                    message="Bot process exited",
+                    pid=status_pid,
+                )
             return False
-        if psutil.pid_exists(self.pid):
+        if self._pid_is_twb(self.pid):
             return True
         self.pid = False
+        status = BotStatus.read()
+        if status.get("running"):
+            BotStatus.mark_stopped(
+                reason="process_exited",
+                message="Bot process exited",
+            )
         return False
+
+    def status(self):
+        running = self.is_running()
+        status = BotStatus.read()
+        if running:
+            status["running"] = True
+            status["state"] = "active"
+            status["pid"] = self.pid
+        else:
+            status["running"] = False
+            status["state"] = "inactive"
+        return status
 
     def start(self):
         if self.is_running():
-            return
+            return self.status()
         wd = os.path.join(os.path.dirname(__file__), "..")
         proc = subprocess.Popen(["python3", "twb.py"], cwd=wd)
         self.pid = proc.pid
+        BotStatus.mark_started(proc.pid)
         print("Bot started successfully")
+        return self.status()
 
     def stop(self):
         if self.is_running():
+            pid = self.pid
             os.kill(self.pid, signal.SIGTERM)
             try:
                 psutil.Process(self.pid).wait(timeout=10)
             except (psutil.NoSuchProcess, psutil.TimeoutExpired):
                 pass
             self.pid = None
+            BotStatus.mark_stopped(
+                reason="manual_stop",
+                message="Bot stopped manually from web interface",
+                pid=pid,
+            )
             print("Bot stopped successfully")
+        else:
+            BotStatus.mark_stopped(
+                reason="manual_stop",
+                message="Bot is already inactive",
+            )
+        return self.status()
 
     def restart(self):
         was_running = self.is_running()

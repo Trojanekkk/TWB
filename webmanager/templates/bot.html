@@ -50,6 +50,11 @@
             <br />
             <i>Ignore this if you are running twb.py yourself</i>
         {% endif %}
+        <div id="bot_status_message" class="mt-2">
+            {% if data.bot_state.message %}
+                <small class="text-muted">{{ data.bot_state.message }}</small>
+            {% endif %}
+        </div>
 
         <p>Current session: {{session.endpoint}}</p>
         <input type="text" id="session_data" class="form-control" value="{{session.raw}}"/>
@@ -85,7 +90,7 @@ function start_bot() {
     btn.disabled = true;
     fetch('/bot/start')
         .then(function (r) { return r.json(); })
-        .then(function () { window.location.reload(); })
+        .then(function (state) { update_bot_button(state); })
         .catch(function () { btn.disabled = false; });
 }
 
@@ -94,8 +99,41 @@ function stop_bot() {
     btn.disabled = true;
     fetch('/bot/stop')
         .then(function (r) { return r.json(); })
-        .then(function () { window.location.reload(); })
+        .then(function (state) { update_bot_button(state); })
         .catch(function () { btn.disabled = false; });
+}
+
+function update_bot_button(state) {
+    const btn = document.getElementById('bot_toggle');
+    const message = document.getElementById('bot_status_message');
+    if (!btn || !state) return;
+
+    btn.disabled = false;
+    if (state.running) {
+        btn.textContent = 'Active';
+        btn.classList.remove('btn-warning');
+        btn.classList.add('btn-success');
+        btn.onclick = stop_bot;
+    } else {
+        btn.textContent = 'Inactive';
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-warning');
+        btn.onclick = start_bot;
+    }
+
+    if (message) {
+        message.textContent = state.message || '';
+        if (message.textContent) {
+            message.classList.add('text-muted');
+        }
+    }
+}
+
+function refresh_bot_status() {
+    fetch('/bot/status')
+        .then(function (r) { return r.json(); })
+        .then(function (state) { update_bot_button(state); })
+        .catch(function () {});
 }
 
 function set_session_data() {
@@ -116,5 +154,8 @@ function set_session_data() {
         })
         .catch(function () { show_toast('Network error', true); });
 }
+
+setInterval(refresh_bot_status, 5000);
+refresh_bot_status();
 </script>
 {% endblock %}
