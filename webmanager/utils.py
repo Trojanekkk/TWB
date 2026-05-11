@@ -35,6 +35,15 @@ def _atomic_write_json(path, data):
 
 
 class DataReader:
+    _session = {
+        "raw": "",
+        "endpoint": "Memory",
+        "server": "Memory",
+        "world": "Memory",
+        "cookies": {},
+        "updated_at": 0,
+    }
+
     @staticmethod
     def _migrate_reporting_to_logging(config):
         if "reporting" not in config:
@@ -141,16 +150,8 @@ class DataReader:
 
     @staticmethod
     def get_session():
-        c_path = os.path.join(os.path.dirname(__file__), "..", "cache", "session.json")
-        if not os.path.exists(c_path):
-            return {"raw": "", "endpoint": "None", "server": "None", "world": "None"}
-        with open(c_path, 'r') as session_file:
-            session_data = json.load(session_file)
-            cookies = []
-            for c in session_data['cookies']:
-                cookies.append("%s=%s" % (c, session_data['cookies'][c]))
-            session_data['raw'] = ';'.join(cookies)
-            return session_data
+        with _CONFIG_LOCK:
+            return dict(DataReader._session)
 
     @staticmethod
     def set_session_cookies(raw):
@@ -165,15 +166,15 @@ class DataReader:
                 cookies[k] = v.strip()
         if not cookies:
             return False
-        c_path = os.path.join(os.path.dirname(__file__), "..", "cache", "session.json")
         with _CONFIG_LOCK:
-            if os.path.exists(c_path):
-                with open(c_path, 'r') as session_file:
-                    session_data = json.load(session_file, object_pairs_hook=collections.OrderedDict)
-            else:
-                session_data = collections.OrderedDict()
-            session_data['cookies'] = cookies
-            _atomic_write_json(c_path, session_data)
+            DataReader._session = {
+                "raw": raw.strip(),
+                "endpoint": "Memory",
+                "server": "Memory",
+                "world": "Memory",
+                "cookies": cookies,
+                "updated_at": int(datetime.datetime.now().timestamp()),
+            }
         return True
 
 
@@ -651,7 +652,20 @@ class BotManager:
         if self.is_running():
             return self.status()
         wd = os.path.join(os.path.dirname(__file__), "..")
-        proc = subprocess.Popen(["python3", "twb.py"], cwd=wd)
+        session = DataReader.get_session()
+        if not session.get("cookies"):
+            BotStatus.mark_stopped(
+                reason="missing_session",
+                message="No in-memory session cookie is set in the web process",
+            )
+            return self.status()
+        env = os.environ.copy()
+        env["TWB_SESSION_JSON"] = json.dumps({
+            "cookies": session["cookies"],
+            "endpoint": session.get("endpoint"),
+            "server": session.get("server"),
+        })
+        proc = subprocess.Popen(["python3", "twb.py"], cwd=wd, env=env)
         self.pid = proc.pid
         BotStatus.mark_started(proc.pid)
         print("Bot started successfully")

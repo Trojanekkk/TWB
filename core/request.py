@@ -8,6 +8,7 @@ from core.botstatus import BotStatus
 from core.filemanager import FileManager
 from core.notification import Notification
 
+import json
 import logging
 import os
 import re
@@ -293,13 +294,20 @@ class WebWrapper:
         """
         Start the bot and verify whether the last session is still valid
         """
-        session_data = FileManager.load_json_file("cache/session.json")
+        session_data = None
+        raw_session = os.environ.get("TWB_SESSION_JSON")
+        if raw_session:
+            try:
+                session_data = json.loads(raw_session)
+            except json.JSONDecodeError:
+                self.logger.warning("Unable to parse in-memory session from environment")
+
         if session_data:
             self.web.cookies.update(session_data['cookies'])
             get_test = self.get_url("game.php?screen=overview")
-            if "game.php" in get_test.url:
+            if get_test and "game.php" in get_test.url:
                 return True
-            self.logger.warning("Current session cache not valid")
+            self.logger.warning("Current in-memory session is not valid")
 
         self.web.cookies.clear()
         cinp = input("Enter browser cookie string> ")
@@ -307,21 +315,13 @@ class WebWrapper:
         cinp = cinp.strip()
         for itt in cinp.split(';'):
             itt = itt.strip()
-            kvs = itt.split("=")
-            k = kvs[0]
-            v = '='.join(kvs[1:])
-            cookies[k] = v
+            if not itt or "=" not in itt:
+                continue
+            k, _, v = itt.partition("=")
+            cookies[k.strip()] = v.strip()
         self.web.cookies.update(cookies)
         self.logger.info("Game Endpoint: %s", self.endpoint)
-
-        for c in self.web.cookies:
-            cookies[c.name] = c.value
-
-        FileManager.save_json_file({
-            'endpoint': self.endpoint,
-            'server': self.server,
-            'cookies': cookies
-        }, "cache/session.json")
+        return True
 
     def get_action(self, village_id, action):
         """
