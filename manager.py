@@ -2,10 +2,12 @@ import json
 import logging
 import os
 import sys
+import time
 
 from game.attack import AttackCache
 from game.reports import ReportCache
 from game.simulator import Simulator
+from core.filemanager import FileManager
 
 
 class VillageManager:
@@ -25,6 +27,208 @@ class VillageManager:
                 continue
             capacity += int(amount) * int(unit_data.get("load", 0))
         return capacity
+
+    @staticmethod
+    def report_fill_rate(report_loot, report_capacity):
+        if report_capacity <= 0:
+            return 0
+        return min(1.0, report_loot / report_capacity)
+
+    @staticmethod
+    def report_unit_total(extra, key):
+        total = 0
+        for amount in extra.get(key, {}).values():
+            total += int(amount)
+        return total
+
+    @staticmethod
+    def _farm_stats_bucket():
+        return {
+            "reports": 0,
+            "loot": 0,
+            "capacity": 0,
+            "filled_capacity": 0,
+            "sent_units": 0,
+            "lost_units": 0,
+        }
+
+    @staticmethod
+    def _median(values):
+        if not values:
+            return 0
+        ordered = sorted(values)
+        middle = len(ordered) // 2
+        if len(ordered) % 2:
+            return ordered[middle]
+        return (ordered[middle - 1] + ordered[middle]) / 2
+
+    @staticmethod
+    def _finalize_farm_stats_bucket(bucket):
+        reports = bucket["reports"]
+        capacity = bucket["capacity"]
+        sent_units = bucket["sent_units"]
+        bucket["avg_loot"] = round(bucket["loot"] / reports, 2) if reports else 0
+        bucket["fill_rate"] = (
+            round(bucket["filled_capacity"] / capacity, 4)
+            if capacity > 0 else 0
+        )
+        bucket["loss_percentage"] = (
+            round(bucket["lost_units"] / sent_units * 100, 2)
+            if sent_units > 0 else 0
+        )
+        return bucket
+
+    @staticmethod
+    def build_farm_stats_snapshot(config, attacks, reports, now=None):
+        now = now or int(time.time())
+        totals = VillageManager._farm_stats_bucket()
+        targets = {}
+        target_observations = {}
+        sources = {}
+        farm_config = config.get("farms", {})
+        default_wait = int(farm_config.get("default_away_time", 3600) or 3600)
+        low_fill_threshold = 0.25
+        high_fill_threshold = 0.85
+
+        for farm, data in sorted(attacks.items(), key=lambda item: str(item[0])):
+            targets[str(farm)] = {
+                **VillageManager._farm_stats_bucket(),
+                "safe": data.get("safe") is not False,
+                "high_profile": bool(data.get("high_profile")),
+                "low_profile": bool(data.get("low_profile")),
+                "last_attack": int(data.get("last_attack", 0) or 0),
+                "latest_report_at": int(data.get("latest_report_at", 0) or 0),
+                "latest_resources_total": sum(
+                    int(value or 0)
+                    for value in data.get("latest_resources", {}).values()
+                ),
+                "source_reports": {},
+            }
+            target_observations[str(farm)] = []
+
+        for report in reports.values():
+            if report.get("type") != "attack":
+                continue
+            dest = str(report.get("dest"))
+            if dest not in targets:
+                continue
+
+            extra = report.get("extra", {})
+            report_loot = VillageManager.report_loot_total(extra)
+            report_capacity = VillageManager.report_capacity(extra)
+            sent_units = VillageManager.report_unit_total(extra, "units_sent")
+            lost_units = VillageManager.report_unit_total(extra, "units_losses")
+            filled_capacity = min(report_loot, report_capacity)
+            report_fill_rate = VillageManager.report_fill_rate(
+                report_loot, report_capacity
+            )
+            origin = str(report.get("origin") or "unknown")
+            when = int(extra.get("when", 0) or 0)
+
+            for bucket in (
+                    totals,
+                    targets[dest],
+                    sources.setdefault(origin, VillageManager._farm_stats_bucket()),
+            ):
+                bucket["reports"] += 1
+                bucket["loot"] += report_loot
+                bucket["capacity"] += report_capacity
+                bucket["filled_capacity"] += filled_capacity
+                bucket["sent_units"] += sent_units
+                bucket["lost_units"] += lost_units
+
+            source_reports = targets[dest]["source_reports"]
+            source_reports[origin] = source_reports.get(origin, 0) + 1
+            if when:
+                target_observations[dest].append({
+                    "when": when,
+                    "origin": origin,
+                    "loot": report_loot,
+                    "capacity": report_capacity,
+                    "fill_rate": report_fill_rate,
+                })
+
+        for target, observations in target_observations.items():
+            observations = sorted(observations, key=lambda item: item["when"])
+            if not observations:
+                continue
+
+            gaps = []
+            long_gap_reports = 0
+            low_fill_after_long_gap = 0
+            full_fill_after_long_gap = 0
+            for previous, current in zip(observations, observations[1:]):
+                gap = current["when"] - previous["when"]
+                if gap < 0:
+                    continue
+                gaps.append(gap)
+                if gap >= default_wait:
+                    long_gap_reports += 1
+                    if current["fill_rate"] < low_fill_threshold:
+                        low_fill_after_long_gap += 1
+                    if current["fill_rate"] > high_fill_threshold:
+                        full_fill_after_long_gap += 1
+
+            latest = observations[-1]
+            target_bucket = targets[target]
+            target_bucket["first_report_at"] = observations[0]["when"]
+            target_bucket["last_report_at"] = latest["when"]
+            target_bucket["last_observed_origin"] = latest["origin"]
+            target_bucket["last_observed_loot"] = latest["loot"]
+            target_bucket["last_observed_capacity"] = latest["capacity"]
+            target_bucket["last_observed_fill_rate"] = round(
+                latest["fill_rate"], 4
+            )
+            target_bucket["avg_gap_seconds"] = (
+                round(sum(gaps) / len(gaps), 2) if gaps else 0
+            )
+            target_bucket["median_gap_seconds"] = round(
+                VillageManager._median(gaps), 2
+            )
+            target_bucket["long_gap_seconds"] = default_wait
+            target_bucket["long_gap_reports"] = long_gap_reports
+            target_bucket["low_fill_after_long_gap"] = low_fill_after_long_gap
+            target_bucket["full_fill_after_long_gap"] = full_fill_after_long_gap
+            target_bucket["low_fill_after_long_gap_rate"] = (
+                round(low_fill_after_long_gap / long_gap_reports, 4)
+                if long_gap_reports else 0
+            )
+
+        finalized_targets = {
+            target: VillageManager._finalize_farm_stats_bucket(bucket)
+            for target, bucket in targets.items()
+        }
+        finalized_sources = {
+            source: VillageManager._finalize_farm_stats_bucket(bucket)
+            for source, bucket in sorted(sources.items())
+        }
+
+        return {
+            "timestamp": now,
+            "villages": len(config.get("villages", {})),
+            "reports": len(reports),
+            "farms": len(attacks),
+            "safe_farms": sum(1 for data in attacks.values() if data.get("safe") is not False),
+            "high_profile_farms": sum(1 for data in attacks.values() if data.get("high_profile")),
+            "low_profile_farms": sum(1 for data in attacks.values() if data.get("low_profile")),
+            "analysis_thresholds": {
+                "long_gap_seconds": default_wait,
+                "low_fill_rate": low_fill_threshold,
+                "high_fill_rate": high_fill_threshold,
+            },
+            "totals": VillageManager._finalize_farm_stats_bucket(totals),
+            "sources": finalized_sources,
+            "targets": finalized_targets,
+        }
+
+    @staticmethod
+    def write_farm_stats_snapshot(snapshot):
+        FileManager.create_directories(["cache/farm_stats"])
+        day = time.strftime("%Y-%m-%d", time.localtime(snapshot["timestamp"]))
+        path = f"cache/farm_stats/{day}.jsonl"
+        with open(path, "a", encoding="utf-8") as stats_file:
+            stats_file.write(json.dumps(snapshot, sort_keys=True) + "\n")
+        return path
 
     @staticmethod
     def farm_manager(verbose=False, clean_reports=False):
@@ -158,6 +362,16 @@ class VillageManager:
 
         if verbose:
             logger.info("Total loot: %s" % t)
+
+        try:
+            snapshot = VillageManager.build_farm_stats_snapshot(
+                config, attacks, reports
+            )
+            stats_path = VillageManager.write_farm_stats_snapshot(snapshot)
+            if verbose:
+                logger.info("Farm stats snapshot saved to %s", stats_path)
+        except Exception:
+            logger.exception("Unable to write farm stats snapshot")
 
         if clean_reports:
             list_of_files = sorted(["./cache/reports/" + f for f in os.listdir("./cache/reports/")],
