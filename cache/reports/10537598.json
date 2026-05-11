@@ -1,0 +1,26 @@
+{
+  "type": "attack",
+  "origin": "10554",
+  "dest": "5844",
+  "losses": {},
+  "extra": {
+    "when": 1778487535,
+    "units_sent": {
+      "spear": 21
+    },
+    "units_losses": {
+      "spear": 21
+    },
+    "defence_units": {
+      "spear": 339,
+      "sword": 246,
+      "axe": 428,
+      "archer": 13,
+      "spy": 55,
+      "light": 10,
+      "ram": 5,
+      "knight": 1
+    },
+    "defence_losses": {}
+  }
+}

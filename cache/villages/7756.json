@@ -1,16 +1,16 @@
 {
   "id": "7756",
-  "name": "Wioska Emil1990",
+  "name": 0,
   "location": [
     455,
     578
   ],
   "bonus": null,
-  "points": 42,
+  "points": 56,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849032816",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

@@ -1,0 +1,7 @@
+{
+  "type": "ReportReservationExpired",
+  "origin": null,
+  "dest": null,
+  "losses": {},
+  "extra": {}
+}

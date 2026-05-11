@@ -1,16 +1,16 @@
 {
   "id": "7995",
-  "name": "Wioska SiemowitSokol",
+  "name": 0,
   "location": [
     445,
     571
   ],
   "bonus": null,
-  "points": 111,
+  "points": 109,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849309502",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

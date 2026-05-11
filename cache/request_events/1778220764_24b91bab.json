@@ -1,0 +1,7 @@
+{
+  "when": 1778220764,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=8054&screen=smith",
+  "status": null,
+  "event": "request_exception"
+}

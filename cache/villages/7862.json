@@ -1,6 +1,6 @@
 {
   "id": "7862",
-  "name": 0,
+  "name": "002 || Shanghai",
   "location": [
     456,
     576
@@ -9,11 +9,11 @@
     "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
     "bonus/all.png"
   ],
-  "points": 86,
+  "points": 335,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "51",
+  "owner": "849293022",
   "buildings": {},
   "resources": {}
 }

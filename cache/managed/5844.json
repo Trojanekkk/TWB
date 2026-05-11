@@ -8,7 +8,7 @@
       567
     ],
     "bonus": null,
-    "points": 2962,
+    "points": 3617,
     "safe": false,
     "scout": false,
     "tribe": "51",
@@ -17,23 +17,26 @@
     "resources": {}
   },
   "resources": {
-    "wood": 2220,
-    "stone": 11954,
-    "iron": 4306,
-    "pop": 362
+    "wood": 11306,
+    "stone": 16231,
+    "iron": 8281,
+    "pop": 697
   },
   "required_resources": {},
   "available_troops": {
-    "spear": "226",
-    "sword": "30",
-    "axe": "38",
-    "light": "7",
-    "ram": "6"
+    "spear": "339",
+    "sword": "246",
+    "axe": "46",
+    "archer": "13",
+    "spy": "119",
+    "light": "22",
+    "ram": "5",
+    "knight": "1"
   },
   "building_levels": {
     "main": 20,
     "barracks": 14,
-    "stable": 3,
+    "stable": 6,
     "garage": 1,
     "church": 0,
     "church_f": 1,
@@ -43,18 +46,18 @@
     "place": 1,
     "statue": 1,
     "market": 11,
-    "wood": 23,
-    "stone": 23,
-    "iron": 20,
-    "farm": 16,
+    "wood": 25,
+    "stone": 26,
+    "iron": 23,
+    "farm": 19,
     "storage": 20,
     "hide": 5,
-    "wall": 13
+    "wall": 16
   },
   "buidling_levels": {
     "main": 20,
     "barracks": 14,
-    "stable": 3,
+    "stable": 6,
     "garage": 1,
     "church": 0,
     "church_f": 1,
@@ -64,13 +67,13 @@
     "place": 1,
     "statue": 1,
     "market": 11,
-    "wood": 23,
-    "stone": 23,
-    "iron": 20,
-    "farm": 16,
+    "wood": 25,
+    "stone": 26,
+    "iron": 23,
+    "farm": 19,
     "storage": 20,
     "hide": 5,
-    "wall": 13
+    "wall": 16
   },
   "building_queue": [
     "hide:1",
@@ -260,20 +263,20 @@
     "repair": false
   },
   "troops": {
-    "spear": 226,
-    "sword": 30,
-    "axe": 37,
-    "archer": 0,
-    "spy": 0,
-    "light": 7,
+    "spear": 339,
+    "sword": 246,
+    "axe": 491,
+    "archer": 13,
+    "spy": 119,
+    "light": 111,
     "marcher": 0,
     "heavy": 0,
-    "ram": 6,
+    "ram": 5,
     "catapult": 0,
-    "knight": 0,
-    "snob": 0,
+    "knight": 1,
+    "snob": 1,
     "militia": 0
   },
   "under_attack": false,
-  "last_run": 1778102920
+  "last_run": 1778528921
 }

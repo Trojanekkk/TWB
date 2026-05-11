@@ -1,15 +1,15 @@
 {
   "id": "1691",
-  "name": "Wioska barbarzy\u0144ska",
+  "name": "Osada 03",
   "location": [
     445,
     566
   ],
   "bonus": null,
-  "points": 237,
+  "points": 1066,
   "safe": false,
   "scout": false,
-  "tribe": "91",
+  "tribe": "51",
   "owner": "8386696",
   "buildings": {},
   "resources": {}

@@ -1,0 +1,43 @@
+{
+  "type": "scout",
+  "origin": "5844",
+  "dest": "7465",
+  "losses": {},
+  "extra": {
+    "when": 1778514248,
+    "units_sent": {
+      "spy": 133
+    },
+    "units_losses": {
+      "spy": 32
+    },
+    "defence_units": {
+      "spear": 4,
+      "spy": 50,
+      "knight": 1
+    },
+    "defence_losses": {},
+    "buildings": {
+      "main": 15,
+      "barracks": 5,
+      "stable": 1,
+      "church_f": 1,
+      "smith": 5,
+      "place": 1,
+      "statue": 1,
+      "market": 12,
+      "wood": 21,
+      "stone": 21,
+      "iron": 20,
+      "farm": 14,
+      "storage": 15,
+      "hide": 1,
+      "wall": 18
+    },
+    "resources": {
+      "wood": "2454",
+      "stone": "517",
+      "iron": "3508"
+    }
+  }
+}

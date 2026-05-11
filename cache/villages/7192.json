@@ -1,16 +1,16 @@
 {
   "id": "7192",
-  "name": "Wioska kacper9978",
+  "name": 0,
   "location": [
     446,
     564
   ],
   "bonus": null,
-  "points": 266,
+  "points": 268,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8894816",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

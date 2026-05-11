@@ -1,16 +1,16 @@
 {
   "id": "7582",
-  "name": "Wioska AIDS93",
+  "name": 0,
   "location": [
     444,
     569
   ],
   "bonus": null,
-  "points": 36,
+  "points": 47,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "884321",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

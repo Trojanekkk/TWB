@@ -1,16 +1,16 @@
 {
   "id": "3674",
-  "name": "Wioska Halefer",
+  "name": 0,
   "location": [
     457,
     568
   ],
   "bonus": null,
-  "points": 213,
+  "points": 220,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "7993652",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }

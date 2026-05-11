@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "target_vid": "7995",
+  "scout": true,
+  "safe": true,
+  "high_profile": false,
+  "low_profile": false,
+  "last_attack": 1778524699,
+  "last_scout": 0,
+  "last_attacker": "5844",
+  "latest_resources": {
+    "wood": "1362",
+    "stone": "1362",
+    "iron": "1362"
+  },
+  "latest_buildings": {
+    "main": 3,
+    "barracks": 3,
+    "church_f": 1,
+    "place": 1,
+    "market": 1,
+    "wood": 5,
+    "stone": 5,
+    "iron": 4,
+    "farm": 2,
+    "storage": 3,
+    "hide": 1
+  },
+  "latest_defence_units": {},
+  "latest_report_at": 1778522994,
+  "last_loot": 3,
+  "total_loot": 14145,
+  "avg_loot": 307,
+  "loot_reports": 46,
+  "total_capacity": 33300,
+  "filled_capacity": 14145,
+  "avg_fill_rate": 0.4248,
+  "last_fill_rate": 0.0075,
+  "loss_percentage": 5.53,
+  "sources": {
+    "5844": {
+      "last_attack": 1778524699,
+      "last_scout": 0,
+      "attacks": 39,
+      "scouts": 0,
+      "safe": true
+    },
+    "8054": {
+      "last_attack": 1778488656,
+      "last_scout": 0,
+      "attacks": 11,
+      "scouts": 0,
+      "safe": true
+    }
+  }
+}

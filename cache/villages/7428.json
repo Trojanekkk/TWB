@@ -1,6 +1,6 @@
 {
   "id": "7428",
-  "name": 0,
+  "name": "Osada 04",
   "location": [
     441,
     564
@@ -9,11 +9,11 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 61,
+  "points": 662,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "51",
+  "owner": "8386696",
   "buildings": {},
   "resources": {}
 }

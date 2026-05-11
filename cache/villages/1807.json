@@ -1,16 +1,16 @@
 {
   "id": "1807",
-  "name": "Wioska Kiss-my-axe",
+  "name": 0,
   "location": [
     450,
     574
   ],
   "bonus": null,
-  "points": 257,
+  "points": 271,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "2580108",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {}
 }
