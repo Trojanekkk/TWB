@@ -10,6 +10,8 @@ help_file = {
     'bot.active_hours': 'The hours when the bot should use active_delay (this does not impact attack timings)',
     'bot.delay_factor': 'Delay factor to use 5-7seconds * delay factor (very low factors will probably cause ban)',
     'bot.active_delay': 'Delay in seconds to use in bot active times',
+    'bot.village_delay_min': 'Minimum dead time in seconds between villages in the same bot cycle',
+    'bot.village_delay_max': 'Maximum dead time in seconds between villages in the same bot cycle',
     'bot.inactive_delay': 'Delay in seconds to use in bot inactive times',
     'bot.inactive_still_active': 'Inactive to stop the bot from running during inactive times',
     'bot.add_new_villages': 'Automatically add the default village config to newly conquered villages',

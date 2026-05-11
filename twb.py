@@ -363,6 +363,16 @@ class TWB:
         get_h = time.localtime().tm_hour
         return get_h in range(active_h[0], active_h[1])
 
+    @staticmethod
+    def village_cycle_delay(config):
+        min_delay = int(config["bot"].get("village_delay_min", 0) or 0)
+        max_delay = int(config["bot"].get("village_delay_max", min_delay) or 0)
+        min_delay = max(0, min_delay)
+        max_delay = max(min_delay, max_delay)
+        if max_delay <= 0:
+            return 0
+        return random.randint(min_delay, max_delay)
+
     def run(self):
         """
         Run the bot
@@ -440,7 +450,7 @@ class TWB:
                     config = self.merge_configs(config, new_cf)
                     FileManager.save_json_file(config, "config.json")
                     print("Deployed new configuration file")
-                village_number = 1
+                available_villages = []
                 for village in self.villages:
                     if village.village_id not in self.found_villages:
                         print(
@@ -448,6 +458,10 @@ class TWB:
                             % village.village_id
                         )
                         continue
+                    available_villages.append(village)
+
+                village_number = 1
+                for village_index, village in enumerate(available_villages):
                     if not rm:
                         rm = village.rep_man
                     else:
@@ -481,6 +495,16 @@ class TWB:
                             else False
                         )
                     village_number += 1
+
+                    if village_index < len(available_villages) - 1:
+                        village_sleep = self.village_cycle_delay(config)
+                        if village_sleep > 0:
+                            print(
+                                "Dead between villages for %.2f minutes"
+                                % (village_sleep / 60)
+                            )
+                            sys.stdout.flush()
+                            time.sleep(village_sleep)
 
                 if len(defense_states) and config["farms"]["farm"]:
                     for village in self.villages:

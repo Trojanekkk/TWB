@@ -12,6 +12,24 @@
         height: 180px;
         padding: 8px 4px 0 8px;
     }
+    .stats-chart-row {
+        align-items: stretch;
+        display: flex;
+    }
+    .stats-y-axis {
+        align-items: center;
+        color: #495057;
+        display: flex;
+        font-size: 0.78rem;
+        justify-content: center;
+        min-width: 34px;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+    .stats-chart-area {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
     .stats-bar-slot {
         align-items: flex-end;
         display: flex;
@@ -92,18 +110,23 @@
 <div class="row">
     <div class="col-lg-8">
         <h5>Last {{ stats.chart.hours }} Hours</h5>
-        <div class="stats-chart">
-            {% for bucket in stats.chart.buckets %}
-            <div class="stats-bar-slot" title="{{ bucket.label }} | loot {{ bucket.loot_total }} | attacks {{ bucket.attacks }} | fill {{ (bucket.fill_rate * 100) | round(1) }}%">
-                <div class="stats-bar-loot" style="height: {{ bucket.loot_height }}%;"></div>
-                <div class="stats-bar-attacks" style="height: {{ bucket.attack_height }}%;"></div>
+        <div class="stats-chart-row">
+            <div class="stats-y-axis">Loot per hour</div>
+            <div class="stats-chart-area">
+                <div class="stats-chart">
+                    {% for bucket in stats.chart.buckets %}
+                    <div class="stats-bar-slot" title="{{ bucket.label }} | loot {{ bucket.loot_total }} | attacks {{ bucket.attacks }} | fill {{ (bucket.fill_rate * 100) | round(1) }}%">
+                        <div class="stats-bar-loot" style="height: {{ bucket.loot_height }}%;"></div>
+                        <div class="stats-bar-attacks" style="height: {{ bucket.attack_height }}%;"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="stats-chart-labels">
+                    {% for bucket in stats.chart.buckets %}
+                    <div class="stats-chart-label">{% if loop.index0 % 3 == 0 %}{{ bucket.label }}{% endif %}</div>
+                    {% endfor %}
+                </div>
             </div>
-            {% endfor %}
-        </div>
-        <div class="stats-chart-labels">
-            {% for bucket in stats.chart.buckets %}
-            <div class="stats-chart-label">{% if loop.index0 % 3 == 0 %}{{ bucket.label }}{% endif %}</div>
-            {% endfor %}
         </div>
         <div class="stats-muted mt-1">
             Blue: loot, orange: attacks. Max loot bucket: {{ stats.chart.max_loot }}, max attacks bucket: {{ stats.chart.max_attacks }}.

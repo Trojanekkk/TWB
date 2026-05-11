@@ -22,6 +22,8 @@
     "active_hours": "6-23",
     "delay_factor": 7,
     "active_delay": 400,
+    "village_delay_min": 60,
+    "village_delay_max": 180,
     "inactive_still_active": true,
     "inactive_delay": 2000,
     "add_new_villages": true,
