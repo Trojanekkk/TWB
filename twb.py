@@ -373,6 +373,28 @@ class TWB:
             return 0
         return random.randint(min_delay, max_delay)
 
+    @staticmethod
+    def sleep_dead_time(seconds, label, resume_label):
+        if seconds <= 0:
+            return
+        started_at = datetime.datetime.now()
+        resume_at = started_at + datetime.timedelta(seconds=seconds)
+        message = (
+            "%s dead time started at %s for %.2f minutes (%d seconds), %s at: %s"
+            % (
+                label,
+                started_at.time(),
+                seconds / 60,
+                seconds,
+                resume_label,
+                resume_at.time(),
+            )
+        )
+        logging.info(message)
+        print(message)
+        sys.stdout.flush()
+        time.sleep(seconds)
+
     def run(self):
         """
         Run the bot
@@ -390,12 +412,11 @@ class TWB:
                     sleep = config["bot"]["inactive_delay"]
 
             sleep += random.randint(20, 120)
-            dtn = datetime.datetime.now()
-            dt_next = dtn + datetime.timedelta(0, sleep)
-            print(
-                "Dead for %.2f minutes (next run at: %s)" % (sleep / 60, dt_next.time())
+            self.sleep_dead_time(
+                sleep,
+                "Internet-down cycle",
+                "next check",
             )
-            time.sleep(sleep)
             return False
 
         self.wrapper = WebWrapper(
@@ -431,12 +452,11 @@ class TWB:
                         sleep = config["bot"]["inactive_delay"]
 
                 sleep += random.randint(20, 120)
-                dtn = datetime.datetime.now()
-                dt_next = dtn + datetime.timedelta(0, sleep)
-                print(
-                    "Dead for %.2f minutes (next run at: %s)" % (sleep / 60, dt_next.time())
+                self.sleep_dead_time(
+                    sleep,
+                    "Internet-down cycle",
+                    "next check",
                 )
-                time.sleep(sleep)
             else:
                 config = self.config()
                 self.wrapper.configure_from_bot_config(config["bot"])
@@ -499,12 +519,13 @@ class TWB:
                     if village_index < len(available_villages) - 1:
                         village_sleep = self.village_cycle_delay(config)
                         if village_sleep > 0:
-                            print(
-                                "Dead between villages for %.2f minutes"
-                                % (village_sleep / 60)
+                            next_village = available_villages[village_index + 1]
+                            self.sleep_dead_time(
+                                village_sleep,
+                                "Between villages %s -> %s"
+                                % (village.village_id, next_village.village_id),
+                                "next village",
                             )
-                            sys.stdout.flush()
-                            time.sleep(village_sleep)
 
                 if len(defense_states) and config["farms"]["farm"]:
                     for village in self.villages:
@@ -519,17 +540,14 @@ class TWB:
                         sleep = config["bot"]["inactive_delay"]
 
                 sleep += random.randint(20, 120)
-                dtn = datetime.datetime.now()
-                dt_next = dtn + datetime.timedelta(0, sleep)
                 self.runs += 1
 
                 VillageManager.farm_manager(verbose=True)
-                print(
-                    "Dead for %.2f minutes (next run at: %s)"
-                    % (sleep / 60, dt_next.time())
+                self.sleep_dead_time(
+                    sleep,
+                    "Cycle",
+                    "next run",
                 )
-                sys.stdout.flush()
-                time.sleep(sleep)
 
     def start(self):
         """
