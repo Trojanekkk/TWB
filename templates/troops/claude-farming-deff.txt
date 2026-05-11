@@ -71,10 +71,10 @@
     },
     "farm": [
       {
-        "spear": 40
+        "spear": 50
       },
       {
-        "sword": 25
+        "sword": 30
       }
     ]
   },

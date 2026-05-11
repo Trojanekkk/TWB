@@ -17,19 +17,17 @@
     "resources": {}
   },
   "resources": {
-    "wood": 11306,
-    "stone": 16231,
-    "iron": 8281,
-    "pop": 697
+    "wood": 13959,
+    "stone": 16085,
+    "iron": 9265,
+    "pop": 701
   },
   "required_resources": {},
   "available_troops": {
-    "spear": "339",
-    "sword": "246",
-    "axe": "46",
-    "archer": "13",
+    "axe": "10",
+    "archer": "3",
     "spy": "119",
-    "light": "22",
+    "light": "14",
     "ram": "5",
     "knight": "1"
   },
@@ -265,7 +263,7 @@
   "troops": {
     "spear": 339,
     "sword": 246,
-    "axe": 491,
+    "axe": 504,
     "archer": 13,
     "spy": 119,
     "light": 111,
@@ -278,5 +276,5 @@
     "militia": 0
   },
   "under_attack": false,
-  "last_run": 1778528921
+  "last_run": 1778532134
 }
