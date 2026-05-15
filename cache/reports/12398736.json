@@ -1,0 +1,22 @@
+{
+  "type": "attack",
+  "origin": "8054",
+  "dest": "8214",
+  "losses": {},
+  "extra": {
+    "when": 1778684869,
+    "units_sent": {
+      "sword": 40
+    },
+    "units_losses": {
+      "sword": 1
+    },
+    "defence_units": {},
+    "defence_losses": {},
+    "loot": {
+      "wood": "100",
+      "stone": "47",
+      "iron": "73"
+    }
+  }
+}

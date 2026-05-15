@@ -1,0 +1,23 @@
+{
+  "type": "attack",
+  "origin": "6201",
+  "dest": "6797",
+  "losses": {},
+  "extra": {
+    "when": 1778542110,
+    "units_sent": {
+      "axe": 58,
+      "snob": 1
+    },
+    "units_losses": {
+      "axe": 58,
+      "snob": 1
+    },
+    "defence_units": {
+      "axe": 385
+    },
+    "defence_losses": {
+      "axe": 61
+    }
+  }
+}

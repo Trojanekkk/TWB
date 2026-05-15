@@ -20,7 +20,7 @@
   },
   "bot": {
     "active_hours": "6-23",
-    "delay_factor": 7,
+    "delay_factor": 15,
     "active_delay": 400,
     "village_delay_min": 60,
     "village_delay_max": 180,
@@ -43,16 +43,16 @@
     "check_update": true
   },
   "building": {
-    "manage_buildings": false,
+    "manage_buildings": true,
     "default": "claude-farming-deff",
     "max_lookahead": 2,
     "max_queued_items": 2
   },
   "units": {
-    "recruit": false,
+    "recruit": true,
     "upgrade": false,
     "default": "claude-farming-deff",
-    "batch_size": 25,
+    "batch_size": 20,
     "manage_defence": false,
     "remove_manual_queued": false,
     "randomize_unit_queue": true
@@ -121,7 +121,7 @@
       "managed": true,
       "scout_first": false,
       "additional_farms": [],
-      "prioritize_building": true,
+      "prioritize_building": false,
       "prioritize_snob": false,
       "trade_for_premium": false,
       "gather_enabled": true,
@@ -144,7 +144,7 @@
       "prioritize_snob": false,
       "trade_for_premium": false,
       "gather_enabled": true,
-      "gather_selection": 2,
+      "gather_selection": 3,
       "advanced_gather": true,
       "snobs": 0,
       "evacuate_fragile_units_on_attack": false,
@@ -163,7 +163,7 @@
       "prioritize_snob": false,
       "trade_for_premium": false,
       "gather_enabled": true,
-      "gather_selection": 3,
+      "gather_selection": 1,
       "advanced_gather": true,
       "snobs": 0,
       "evacuate_fragile_units_on_attack": false,

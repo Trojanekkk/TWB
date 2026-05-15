@@ -1,16 +1,16 @@
 {
   "id": "7192",
-  "name": 0,
+  "name": "Osada 05",
   "location": [
     446,
     564
   ],
   "bonus": null,
-  "points": 273,
+  "points": 544,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "8386696",
   "buildings": {},
   "resources": {}
 }

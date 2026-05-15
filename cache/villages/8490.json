@@ -1,16 +1,16 @@
 {
   "id": "8490",
-  "name": 0,
+  "name": "001 Kolonia Pu\u0144czok",
   "location": [
     455,
     579
   ],
   "bonus": null,
-  "points": 124,
+  "points": 460,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "170",
+  "owner": "849308329",
   "buildings": {},
   "resources": {}
 }

@@ -1,0 +1,7 @@
+{
+  "when": 1778791897,
+  "method": "POST",
+  "url": "https://pl229.plemiona.pl/game.php?ajax=claim_reward&village=6797&screen=new_quests",
+  "status": 200,
+  "event": "request"
+}

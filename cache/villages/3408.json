@@ -1,16 +1,16 @@
 {
   "id": "3408",
-  "name": 0,
+  "name": "Wioska_09",
   "location": [
     452,
     561
   ],
   "bonus": null,
-  "points": 616,
+  "points": 923,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "41",
+  "owner": "1350456",
   "buildings": {},
   "resources": {}
 }

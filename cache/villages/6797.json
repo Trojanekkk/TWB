@@ -1,6 +1,6 @@
 {
   "id": "6797",
-  "name": 0,
+  "name": "Dw\u00f3r Carycy 03",
   "location": [
     454,
     570
@@ -9,11 +9,11 @@
     "100% wi\u0119ksza produkcja drewna",
     "bonus/wood.png"
   ],
-  "points": 154,
+  "points": 615,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "849244130",
   "buildings": {},
   "resources": {}
 }

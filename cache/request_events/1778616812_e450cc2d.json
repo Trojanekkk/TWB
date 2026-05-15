@@ -1,0 +1,7 @@
+{
+  "when": 1778616812,
+  "method": "POST",
+  "url": "https://pl229.plemiona.pl/game.php?ajaxaction=train&village=5844&screen=garage&mode=train",
+  "status": 200,
+  "event": "request"
+}
