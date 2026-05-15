@@ -1,8 +1,8 @@
 {
-  "running": true,
-  "state": "active",
-  "reason": "started",
-  "message": "Bot process is active",
+  "running": false,
+  "state": "inactive",
+  "reason": "manual_stop",
+  "message": "Bot stopped manually from web interface",
   "pid": 75677,
-  "updated_at": 1778750070
+  "updated_at": 1778841511
 }

@@ -11,7 +11,7 @@
       "100% wi\u0119ksza produkcja drewna",
       "bonus/wood.png"
     ],
-    "points": 595,
+    "points": 615,
     "safe": false,
     "scout": false,
     "tribe": "37",
@@ -20,10 +20,10 @@
     "resources": {}
   },
   "resources": {
-    "wood": 2723,
-    "stone": 5551,
-    "iron": 2780,
-    "pop": 167
+    "wood": 456,
+    "stone": 1869,
+    "iron": 312,
+    "pop": 121
   },
   "required_resources": {},
   "available_troops": {
@@ -33,7 +33,7 @@
   "building_levels": {
     "main": 10,
     "barracks": 5,
-    "stable": 0,
+    "stable": 2,
     "garage": 0,
     "church": 0,
     "church_f": 0,
@@ -45,7 +45,7 @@
     "market": 5,
     "wood": 15,
     "stone": 19,
-    "iron": 15,
+    "iron": 16,
     "farm": 9,
     "storage": 11,
     "hide": 4,
@@ -54,7 +54,7 @@
   "buidling_levels": {
     "main": 10,
     "barracks": 5,
-    "stable": 0,
+    "stable": 2,
     "garage": 0,
     "church": 0,
     "church_f": 0,
@@ -66,14 +66,13 @@
     "market": 5,
     "wood": 15,
     "stone": 19,
-    "iron": 15,
+    "iron": 16,
     "farm": 9,
     "storage": 11,
     "hide": 4,
     "wall": 11
   },
   "building_queue": [
-    "stable:1",
     "stable:2",
     "stable:3",
     "farm:5",
@@ -191,21 +190,21 @@
   "building_queue_status": {
     "currently_building": [
       {
-        "building": "barracks",
-        "level": 5,
-        "finishes_at": 1778821412
+        "building": "stable",
+        "level": 2,
+        "finishes_at": 1778838659
       }
     ],
     "active_items": 1,
-    "next_entry": "stable:1",
+    "next_entry": "stable:2",
     "next_building": "stable",
-    "next_level": 1,
+    "next_level": 2,
     "template_position": 1,
-    "remaining": 114,
+    "remaining": 113,
     "repair": false
   },
   "troops": {
-    "spear": 191,
+    "spear": 231,
     "sword": 70,
     "axe": 0,
     "archer": 0,
@@ -220,5 +219,5 @@
     "militia": 0
   },
   "under_attack": false,
-  "last_run": 1778822609
+  "last_run": 1778840984
 }
