@@ -158,6 +158,74 @@ class StatsBuilder:
         snapshots.sort(key=lambda item: int(item.get("timestamp", 0) or 0))
         history = snapshots[-limit:]
         latest = history[-1] if history else None
+        profile_summaries = {}
+        for item in snapshots:
+            profile = item.get("config_profile", {}) or {}
+            profile_id = profile.get("profile_id") or "legacy"
+            summary = profile_summaries.setdefault(profile_id, {
+                "profile_id": profile_id,
+                "snapshots": 0,
+                "intervals": 0,
+                "hours": 0,
+                "loot": 0,
+                "attacks": 0,
+                "scouts": 0,
+                "capacity": 0,
+                "filled_capacity": 0,
+                "lost_units": 0,
+                "sent_units": 0,
+                "latest_timestamp": 0,
+                "latest_label": "",
+                "farms": profile.get("farms", {}),
+                "template_hashes": profile.get("template_hashes", {}),
+            })
+            summary["snapshots"] += 1
+            summary["latest_timestamp"] = max(
+                summary["latest_timestamp"],
+                int(item.get("timestamp", 0) or 0),
+            )
+            interval = item.get("since_previous", {}) or {}
+            if interval.get("profile_id") != profile_id or interval.get("profile_changed"):
+                continue
+            totals = interval.get("totals", {}) or {}
+            summary["intervals"] += 1
+            summary["hours"] += float(interval.get("hours", 0) or 0)
+            summary["loot"] += int(totals.get("loot", 0) or 0)
+            summary["attacks"] += int(totals.get("reports", 0) or 0)
+            summary["scouts"] += int(totals.get("scouts", 0) or 0)
+            summary["capacity"] += int(totals.get("capacity", 0) or 0)
+            summary["filled_capacity"] += int(totals.get("filled_capacity", 0) or 0)
+            summary["lost_units"] += int(totals.get("lost_units", 0) or 0)
+            summary["sent_units"] += int(totals.get("sent_units", 0) or 0)
+
+        config_profiles = []
+        for summary in profile_summaries.values():
+            hours = summary["hours"]
+            capacity = summary["capacity"]
+            sent_units = summary["sent_units"]
+            latest_timestamp = summary["latest_timestamp"]
+            summary["loot_per_hour"] = round(summary["loot"] / hours, 2) if hours else 0
+            summary["attacks_per_hour"] = round(summary["attacks"] / hours, 2) if hours else 0
+            summary["scouts_per_hour"] = round(summary["scouts"] / hours, 2) if hours else 0
+            summary["fill_rate"] = (
+                round(summary["filled_capacity"] / capacity, 4)
+                if capacity else 0
+            )
+            summary["loss_percentage"] = (
+                round(summary["lost_units"] / sent_units * 100, 2)
+                if sent_units else 0
+            )
+            summary["latest_label"] = (
+                time.strftime("%m-%d %H:%M", time.localtime(latest_timestamp))
+                if latest_timestamp else ""
+            )
+            config_profiles.append(summary)
+
+        config_profiles.sort(
+            key=lambda item: int(item.get("latest_timestamp", 0) or 0),
+            reverse=True,
+        )
+
         return {
             "count": len(snapshots),
             "latest": latest,
@@ -172,9 +240,18 @@ class StatsBuilder:
                     "fill_rate": item.get("totals", {}).get("fill_rate", 0),
                     "loss_percentage": item.get("totals", {}).get("loss_percentage", 0),
                     "low_profile_farms": item.get("low_profile_farms", 0),
+                    "profile_id": (item.get("config_profile", {}) or {}).get("profile_id", "legacy"),
+                    "loot_per_hour": (
+                        item.get("recent", {})
+                        .get("windows", {})
+                        .get("24h", {})
+                        .get("totals", {})
+                        .get("loot_per_hour", 0)
+                    ),
                 }
                 for item in history
             ],
+            "config_profiles": config_profiles,
         }
 
     @staticmethod

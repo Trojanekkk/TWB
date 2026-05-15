@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import os
@@ -77,6 +78,313 @@ class VillageManager:
             if sent_units > 0 else 0
         )
         return bucket
+
+    @staticmethod
+    def _hash_file(path):
+        if not os.path.exists(path):
+            return None
+        digest = hashlib.sha1()
+        with open(path, "rb") as source:
+            for chunk in iter(lambda: source.read(8192), b""):
+                digest.update(chunk)
+        return digest.hexdigest()[:12]
+
+    @staticmethod
+    def build_config_profile(config):
+        farms = config.get("farms", {})
+        bot = config.get("bot", {})
+        world = config.get("world", {})
+        villages = config.get("villages", {})
+
+        farm_keys = [
+            "farm",
+            "min_points",
+            "max_points",
+            "find_player_owned",
+            "search_radius",
+            "default_away_time",
+            "full_loot_away_time",
+            "low_loot_away_time",
+            "priority_ratio",
+            "farm_exploration_ratio",
+            "farm_exploration_min_targets",
+            "max_farms",
+            "attack_higher_points",
+            "force_scout_if_available",
+            "farm_scout_amount",
+            "night_bonus_start_hour",
+            "night_bonus_end_hour",
+            "night_bonus_troop_multiplier",
+        ]
+        bot_keys = [
+            "active_delay",
+            "inactive_delay",
+            "village_delay_min",
+            "village_delay_max",
+            "delay_factor",
+        ]
+        world_keys = ["game_speed", "unit_speed"]
+        village_keys = [
+            "managed",
+            "units",
+            "building",
+            "scout_first",
+            "additional_farms",
+            "gather_enabled",
+            "gather_selection",
+            "advanced_gather",
+        ]
+
+        village_profiles = {}
+        template_names = set()
+        default_units = config.get("units", {}).get("default")
+        if default_units:
+            template_names.add(default_units)
+
+        village_template = config.get("village_template", {})
+        for key in ["units", "building"]:
+            if village_template.get(key):
+                template_names.add(village_template[key])
+
+        for village_id, village_config in sorted(villages.items()):
+            entry = {}
+            for key in village_keys:
+                value = village_config.get(key)
+                if key == "additional_farms":
+                    entry["additional_farms_count"] = len(value or [])
+                    entry["additional_farms"] = sorted(str(item) for item in (value or []))
+                    continue
+                entry[key] = value
+                if key in ["units", "building"] and value:
+                    template_names.add(value)
+            village_profiles[str(village_id)] = entry
+
+        template_hashes = {}
+        for name in sorted(template_names):
+            hashes = {}
+            troop_hash = VillageManager._hash_file(f"templates/troops/{name}.txt")
+            builder_hash = VillageManager._hash_file(f"templates/builder/{name}.txt")
+            if troop_hash:
+                hashes["troops"] = troop_hash
+            if builder_hash:
+                hashes["builder"] = builder_hash
+            if hashes:
+                template_hashes[name] = hashes
+
+        profile_payload = {
+            "farms": {key: farms.get(key) for key in farm_keys if key in farms},
+            "bot": {key: bot.get(key) for key in bot_keys if key in bot},
+            "world": {key: world.get(key) for key in world_keys if key in world},
+            "villages": village_profiles,
+            "template_hashes": template_hashes,
+        }
+        profile_id = hashlib.sha1(
+            json.dumps(profile_payload, sort_keys=True).encode("utf-8")
+        ).hexdigest()[:12]
+        profile_payload["profile_id"] = profile_id
+        return profile_payload
+
+    @staticmethod
+    def _farm_window_bucket():
+        bucket = VillageManager._farm_stats_bucket()
+        bucket.update({
+            "scouts": 0,
+            "active_targets": set(),
+            "new_targets": set(),
+        })
+        return bucket
+
+    @staticmethod
+    def _add_report_to_window(bucket, report, is_attack, is_scout, first_attack_at, window_start):
+        extra = report.get("extra", {})
+        report_loot = VillageManager.report_loot_total(extra) if is_attack else 0
+        report_capacity = VillageManager.report_capacity(extra) if is_attack else 0
+        sent_units = VillageManager.report_unit_total(extra, "units_sent")
+        lost_units = VillageManager.report_unit_total(extra, "units_losses")
+
+        bucket["scouts"] += 1 if is_scout else 0
+        if not is_attack:
+            bucket["sent_units"] += sent_units
+            bucket["lost_units"] += lost_units
+            return
+
+        bucket["reports"] += 1
+        target = str(report.get("dest") or "unknown")
+        bucket["active_targets"].add(target)
+        if first_attack_at and first_attack_at >= window_start:
+            bucket["new_targets"].add(target)
+        bucket["loot"] += report_loot
+        bucket["capacity"] += report_capacity
+        bucket["filled_capacity"] += min(report_loot, report_capacity)
+        bucket["sent_units"] += sent_units
+        bucket["lost_units"] += lost_units
+
+    @staticmethod
+    def _finalize_farm_window(bucket, seconds):
+        active_targets = bucket.pop("active_targets", set())
+        new_targets = bucket.pop("new_targets", set())
+        bucket = VillageManager._finalize_farm_stats_bucket(bucket)
+        hours = seconds / 3600
+        bucket["active_targets"] = len(active_targets)
+        bucket["new_targets"] = len(new_targets)
+        bucket["loot_per_hour"] = round(bucket["loot"] / hours, 2) if hours else 0
+        bucket["attacks_per_hour"] = round(bucket["reports"] / hours, 2) if hours else 0
+        bucket["scouts_per_hour"] = round(bucket["scouts"] / hours, 2) if hours else 0
+        return bucket
+
+    @staticmethod
+    def build_recent_farm_windows(reports, reference_time):
+        report_rows = []
+        first_attack_by_target = {}
+        latest_report_at = 0
+
+        for report in reports.values():
+            extra = report.get("extra", {})
+            when = int(extra.get("when", 0) or 0)
+            if not when:
+                continue
+            latest_report_at = max(latest_report_at, when)
+            report_type = report.get("type")
+            is_attack = report_type == "attack"
+            is_scout = report_type == "scout"
+            if not is_attack and not is_scout:
+                continue
+            if is_attack:
+                target = str(report.get("dest") or "unknown")
+                first_attack_by_target[target] = min(
+                    first_attack_by_target.get(target, when),
+                    when,
+                )
+            report_rows.append((when, report, is_attack, is_scout))
+
+        reference_time = max(reference_time, latest_report_at)
+        windows = {}
+        for label, seconds in {"6h": 21600, "24h": 86400, "72h": 259200}.items():
+            window_start = reference_time - seconds
+            total_bucket = VillageManager._farm_window_bucket()
+            source_buckets = {}
+            for when, report, is_attack, is_scout in report_rows:
+                if when < window_start or when > reference_time:
+                    continue
+                origin = str(report.get("origin") or "unknown")
+                first_attack_at = first_attack_by_target.get(str(report.get("dest") or "unknown"))
+                VillageManager._add_report_to_window(
+                    total_bucket, report, is_attack, is_scout, first_attack_at, window_start
+                )
+                VillageManager._add_report_to_window(
+                    source_buckets.setdefault(origin, VillageManager._farm_window_bucket()),
+                    report,
+                    is_attack,
+                    is_scout,
+                    first_attack_at,
+                    window_start,
+                )
+
+            windows[label] = {
+                "seconds": seconds,
+                "totals": VillageManager._finalize_farm_window(total_bucket, seconds),
+                "sources": {
+                    source: VillageManager._finalize_farm_window(bucket, seconds)
+                    for source, bucket in sorted(source_buckets.items())
+                },
+            }
+
+        return {
+            "reference_time": reference_time,
+            "windows": windows,
+        }
+
+    @staticmethod
+    def _load_latest_farm_stats_snapshot():
+        stats_dir = "cache/farm_stats"
+        if not os.path.isdir(stats_dir):
+            return None
+
+        latest = None
+        for filename in os.listdir(stats_dir):
+            if not filename.endswith(".jsonl"):
+                continue
+            path = os.path.join(stats_dir, filename)
+            try:
+                with open(path, "r", encoding="utf-8") as stats_file:
+                    for line in stats_file:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        snapshot = json.loads(line)
+                        if latest is None or int(snapshot.get("timestamp", 0) or 0) > int(latest.get("timestamp", 0) or 0):
+                            latest = snapshot
+            except (OSError, ValueError):
+                continue
+        return latest
+
+    @staticmethod
+    def _diff_farm_stats_bucket(current, previous):
+        bucket = VillageManager._farm_stats_bucket()
+        for key in bucket:
+            bucket[key] = max(
+                0,
+                int(current.get(key, 0) or 0) - int(previous.get(key, 0) or 0),
+            )
+        return VillageManager._finalize_farm_stats_bucket(bucket)
+
+    @staticmethod
+    def build_snapshot_delta(previous, current):
+        if not previous:
+            return None
+        previous_timestamp = int(previous.get("timestamp", 0) or 0)
+        current_timestamp = int(current.get("timestamp", 0) or 0)
+        if previous_timestamp <= 0 or current_timestamp <= previous_timestamp:
+            return None
+
+        delta_seconds = current_timestamp - previous_timestamp
+        delta_hours = delta_seconds / 3600
+        totals = VillageManager._diff_farm_stats_bucket(
+            current.get("totals", {}),
+            previous.get("totals", {}),
+        )
+        totals["loot_per_hour"] = round(totals["loot"] / delta_hours, 2) if delta_hours else 0
+        totals["attacks_per_hour"] = round(totals["reports"] / delta_hours, 2) if delta_hours else 0
+        if "scouts" in current and "scouts" in previous:
+            totals["scouts"] = max(
+                0,
+                int(current.get("scouts", 0) or 0) - int(previous.get("scouts", 0) or 0),
+            )
+        else:
+            totals["scouts"] = 0
+        totals["scouts_per_hour"] = round(totals["scouts"] / delta_hours, 2) if delta_hours else 0
+
+        sources = {}
+        for source in sorted(
+                set(current.get("sources", {}).keys())
+                | set(previous.get("sources", {}).keys())
+        ):
+            source_delta = VillageManager._diff_farm_stats_bucket(
+                current.get("sources", {}).get(source, {}),
+                previous.get("sources", {}).get(source, {}),
+            )
+            source_delta["loot_per_hour"] = (
+                round(source_delta["loot"] / delta_hours, 2) if delta_hours else 0
+            )
+            source_delta["attacks_per_hour"] = (
+                round(source_delta["reports"] / delta_hours, 2) if delta_hours else 0
+            )
+            if source_delta["reports"] or source_delta["loot"]:
+                sources[source] = source_delta
+
+        previous_profile = previous.get("config_profile", {}).get("profile_id")
+        current_profile = current.get("config_profile", {}).get("profile_id")
+        return {
+            "from_timestamp": previous_timestamp,
+            "to_timestamp": current_timestamp,
+            "seconds": delta_seconds,
+            "hours": round(delta_hours, 2),
+            "profile_changed": previous_profile != current_profile,
+            "previous_profile_id": previous_profile,
+            "profile_id": current_profile,
+            "totals": totals,
+            "sources": sources,
+        }
 
     @staticmethod
     def build_farm_stats_snapshot(config, attacks, reports, now=None):
@@ -203,10 +511,13 @@ class VillageManager:
             for source, bucket in sorted(sources.items())
         }
 
+        recent = VillageManager.build_recent_farm_windows(reports, now)
+
         return {
             "timestamp": now,
             "villages": len(config.get("villages", {})),
             "reports": len(reports),
+            "scouts": sum(1 for report in reports.values() if report.get("type") == "scout"),
             "farms": len(attacks),
             "safe_farms": sum(1 for data in attacks.values() if data.get("safe") is not False),
             "high_profile_farms": sum(1 for data in attacks.values() if data.get("high_profile")),
@@ -216,6 +527,8 @@ class VillageManager:
                 "low_fill_rate": low_fill_threshold,
                 "high_fill_rate": high_fill_threshold,
             },
+            "config_profile": VillageManager.build_config_profile(config),
+            "recent": recent,
             "totals": VillageManager._finalize_farm_stats_bucket(totals),
             "sources": finalized_sources,
             "targets": finalized_targets,
@@ -224,6 +537,10 @@ class VillageManager:
     @staticmethod
     def write_farm_stats_snapshot(snapshot):
         FileManager.create_directories(["cache/farm_stats"])
+        previous = VillageManager._load_latest_farm_stats_snapshot()
+        delta = VillageManager.build_snapshot_delta(previous, snapshot)
+        if delta:
+            snapshot["since_previous"] = delta
         day = time.strftime("%Y-%m-%d", time.localtime(snapshot["timestamp"]))
         path = f"cache/farm_stats/{day}.jsonl"
         with open(path, "a", encoding="utf-8") as stats_file:

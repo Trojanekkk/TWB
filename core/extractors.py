@@ -249,8 +249,34 @@ class Extractor:
         """
         if type(res) != str:
             res = res.text
-        villages = re.findall(r'<span class="quickedit-vn" data-id="(\w+)"', res)
-        return list(set(villages))
+
+        villages = []
+        seen = set()
+
+        def add_villages(matches):
+            for village_id in matches:
+                village_id = str(village_id)
+                if village_id.isdigit() and village_id not in seen:
+                    villages.append(village_id)
+                    seen.add(village_id)
+
+        production_table = re.search(
+            r'(?is)<table[^>]+id=["\']production_table["\'][^>]*>(.*?)</table>',
+            res,
+        )
+        overview_html = production_table.group(1) if production_table else res
+
+        add_villages(re.findall(r'\bdata-id=["\'](\d+)["\']', overview_html))
+        add_villages(re.findall(r'\bdata-village-id=["\'](\d+)["\']', overview_html))
+        add_villages(re.findall(r'game\.php\?[^"\'<>\s]*?village=(\d+)', overview_html))
+
+        if not villages:
+            game_state = Extractor.game_state(res)
+            current_village = game_state.get("village", {}).get("id") if game_state else None
+            if current_village:
+                add_villages([current_village])
+
+        return villages
 
     @staticmethod
     def units_in_total(res):

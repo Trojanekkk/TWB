@@ -19,6 +19,7 @@ TWB - an open source Tribal Wars bot
 #
 
 import collections
+import copy
 import datetime
 import json
 import logging
@@ -276,29 +277,54 @@ class TWB:
         Gets the overview page to automatically detect world options and owned villages
         """
         overview_page = OverviewPage(self.wrapper)
-        self.found_villages = Extractor.village_ids_from_overview(overview_page.result_get.text)
+        discovered_villages = []
+        seen_villages = set()
+        overview_ids = list(overview_page.villages_data.keys())
+        extracted_ids = Extractor.village_ids_from_overview(overview_page.result_get.text)
+        for village_id in overview_ids + extracted_ids:
+            village_id = str(village_id)
+            if village_id not in seen_villages:
+                discovered_villages.append(village_id)
+                seen_villages.add(village_id)
+        self.found_villages = discovered_villages
+
+        if not self.found_villages:
+            logging.warning(
+                "No owned villages could be detected from overview_villages; keeping configured villages active"
+            )
+            self.found_villages = [str(village_id) for village_id in config["villages"]]
+        else:
+            logging.info(
+                "Discovered %d owned villages from overview_villages: %s",
+                len(self.found_villages),
+                ", ".join(self.found_villages),
+            )
+
         if config["bot"].get("add_new_villages", False):
             for found_vid in self.found_villages:
+                found_vid = str(found_vid)
                 if found_vid not in config["villages"]:
                     print(
                         f"Village {found_vid} was found but no config entry was found. Adding automatically"
                     )
-                    config = self.add_village(village_id=found_vid)
+                    config = self.add_village(village_id=found_vid, config=config)
 
         return overview_page, config
 
-    def add_village(self, village_id, template=None):
+    def add_village(self, village_id, template=None, config=None):
         """
         Adds a new village and sets the default template data
         """
-        original = self.config()
+        original = config if config else self.config()
         FileManager.copy_file("config.json", "config.bak")
 
         if not template and "village_template" not in original:
             print(f"Village entry {village_id} could not be added to the config file!")
-            return
+            return original
 
-        original["villages"][village_id] = template if template else original["village_template"]
+        original["villages"][str(village_id)] = copy.deepcopy(
+            template if template else original["village_template"]
+        )
 
         FileManager.save_json_file(original, "config.json")
         print("Deployed new configuration file")

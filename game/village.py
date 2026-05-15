@@ -552,6 +552,12 @@ class Village:
         self.attack.farm_priority_ratio = self.get_config(
             section="farms", parameter="priority_ratio", default=50
         )
+        self.attack.farm_exploration_ratio = self.get_config(
+            section="farms", parameter="farm_exploration_ratio", default=0.25
+        )
+        self.attack.farm_exploration_min_targets = self.get_config(
+            section="farms", parameter="farm_exploration_min_targets", default=2
+        )
         self.attack.scout_farm_amount = self.get_config(
             section="farms", parameter="farm_scout_amount", default=5
         )

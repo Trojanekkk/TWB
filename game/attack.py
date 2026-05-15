@@ -322,16 +322,17 @@ class AttackManager:
         if self.max_farms <= 1 or self.farm_exploration_ratio <= 0:
             return targets
 
-        explore_slots = int(round(self.max_farms * self.farm_exploration_ratio))
+        target_slots = min(len(targets), self.max_farms)
+        if target_slots <= 1:
+            return targets
+
+        explore_slots = int(round(target_slots * self.farm_exploration_ratio))
         explore_slots = max(self.farm_exploration_min_targets, explore_slots)
-        explore_slots = min(explore_slots, self.max_farms - 1)
+        explore_slots = min(explore_slots, target_slots - 1)
         if explore_slots <= 0:
             return targets
 
-        exploit_slots = max(1, self.max_farms - explore_slots)
-        if len(targets) <= exploit_slots:
-            return targets
-
+        exploit_slots = max(1, target_slots - explore_slots)
         priority_targets = targets[:exploit_slots]
         remaining_targets = targets[exploit_slots:]
         exploration_targets = sorted(
@@ -346,11 +347,25 @@ class AttackManager:
             if target[0]["id"] not in exploration_ids
         ]
 
+        mixed_targets = []
+        priority_queue = list(priority_targets)
+        exploration_queue = list(exploration_targets)
+        interval = max(
+            1,
+            len(priority_queue) // max(1, len(exploration_queue)),
+        )
+        while priority_queue or exploration_queue:
+            for _ in range(interval):
+                if priority_queue:
+                    mixed_targets.append(priority_queue.pop(0))
+            if exploration_queue:
+                mixed_targets.append(exploration_queue.pop(0))
+
         self.logger.info(
             "Farm target mix: %d priority, %d exploration, %d overflow",
             len(priority_targets), len(exploration_targets), len(rest)
         )
-        return priority_targets + exploration_targets + rest
+        return mixed_targets + rest
 
     def get_targets(self):
         """
@@ -474,7 +489,20 @@ class AttackManager:
         """
         Attempt to send scouts to a farm
         """
-        if "spy" not in self.troopmanager.troops or int(self.troopmanager.troops["spy"]) < self.scout_farm_amount:
+        if not self.troopmanager.can_scout:
+            self.logger.debug(
+                "Skipping scout for %s because farm scouting is disabled", vid
+            )
+            return False
+        if self.scout_farm_amount <= 0:
+            self.logger.debug(
+                "Skipping scout for %s because scout amount is disabled", vid
+            )
+            return False
+        if (
+                "spy" not in self.troopmanager.troops
+                or int(self.troopmanager.troops["spy"]) < self.scout_farm_amount
+        ):
             self.logger.debug(
                 "Cannot scout %s at the moment because insufficient unit: spy", vid
             )
@@ -482,6 +510,8 @@ class AttackManager:
         troops = {"spy": self.scout_farm_amount}
         if self.attack(vid, troops=troops):
             self.attacked(vid, scout=True, safe=False, attack_type="scout")
+            return True
+        return False
 
     def can_attack(self, vid, clear=False):
         """
@@ -493,8 +523,14 @@ class AttackManager:
         if cache_entry and cache_entry["last_attack"]:
             last_attack = datetime.fromtimestamp(cache_entry["last_attack"])
             now = datetime.now()
-            if last_attack < now - timedelta(hours=12):
-                self.logger.debug(f"Attacked long ago %s, trying scout attack", {last_attack})
+            if (
+                    last_attack < now - timedelta(hours=12)
+                    and self.scout_first
+                    and self.troopmanager.can_scout
+            ):
+                self.logger.debug(
+                    "Attacked long ago %s, trying scout attack", last_attack
+                )
                 if self.scout(vid):
                     return False
 
@@ -527,8 +563,12 @@ class AttackManager:
                     return False
                 if status == 0:
                     if cache_entry["last_attack"] + self.farm_low_prio_wait * 2 > int(time.time()):
-                        self.logger.info(f"{vid}: Old scout report found ({cache_entry['last_attack']}), re-scouting")
-                        self.scout(vid)
+                        if self.scout_first and self.troopmanager.can_scout:
+                            self.logger.info(
+                                "%s: Old scout report found (%s), re-scouting",
+                                vid, cache_entry["last_attack"]
+                            )
+                            self.scout(vid)
                         return False
                     else:
                         self.logger.info(

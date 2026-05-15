@@ -1,4 +1,5 @@
 import dataclasses
+import logging
 import re
 from typing import Dict, Optional, Tuple
 
@@ -233,23 +234,36 @@ class OverviewPage:
             rows = self.production_table.find_all("tr")
             for row in rows:
                 if row.find_all("td"):
-                    cells = row.find_all("td")
-                    idx_offset = 1 if len(cells[0].contents) == 0 else 0  # Compatibility with premium account
-                    village_id = cells[idx_offset].contents[1].attrs["data-id"]
+                    try:
+                        cells = row.find_all("td")
+                        # Compatibility with premium account.
+                        idx_offset = 1 if len(cells[0].contents) == 0 else 0
+                        village_marker = cells[idx_offset].find(attrs={"data-id": True})
+                        if not village_marker:
+                            continue
+                        village_id = str(village_marker.attrs["data-id"])
 
-                    name, coordinates, continent = self._extract_name_cords_continent(
-                        cells[idx_offset].text.strip()
-                    )
-                    points = cells[1 + idx_offset].text.strip()
-                    resources = cells[2 + idx_offset].text.strip()
-                    storage_capacity = cells[3 + idx_offset].text.strip()
+                        name, coordinates, continent = self._extract_name_cords_continent(
+                            cells[idx_offset].text.strip()
+                        )
+                        points = cells[1 + idx_offset].text.strip()
+                        resources = cells[2 + idx_offset].text.strip()
+                        storage_capacity = cells[3 + idx_offset].text.strip()
 
-                    storage = Storage(resources, storage_capacity)
-                    farm = Farm(cells[4 + idx_offset].text.strip())
-                    village = Village(
-                        village_id, name, coordinates, continent, points, storage, farm
-                    )
-                    self.villages_data[village_id] = village
+                        storage = Storage(resources, storage_capacity)
+                        farm = Farm(cells[4 + idx_offset].text.strip())
+                        village = Village(
+                            village_id, name, coordinates, continent, points, storage, farm
+                        )
+                        self.villages_data[village_id] = village
+                    except (
+                        AttributeError,
+                        IndexError,
+                        KeyError,
+                        TypeError,
+                        ValueError,
+                    ) as exc:
+                        logging.debug("Skipping unparsable overview village row: %s", exc)
 
     def parse_header_info(self) -> None:
         """Parse header information to get world options."""

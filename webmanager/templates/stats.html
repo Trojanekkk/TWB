@@ -148,15 +148,69 @@
         <h6>Latest Snapshot</h6>
         <table class="table table-sm">
             <tbody>
+                {% if stats.snapshots.latest.config_profile %}
+                <tr><th>Config profile</th><td class="stats-number"><code>{{ stats.snapshots.latest.config_profile.profile_id }}</code></td></tr>
+                {% endif %}
                 <tr><th>Loot</th><td class="stats-number">{{ stats.snapshots.latest.totals.loot }}</td></tr>
                 <tr><th>Fill</th><td class="stats-number">{{ (stats.snapshots.latest.totals.fill_rate * 100) | round(1) }}%</td></tr>
                 <tr><th>Loss</th><td class="stats-number">{{ stats.snapshots.latest.totals.loss_percentage }}%</td></tr>
                 <tr><th>Low farms</th><td class="stats-number">{{ stats.snapshots.latest.low_profile_farms }}</td></tr>
+                {% if stats.snapshots.latest.recent %}
+                <tr><th>24h loot/h</th><td class="stats-number">{{ stats.snapshots.latest.recent.windows["24h"].totals.loot_per_hour }}</td></tr>
+                <tr><th>24h targets</th><td class="stats-number">{{ stats.snapshots.latest.recent.windows["24h"].totals.active_targets }}</td></tr>
+                <tr><th>24h new targets</th><td class="stats-number">{{ stats.snapshots.latest.recent.windows["24h"].totals.new_targets }}</td></tr>
+                {% endif %}
             </tbody>
         </table>
         {% endif %}
     </div>
 </div>
+
+{% if stats.snapshots.config_profiles %}
+<h5 class="mt-4">Config Impact</h5>
+<div class="stats-muted mb-2">
+    Interval rows exclude transition snapshots where the profile changed.
+</div>
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Profile</th>
+            <th>Latest</th>
+            <th>Snapshots</th>
+            <th>Intervals</th>
+            <th>Loot/h</th>
+            <th>Attacks/h</th>
+            <th>Scouts/h</th>
+            <th>Fill</th>
+            <th>Loss</th>
+            <th>Knobs</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for profile in stats.snapshots.config_profiles %}
+        <tr>
+            <td class="stats-number"><code>{{ profile.profile_id }}</code></td>
+            <td class="stats-number">{{ profile.latest_label }}</td>
+            <td class="stats-number">{{ profile.snapshots }}</td>
+            <td class="stats-number">{{ profile.intervals }}</td>
+            <td class="stats-number">{{ profile.loot_per_hour }}</td>
+            <td class="stats-number">{{ profile.attacks_per_hour }}</td>
+            <td class="stats-number">{{ profile.scouts_per_hour }}</td>
+            <td class="stats-number">{{ (profile.fill_rate * 100) | round(1) }}%</td>
+            <td class="stats-number">{{ profile.loss_percentage }}%</td>
+            <td class="stats-muted">
+                r={{ profile.farms.search_radius | default("-") }},
+                max={{ profile.farms.max_farms | default("-") }},
+                prio={{ profile.farms.priority_ratio | default("-") }},
+                exp={{ profile.farms.farm_exploration_ratio | default("-") }}/{{ profile.farms.farm_exploration_min_targets | default("-") }},
+                wait={{ profile.farms.full_loot_away_time | default("-") }}/{{ profile.farms.default_away_time | default("-") }}/{{ profile.farms.low_loot_away_time | default("-") }},
+                scout={{ profile.farms.force_scout_if_available | default("-") }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 <h5 class="mt-4">Village Split</h5>
 <table class="table table-sm table-striped">
