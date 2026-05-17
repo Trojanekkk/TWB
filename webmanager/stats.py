@@ -178,6 +178,7 @@ class StatsBuilder:
                 "latest_label": "",
                 "bot": profile.get("bot", {}),
                 "farms": profile.get("farms", {}),
+                "map": profile.get("map", {}),
                 "template_hashes": profile.get("template_hashes", {}),
             })
             summary["snapshots"] += 1

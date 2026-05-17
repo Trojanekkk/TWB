@@ -205,7 +205,8 @@
                 exp={{ profile.farms.farm_exploration_ratio | default("-") }}/{{ profile.farms.farm_exploration_min_targets | default("-") }},
                 delay={{ profile.bot.delay_factor | default("-") }}/{% if profile.bot.attack_delay_factor is defined %}{{ profile.bot.attack_delay_factor }}{% else %}{{ profile.bot.delay_factor | default("-") }}{% endif %},
                 wait={{ profile.farms.full_loot_away_time | default("-") }}/{{ profile.farms.default_away_time | default("-") }}/{{ profile.farms.low_loot_away_time | default("-") }},
-                scout={{ profile.farms.force_scout_if_available | default("-") }}
+                scout={{ profile.farms.force_scout_if_available | default("-") }},
+                map={{ profile.map.discovery_enabled | default("-") }}/{{ profile.map.discovery_radius | default("-") }}
             </td>
         </tr>
         {% endfor %}

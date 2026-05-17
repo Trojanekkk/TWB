@@ -93,6 +93,7 @@ class VillageManager:
     def build_config_profile(config):
         farms = config.get("farms", {})
         bot = config.get("bot", {})
+        map_config = config.get("map", {})
         world = config.get("world", {})
         villages = config.get("villages", {})
 
@@ -125,6 +126,14 @@ class VillageManager:
             "attack_delay_factor",
         ]
         world_keys = ["game_speed", "unit_speed"]
+        map_keys = [
+            "discovery_enabled",
+            "discovery_radius",
+            "discovery_step",
+            "max_discovery_requests_per_run",
+            "discovery_refresh_hours",
+            "fetch_delay_hours",
+        ]
         village_keys = [
             "managed",
             "units",
@@ -175,6 +184,7 @@ class VillageManager:
         profile_payload = {
             "farms": {key: farms.get(key) for key in farm_keys if key in farms},
             "bot": {key: bot.get(key) for key in bot_keys if key in bot},
+            "map": {key: map_config.get(key) for key in map_keys if key in map_config},
             "world": {key: world.get(key) for key in world_keys if key in world},
             "villages": village_profiles,
             "template_hashes": template_hashes,

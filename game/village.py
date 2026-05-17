@@ -594,6 +594,7 @@ class Village:
         if not self.forced_peace and self.units.can_attack:
             if not self.area:
                 self.area = Map(wrapper=self.wrapper, village_id=self.village_id)
+            self.area.configure_discovery(self.config.get("map", {}))
             self.area.get_map()
             if self.area.villages:
                 self.units.can_scout = self.get_config(

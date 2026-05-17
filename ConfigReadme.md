@@ -73,6 +73,12 @@ If no scouts are available or they are not yet researched the script will send 1
 By default the script will choose quantity over resources since other players could also be attacking this village. The "default_away_time" parameter sets the amount of seconds the bot will wait before attacking this village again. "full_loot_away_time" does the same but for high priority villages (full loot return).
 The "find_player_owned" parameter allows player-owned farms, but only for village IDs explicitly listed in the village "additional_farms" setting. When disabled, farming is limited to barbarian villages.
 
+## Map discovery
+
+The `map` section controls how much of the map is discovered into `cache/villages`. `farms.search_radius` only filters already discovered villages; it does not discover more of the map by itself.
+
+When `map.discovery_enabled` is true, each managed village slowly visits additional map centers around itself. `map.discovery_radius` sets how far those centers can be, `map.discovery_step` controls spacing between centers, and `map.max_discovery_requests_per_run` caps extra map requests per village cycle. Keep this cap low because map discovery adds visible page visits.
+
 ## Market
 The market feature automatically manages the resources in your village. This is especially nice whenever the builder is low on a certain resource and has plenty of others.
 "max_trade_duration" configures the max amount of trade time in hours, this should be kept low.

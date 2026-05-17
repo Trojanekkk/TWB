@@ -98,6 +98,14 @@
     "night_bonus_end_hour": 7,
     "night_bonus_troop_multiplier": 3.0
   },
+  "map": {
+    "discovery_enabled": false,
+    "discovery_radius": 100,
+    "discovery_step": 20,
+    "max_discovery_requests_per_run": 2,
+    "discovery_refresh_hours": 24,
+    "fetch_delay_hours": 8
+  },
   "market": {
     "auto_trade": true,
     "max_trade_duration": 1,

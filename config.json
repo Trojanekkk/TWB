@@ -82,7 +82,7 @@
     "min_points": 0,
     "max_points": 1500,
     "find_player_owned": false,
-    "search_radius": 75,
+    "search_radius": 100,
     "default_away_time": 5400,
     "full_loot_away_time": 1200,
     "low_loot_away_time": 10800,
@@ -97,6 +97,14 @@
     "night_bonus_start_hour": 23,
     "night_bonus_end_hour": 7,
     "night_bonus_troop_multiplier": 3.0
+  },
+  "map": {
+    "discovery_enabled": true,
+    "discovery_radius": 100,
+    "discovery_step": 20,
+    "max_discovery_requests_per_run": 2,
+    "discovery_refresh_hours": 24,
+    "fetch_delay_hours": 8
   },
   "market": {
     "auto_trade": false,
