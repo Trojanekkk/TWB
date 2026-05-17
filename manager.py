@@ -122,6 +122,7 @@ class VillageManager:
             "village_delay_min",
             "village_delay_max",
             "delay_factor",
+            "attack_delay_factor",
         ]
         world_keys = ["game_speed", "unit_speed"]
         village_keys = [

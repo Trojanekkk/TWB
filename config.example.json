@@ -21,6 +21,7 @@
   "bot": {
     "active_hours": "6-23",
     "delay_factor": 1.0,
+    "attack_delay_factor": 1.0,
     "active_delay": 200,
     "village_delay_min": 60,
     "village_delay_max": 180,

@@ -31,6 +31,9 @@ Hours that the bot should be active, it defaults to 6 in the morning to 23 at ni
 **Active Delay, Inactive Delay and Inactive Still Active**
 Active delay configures the minimal time the bot will wait until next run during active hours. Inactive delay will configure the same for inactive hours. If inactive_still_active is disabled the bot will completely shut down during inactive hours and will probably time-out your session so you have to manually restart the bot in the morning.
 
+**Delay Factor and Attack Delay Factor**
+delay_factor controls the per-request delay for normal bot actions. attack_delay_factor overrides that delay only while sending attacks, including opening the rally point, confirming, and submitting the attack. If attack_delay_factor is omitted, attacks use delay_factor.
+
 **Forced Peace Times**
 An array of times that you cannot attack (christmas etc..). Should be in the form of:
 ```

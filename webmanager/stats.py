@@ -176,6 +176,7 @@ class StatsBuilder:
                 "sent_units": 0,
                 "latest_timestamp": 0,
                 "latest_label": "",
+                "bot": profile.get("bot", {}),
                 "farms": profile.get("farms", {}),
                 "template_hashes": profile.get("template_hashes", {}),
             })

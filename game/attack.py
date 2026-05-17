@@ -51,6 +51,7 @@ class AttackManager:
     farm_low_loot_threshold = 100
     farm_exploration_ratio = 0.25
     farm_exploration_min_targets = 2
+    attack_delay_factor = None
 
     # Night bonus protection: defenders get +200% defence during night-bonus
     # hours, so a normal-sized farm bleeds troops. Instead of skipping, the
@@ -624,6 +625,26 @@ class AttackManager:
     def attack(self, vid, troops=None):
         """
         Send a TW attack
+        """
+        original_delay = self.wrapper.delay
+        if self.attack_delay_factor is not None:
+            try:
+                self.wrapper.delay = float(self.attack_delay_factor)
+            except (TypeError, ValueError):
+                self.logger.warning(
+                    "Invalid attack_delay_factor %s, using global delay %s",
+                    self.attack_delay_factor,
+                    original_delay,
+                )
+
+        try:
+            return self._attack_with_current_delay(vid, troops=troops)
+        finally:
+            self.wrapper.delay = original_delay
+
+    def _attack_with_current_delay(self, vid, troops=None):
+        """
+        Send a TW attack using the wrapper's currently configured delay.
         """
         url = f"game.php?village={self.village_id}&screen=place&target={vid}"
         pre_attack = self.wrapper.get_url(url)

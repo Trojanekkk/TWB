@@ -9,6 +9,7 @@ help_file = {
     'bot': 'Set global bot configuration variables',
     'bot.active_hours': 'The hours when the bot should use active_delay (this does not impact attack timings)',
     'bot.delay_factor': 'Delay factor to use 5-7seconds * delay factor (very low factors will probably cause ban)',
+    'bot.attack_delay_factor': 'Delay factor used only while sending attack requests; defaults to delay_factor when omitted',
     'bot.active_delay': 'Delay in seconds to use in bot active times',
     'bot.village_delay_min': 'Minimum dead time in seconds between villages in the same bot cycle',
     'bot.village_delay_max': 'Maximum dead time in seconds between villages in the same bot cycle',

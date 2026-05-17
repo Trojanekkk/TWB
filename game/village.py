@@ -558,6 +558,11 @@ class Village:
         self.attack.farm_exploration_min_targets = self.get_config(
             section="farms", parameter="farm_exploration_min_targets", default=2
         )
+        self.attack.attack_delay_factor = self.get_config(
+            section="bot",
+            parameter="attack_delay_factor",
+            default=self.get_config(section="bot", parameter="delay_factor", default=1.0),
+        )
         self.attack.scout_farm_amount = self.get_config(
             section="farms", parameter="farm_scout_amount", default=5
         )
