@@ -129,7 +129,7 @@
     "5844": {
       "building": "claude-farming-off",
       "units": "claude-farming-off",
-      "managed": false,
+      "managed": true,
       "scout_first": false,
       "additional_farms": [],
       "prioritize_building": false,
