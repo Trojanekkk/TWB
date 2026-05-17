@@ -1,0 +1,16 @@
+{
+  "id": "2522",
+  "name": 0,
+  "location": [
+    444,
+    555
+  ],
+  "bonus": null,
+  "points": 173,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {}
+}

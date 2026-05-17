@@ -1,6 +1,6 @@
 {
   "id": "5375",
-  "name": 0,
+  "name": "Dw\u00f3r Carycy 04",
   "location": [
     453,
     564
@@ -9,11 +9,11 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 167,
+  "points": 284,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "849244130",
   "buildings": {},
   "resources": {}
 }

@@ -1,0 +1,19 @@
+{
+  "id": "7024",
+  "name": "003. Szcz\u0119\u015b\u0107 Bo\u017ce",
+  "location": [
+    450,
+    553
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 917,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "849211179",
+  "buildings": {},
+  "resources": {}
+}

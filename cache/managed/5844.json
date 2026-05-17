@@ -8,7 +8,7 @@
       567
     ],
     "bonus": null,
-    "points": 4019,
+    "points": 4447,
     "safe": false,
     "scout": false,
     "tribe": "37",
@@ -17,74 +17,84 @@
     "resources": {}
   },
   "resources": {
-    "wood": 14470,
-    "stone": 1466,
-    "iron": 4769,
-    "pop": 55
+    "wood": 5164,
+    "stone": 10620,
+    "iron": 1250,
+    "pop": 942
   },
-  "required_resources": {},
+  "required_resources": {
+    "recruitment_light": {
+      "wood": 0,
+      "stone": 0,
+      "iron": 3250
+    },
+    "recruitment_catapult": {
+      "wood": 6400,
+      "stone": 0,
+      "iron": 2000
+    },
+    "recruitment_ram": {
+      "wood": 6000,
+      "stone": 0,
+      "iron": 4000
+    }
+  },
   "available_troops": {
-    "spear": "339",
-    "sword": "246",
-    "axe": "1086",
+    "spear": "79",
+    "sword": "46",
+    "axe": "325",
     "archer": "13",
-    "light": "48",
-    "ram": "76",
-    "catapult": "1"
+    "spy": "291",
+    "light": "95",
+    "marcher": "68",
+    "ram": "105",
+    "catapult": "22",
+    "knight": "1"
   },
   "building_levels": {
     "main": 20,
-    "barracks": 18,
-    "stable": 10,
-    "garage": 3,
+    "barracks": 19,
+    "stable": 12,
+    "garage": 5,
     "church": 0,
     "church_f": 1,
-    "watchtower": 0,
+    "watchtower": 1,
     "snob": 1,
     "smith": 20,
     "place": 1,
     "statue": 1,
-    "market": 11,
-    "wood": 26,
+    "market": 12,
+    "wood": 27,
     "stone": 26,
-    "iron": 23,
-    "farm": 21,
-    "storage": 20,
+    "iron": 24,
+    "farm": 22,
+    "storage": 21,
     "hide": 5,
     "wall": 16
   },
   "buidling_levels": {
     "main": 20,
-    "barracks": 18,
-    "stable": 10,
-    "garage": 3,
+    "barracks": 19,
+    "stable": 12,
+    "garage": 5,
     "church": 0,
     "church_f": 1,
-    "watchtower": 0,
+    "watchtower": 1,
     "snob": 1,
     "smith": 20,
     "place": 1,
     "statue": 1,
-    "market": 11,
-    "wood": 26,
+    "market": 12,
+    "wood": 27,
     "stone": 26,
-    "iron": 23,
-    "farm": 21,
-    "storage": 20,
+    "iron": 24,
+    "farm": 22,
+    "storage": 21,
     "hide": 5,
     "wall": 16
   },
   "building_queue": [
     "church:1",
-    "watchtower:1",
-    "hide:5",
-    "wood:22",
-    "stone:22",
-    "iron:22",
-    "farm:14",
-    "storage:15",
-    "barracks:15",
-    "stable:12",
     "garage:5",
     "farm:16",
     "storage:17",
@@ -121,30 +131,41 @@
     "storage:30"
   ],
   "building_queue_status": {
-    "currently_building": [],
-    "active_items": 0,
+    "currently_building": [
+      {
+        "building": "garage",
+        "level": 5,
+        "finishes_at": 1779014229
+      },
+      {
+        "building": "garage",
+        "level": 5,
+        "finishes_at": 1779015082
+      }
+    ],
+    "active_items": 2,
     "next_entry": "church:1",
     "next_building": "church",
     "next_level": 1,
     "template_position": 1,
-    "remaining": 44,
+    "remaining": 35,
     "repair": false
   },
   "troops": {
-    "spear": 339,
-    "sword": 246,
-    "axe": 1081,
+    "spear": 79,
+    "sword": 46,
+    "axe": 285,
     "archer": 13,
-    "spy": 338,
-    "light": 247,
-    "marcher": 0,
+    "spy": 308,
+    "light": 258,
+    "marcher": 68,
     "heavy": 0,
-    "ram": 76,
-    "catapult": 0,
+    "ram": 105,
+    "catapult": 22,
     "knight": 1,
-    "snob": 1,
+    "snob": 0,
     "militia": 0
   },
   "under_attack": false,
-  "last_run": 1778829451
+  "last_run": 1779024958
 }

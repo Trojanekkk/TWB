@@ -1,0 +1,16 @@
+{
+  "id": "4417",
+  "name": "Wioska Syndrom",
+  "location": [
+    456,
+    552
+  ],
+  "bonus": null,
+  "points": 290,
+  "safe": false,
+  "scout": false,
+  "tribe": "0",
+  "owner": "699306599",
+  "buildings": {},
+  "resources": {}
+}

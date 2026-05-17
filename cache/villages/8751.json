@@ -1,6 +1,6 @@
 {
   "id": "8751",
-  "name": 0,
+  "name": "Anubi",
   "location": [
     448,
     577
@@ -9,11 +9,11 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 250,
+  "points": 647,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699443920",
   "buildings": {},
   "resources": {}
 }

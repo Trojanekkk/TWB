@@ -1,0 +1,19 @@
+{
+  "id": "4306",
+  "name": "002. Gorzkie \u017bale",
+  "location": [
+    451,
+    554
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 1977,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "849211179",
+  "buildings": {},
+  "resources": {}
+}

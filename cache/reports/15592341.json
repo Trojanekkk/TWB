@@ -1,0 +1,25 @@
+{
+  "type": "attack",
+  "origin": "8347",
+  "dest": "5844",
+  "losses": {},
+  "extra": {
+    "when": 1779026152,
+    "units_sent": {
+      "spy": 10
+    },
+    "units_losses": {
+      "spy": 10
+    },
+    "defence_units": {
+      "axe": 6,
+      "spy": 298,
+      "light": 25,
+      "marcher": 1,
+      "ram": 105,
+      "catapult": 22,
+      "knight": 1
+    },
+    "defence_losses": {}
+  }
+}
