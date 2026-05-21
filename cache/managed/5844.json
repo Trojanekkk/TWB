@@ -18,36 +18,20 @@
     "last_seen": 1779326697
   },
   "resources": {
-    "wood": 52292,
-    "stone": 57628,
-    "iron": 40731,
-    "pop": 1359
+    "wood": 36524,
+    "stone": 32837,
+    "iron": 9560,
+    "pop": 1147
   },
-  "required_resources": {
-    "recruitment_marcher": {
-      "wood": 0,
-      "stone": 0,
-      "iron": 0
-    },
-    "recruitment_light": {
-      "wood": 0,
-      "stone": 0,
-      "iron": 0
-    },
-    "recruitment_spy": {
-      "wood": 0,
-      "stone": 0,
-      "iron": 0
-    }
-  },
+  "required_resources": {},
   "available_troops": {
     "spear": "133",
     "sword": "6",
-    "axe": "746",
+    "axe": "766",
     "archer": "13",
     "spy": "283",
-    "light": "14",
-    "marcher": "136",
+    "light": "168",
+    "marcher": "155",
     "ram": "150",
     "catapult": "50",
     "knight": "1"
@@ -68,7 +52,7 @@
     "wood": 28,
     "stone": 28,
     "iron": 25,
-    "farm": 23,
+    "farm": 24,
     "storage": 26,
     "hide": 5,
     "wall": 16
@@ -89,7 +73,7 @@
     "wood": 28,
     "stone": 28,
     "iron": 25,
-    "farm": 23,
+    "farm": 24,
     "storage": 26,
     "hide": 5,
     "wall": 16
@@ -277,12 +261,12 @@
       {
         "building": "stable",
         "level": 13,
-        "finishes_at": 1779341908
+        "finishes_at": 1779354117
       },
       {
         "building": "stable",
         "level": 14,
-        "finishes_at": 1779358025
+        "finishes_at": 1779373854
       }
     ],
     "active_items": 2,
@@ -294,7 +278,7 @@
     "repair": true
   },
   "troops": {
-    "spear": 117,
+    "spear": 133,
     "sword": 6,
     "axe": 746,
     "archer": 13,
@@ -309,5 +293,5 @@
     "militia": 0
   },
   "under_attack": false,
-  "last_run": 1779330042
+  "last_run": 1779352383
 }
