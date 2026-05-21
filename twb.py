@@ -465,7 +465,6 @@ class TWB:
         self.wrapper.headers["user-agent"] = config["bot"]["user_agent"]
         self.sync_configured_villages(config)
         # setup additional builder
-        rm = None
         defense_states = {}
         while self.should_run:
             if not self.internet_online():
@@ -506,16 +505,11 @@ class TWB:
                         continue
                     available_villages.append(village)
 
-                village_number = 1
-                for village_index, village in enumerate(available_villages):
-                    if not rm:
-                        rm = village.rep_man
-                    else:
-                        village.rep_man = rm
-                    if (
-                            "auto_set_village_names" in config["bot"]
-                            and config["bot"]["auto_set_village_names"]
-                    ):
+                if (
+                        "auto_set_village_names" in config["bot"]
+                        and config["bot"]["auto_set_village_names"]
+                ):
+                    for village_number, village in enumerate(available_villages, start=1):
                         template = config["bot"]["village_name_template"]
                         fs = (
                                 "%0"
@@ -523,10 +517,39 @@ class TWB:
                                 + "d"
                         )
                         num_pad = fs % village_number
-                        template = template.replace("{num}", num_pad)
-                        village.village_set_name = template
+                        village.village_set_name = template.replace("{num}", num_pad)
 
-                    village.run(config=config)
+                cycle_villages = list(available_villages)
+                random.shuffle(cycle_villages)
+                if len(cycle_villages) > 1:
+                    logging.getLogger("TWB").info(
+                        "Village cycle order: %s",
+                        " -> ".join(village.village_id for village in cycle_villages),
+                    )
+
+                cycle_report_manager = None
+                reports_read_this_cycle = False
+                quests_read_this_cycle = False
+                for village_index, village in enumerate(cycle_villages):
+                    if cycle_report_manager:
+                        village.rep_man = cycle_report_manager
+
+                    is_managed = config["villages"].get(
+                        village.village_id, {}
+                    ).get("managed", False)
+                    read_reports = is_managed and not reports_read_this_cycle
+                    read_quests = is_managed and not quests_read_this_cycle
+
+                    village.run(
+                        config=config,
+                        read_reports=read_reports,
+                        read_quests=read_quests,
+                    )
+                    if read_reports and village.rep_man:
+                        cycle_report_manager = village.rep_man
+                        reports_read_this_cycle = True
+                    if read_quests:
+                        quests_read_this_cycle = True
                     self.wrapper.maybe_humanize(village.village_id)
 
                     if (
@@ -540,12 +563,11 @@ class TWB:
                             if village.def_man.allow_support_recv
                             else False
                         )
-                    village_number += 1
 
-                    if village_index < len(available_villages) - 1:
+                    if village_index < len(cycle_villages) - 1:
                         village_sleep = self.village_cycle_delay(config)
                         if village_sleep > 0:
-                            next_village = available_villages[village_index + 1]
+                            next_village = cycle_villages[village_index + 1]
                             self.sleep_dead_time(
                                 village_sleep,
                                 "Between villages %s -> %s"

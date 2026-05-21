@@ -129,7 +129,7 @@ class Village:
         ):
             self.twp.run(world=self.get_config(section="server", parameter="server"))
 
-    def update_pre_run(self):
+    def update_pre_run(self, read_reports=True):
         """
         Manage defence, resources and reports
         """
@@ -147,7 +147,8 @@ class Village:
             self.rep_man = ReportManager(
                 wrapper=self.wrapper, village_id=self.village_id
             )
-        self.rep_man.read(full_run=False)
+        if read_reports:
+            self.rep_man.read(full_run=False)
 
         if not self.def_man:
             self.def_man = DefenceManager(
@@ -193,14 +194,17 @@ class Village:
             )
         self.last_attack = self.def_man.under_attack
 
-    def run_quest_actions(self, config):
-        if self.get_config(section="world", parameter="quests_enabled", default=False):
+    def run_quest_actions(self, config, read_quests=True):
+        if (
+                read_quests
+                and self.get_config(section="world", parameter="quests_enabled", default=False)
+        ):
             if self.get_quests():
                 self.logger.info("There where completed quests, re-running function")
                 self.wrapper.reporter.report(
                     self.village_id, "TWB_QUEST", "Completed quest"
                 )
-                return self.run(config=config)
+                return self.run(config=config, read_reports=False, read_quests=False)
 
             if self.get_quest_rewards():
                 self.wrapper.reporter.report(
@@ -685,7 +689,7 @@ class Village:
             self.resman.do_premium_trade = True
             self.resman.do_premium_stuff()
 
-    def run(self, config=None, first_run=False):
+    def run(self, config=None, first_run=False, read_reports=True, read_quests=True):
         # setup and check if village still exists / is accessible
         self.config = config
         self.wrapper.delay = self.get_config(
@@ -713,10 +717,10 @@ class Village:
         if not self.game_data:
             raise InvalidGameStateException
 
-        self.update_pre_run()
+        self.update_pre_run(read_reports=read_reports)
 
         self.setup_defence_manager(data=data)
-        self.run_quest_actions(config=config)
+        self.run_quest_actions(config=config, read_quests=read_quests)
 
         self.run_builder()
         self.units_get_template()
