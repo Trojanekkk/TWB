@@ -1,0 +1,20 @@
+{
+  "id": "10301",
+  "name": "Osada koczownik\u00f3w",
+  "location": [
+    421,
+    568
+  ],
+  "bonus": [
+    "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
+    "bonus/storage.png"
+  ],
+  "points": 1764,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "849198920",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779222395
+}

@@ -1,0 +1,17 @@
+{
+  "id": "12306",
+  "name": 0,
+  "location": [
+    419,
+    582
+  ],
+  "bonus": null,
+  "points": 223,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779320614
+}

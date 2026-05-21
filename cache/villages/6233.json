@@ -1,0 +1,20 @@
+{
+  "id": "6233",
+  "name": "005 eXe.",
+  "location": [
+    472,
+    540
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 1184,
+  "safe": false,
+  "scout": false,
+  "tribe": "84",
+  "owner": "849299602",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779290998
+}

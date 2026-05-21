@@ -93,17 +93,14 @@
       }
     },
     "upgrades": {
-      "archer": 2,
+      "archer": 1,
       "light": 1,
-      "spear": 3,
-      "sword": 3
+      "spear": 1,
+      "sword": 1
     },
     "farm": [
       {
-        "sword": 80
-      },
-      {
-        "spear": 100
+        "light": 3
       }
     ]
   },
@@ -117,20 +114,19 @@
         "sword": 2000
       },
       "stable": {
+        "light": 50,
         "spy": 200
       }
     },
     "upgrades": {
-      "archer": 3,
-      "spear": 4,
-      "sword": 4
+      "archer": 1,
+      "light": 1,
+      "spear": 1,
+      "sword": 1
     },
     "farm": [
       {
-        "sword": 80
-      },
-      {
-        "spear": 100
+        "light": 3
       }
     ]
   },
@@ -145,21 +141,20 @@
       },
       "stable": {
         "heavy": 100,
+        "light": 50,
         "spy": 350
       }
     },
     "upgrades": {
-      "archer": 4,
       "heavy": 1,
-      "spear": 5,
-      "sword": 5
+      "archer": 1,
+      "light": 1,
+      "spear": 1,
+      "sword": 1
     },
     "farm": [
       {
-        "sword": 80
-      },
-      {
-        "spear": 100
+        "light": 3
       }
     ]
   },
@@ -174,23 +169,13 @@
       },
       "stable": {
         "heavy": 100,
+        "light": 50,
         "spy": 500
       }
     },
-    "upgrades": {
-      "archer": 10,
-      "heavy": 10,
-      "light": 10,
-      "spear": 10,
-      "spy": 10,
-      "sword": 10
-    },
     "farm": [
       {
-        "sword": 80
-      },
-      {
-        "spear": 100
+        "light": 3
       }
     ]
   }

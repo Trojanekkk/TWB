@@ -1,0 +1,20 @@
+{
+  "id": "9604",
+  "name": "|002| Kattegat",
+  "location": [
+    445,
+    584
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja \u017celaza",
+    "bonus/iron.png"
+  ],
+  "points": 2999,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "699744607",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779123706
+}

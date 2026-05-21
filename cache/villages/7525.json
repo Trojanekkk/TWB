@@ -1,16 +1,17 @@
 {
   "id": "7525",
-  "name": "Wioska Sir Sicksadistic",
+  "name": "003 Kolonia Pu\u0144czok",
   "location": [
     457,
     574
   ],
   "bonus": null,
-  "points": 910,
+  "points": 869,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849109196",
+  "tribe": "166",
+  "owner": "849308329",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779326697
 }

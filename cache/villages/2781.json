@@ -1,0 +1,20 @@
+{
+  "id": "2781",
+  "name": "004 fix",
+  "location": [
+    439,
+    529
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 2055,
+  "safe": false,
+  "scout": false,
+  "tribe": "61",
+  "owner": "849235851",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779265747
+}

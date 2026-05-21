@@ -1,16 +1,17 @@
 {
   "id": "5774",
-  "name": "003 Wzg\u00f3rze",
+  "name": "003 Thazarr",
   "location": [
     449,
     552
   ],
   "bonus": null,
-  "points": 2398,
+  "points": 3123,
   "safe": false,
   "scout": false,
   "tribe": "37",
   "owner": "2206657",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

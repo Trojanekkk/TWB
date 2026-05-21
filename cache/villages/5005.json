@@ -1,16 +1,17 @@
 {
   "id": "5005",
-  "name": "001 KonohaGakure",
+  "name": "001 KonohaGakure-krecikszef",
   "location": [
     447,
     543
   ],
   "bonus": null,
-  "points": 1591,
+  "points": 2320,
   "safe": false,
   "scout": false,
   "tribe": "37",
   "owner": "2206657",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

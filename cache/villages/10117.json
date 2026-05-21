@@ -1,0 +1,17 @@
+{
+  "id": "10117",
+  "name": "0004. Minas Tirith",
+  "location": [
+    430,
+    574
+  ],
+  "bonus": null,
+  "points": 4875,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "8083365",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779222395
+}

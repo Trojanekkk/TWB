@@ -9,11 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 166,
+  "points": 215,
   "safe": false,
   "scout": false,
   "tribe": null,
   "owner": "0",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

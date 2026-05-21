@@ -1,16 +1,17 @@
 {
   "id": "4410",
-  "name": "| 004 | Miami",
+  "name": "| 006 | Monako",
   "location": [
     459,
     569
   ],
   "bonus": null,
-  "points": 1116,
+  "points": 1690,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "849293022",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779326697
 }

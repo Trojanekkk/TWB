@@ -1,0 +1,20 @@
+{
+  "id": "3006",
+  "name": "007 eXe.",
+  "location": [
+    477,
+    537
+  ],
+  "bonus": [
+    "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
+    "bonus/storage.png"
+  ],
+  "points": 251,
+  "safe": false,
+  "scout": false,
+  "tribe": "84",
+  "owner": "849299602",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779295087
+}

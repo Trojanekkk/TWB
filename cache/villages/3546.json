@@ -1,16 +1,17 @@
 {
   "id": "3546",
-  "name": "Wioska David Qest",
+  "name": "| 004 | Miami",
   "location": [
     459,
     570
   ],
   "bonus": null,
-  "points": 2710,
+  "points": 2811,
   "safe": false,
   "scout": false,
-  "tribe": "91",
-  "owner": "7349387",
+  "tribe": "166",
+  "owner": "849293022",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779326697
 }

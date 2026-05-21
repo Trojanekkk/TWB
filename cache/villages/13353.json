@@ -1,0 +1,20 @@
+{
+  "id": "13353",
+  "name": "Osada 001",
+  "location": [
+    401,
+    571
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 1433,
+  "safe": false,
+  "scout": false,
+  "tribe": "242",
+  "owner": "849279944",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779322588
+}

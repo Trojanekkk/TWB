@@ -1,6 +1,6 @@
 {
   "id": "7862",
-  "name": "| 002 | Shanghai",
+  "name": "| 005 | Montreal",
   "location": [
     456,
     576
@@ -9,11 +9,12 @@
     "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
     "bonus/all.png"
   ],
-  "points": 1500,
+  "points": 2169,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "849293022",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779326697
 }

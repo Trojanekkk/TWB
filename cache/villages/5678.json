@@ -1,0 +1,20 @@
+{
+  "id": "5678",
+  "name": "wioska 2",
+  "location": [
+    481,
+    576
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 707,
+  "safe": false,
+  "scout": false,
+  "tribe": "166",
+  "owner": "699681418",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779287112
+}

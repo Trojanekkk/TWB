@@ -1,0 +1,20 @@
+{
+  "id": "9002",
+  "name": "Warszawa",
+  "location": [
+    437,
+    573
+  ],
+  "bonus": [
+    "10% wi\u0119cej ludno\u015bci",
+    "bonus/farm.png"
+  ],
+  "points": 701,
+  "safe": false,
+  "scout": false,
+  "tribe": "183",
+  "owner": "849291987",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779222395
+}

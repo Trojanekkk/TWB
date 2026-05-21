@@ -6,11 +6,12 @@
     544
   ],
   "bonus": null,
-  "points": 90,
+  "points": 104,
   "safe": false,
   "scout": false,
   "tribe": null,
   "owner": "0",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

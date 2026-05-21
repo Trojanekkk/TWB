@@ -1,0 +1,20 @@
+{
+  "id": "3667",
+  "name": "002 Wi\u0105zowna",
+  "location": [
+    478,
+    553
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 2219,
+  "safe": false,
+  "scout": false,
+  "tribe": "84",
+  "owner": "849309614",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779290998
+}

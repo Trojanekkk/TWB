@@ -1,16 +1,17 @@
 {
   "id": "5935",
-  "name": "Wioska KowalCR",
+  "name": "006.KiedyRanneWstajaZorze",
   "location": [
     452,
     556
   ],
   "bonus": null,
-  "points": 3396,
+  "points": 3781,
   "safe": false,
   "scout": false,
-  "tribe": "170",
-  "owner": "849259059",
+  "tribe": "37",
+  "owner": "849211179",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

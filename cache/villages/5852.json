@@ -1,16 +1,17 @@
 {
   "id": "5852",
-  "name": 0,
+  "name": "Abrakadabra",
   "location": [
     445,
     541
   ],
   "bonus": null,
-  "points": 174,
+  "points": 398,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "93",
+  "owner": "849304407",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779322549
 }

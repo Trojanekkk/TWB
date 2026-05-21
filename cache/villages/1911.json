@@ -1,0 +1,20 @@
+{
+  "id": "1911",
+  "name": "Moria",
+  "location": [
+    477,
+    567
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja \u017celaza",
+    "bonus/iron.png"
+  ],
+  "points": 964,
+  "safe": false,
+  "scout": false,
+  "tribe": "84",
+  "owner": "849260681",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779291075
+}

@@ -1,0 +1,20 @@
+{
+  "id": "11144",
+  "name": "Aulavik",
+  "location": [
+    445,
+    589
+  ],
+  "bonus": [
+    "10% wi\u0119cej ludno\u015bci",
+    "bonus/farm.png"
+  ],
+  "points": 1715,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "699443920",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779123706
+}

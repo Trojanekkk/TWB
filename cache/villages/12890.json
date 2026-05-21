@@ -1,0 +1,20 @@
+{
+  "id": "12890",
+  "name": "Duma",
+  "location": [
+    467,
+    613
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja \u017celaza",
+    "bonus/iron.png"
+  ],
+  "points": 445,
+  "safe": false,
+  "scout": false,
+  "tribe": "123",
+  "owner": "698274433",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779295150
+}
