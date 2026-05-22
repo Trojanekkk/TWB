@@ -1,0 +1,20 @@
+{
+  "id": "4961",
+  "name": 0,
+  "location": [
+    482,
+    539
+  ],
+  "bonus": [
+    "50% szybsza produkcja w warsztacie",
+    "bonus/garage.png"
+  ],
+  "points": 152,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779369689
+}

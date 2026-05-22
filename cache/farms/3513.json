@@ -5,7 +5,7 @@
   "safe": true,
   "high_profile": false,
   "low_profile": false,
-  "last_attack": 1779344779,
+  "last_attack": 1779434510,
   "last_scout": 0,
   "last_attacker": "5844",
   "latest_resources": {},
@@ -23,9 +23,9 @@
   "loss_percentage": 0.0,
   "sources": {
     "5844": {
-      "last_attack": 1779344779,
+      "last_attack": 1779434510,
       "last_scout": 0,
-      "attacks": 2,
+      "attacks": 4,
       "scouts": 0,
       "safe": true
     }

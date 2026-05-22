@@ -1,0 +1,7 @@
+{
+  "when": 1779357606,
+  "method": "POST",
+  "url": "https://pl229.plemiona.pl/game.php?ajaxaction=popup_command&village=6797&screen=place",
+  "status": 200,
+  "event": "request"
+}

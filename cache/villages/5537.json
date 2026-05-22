@@ -1,17 +1,17 @@
 {
   "id": "5537",
-  "name": "Wioska barbarzy\u0144ska",
+  "name": "KaerMorhen",
   "location": [
     478,
     563
   ],
   "bonus": null,
-  "points": 306,
+  "points": 572,
   "safe": false,
   "scout": false,
   "tribe": "84",
   "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779291075
+  "last_seen": 1779424562
 }

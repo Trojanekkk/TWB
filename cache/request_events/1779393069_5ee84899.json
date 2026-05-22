@@ -1,0 +1,7 @@
+{
+  "when": 1779393069,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=5844&screen=main&action=upgrade_building&id=stable&type=main&h=e9617663",
+  "status": 200,
+  "event": "request"
+}

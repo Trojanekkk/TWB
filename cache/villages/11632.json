@@ -1,17 +1,17 @@
 {
   "id": "11632",
-  "name": 0,
+  "name": "903 Buda",
   "location": [
     444,
     595
   ],
   "bonus": null,
-  "points": 234,
+  "points": 459,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "166",
+  "owner": "849299624",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779123706
+  "last_seen": 1779424462
 }

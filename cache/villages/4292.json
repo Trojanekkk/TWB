@@ -1,17 +1,17 @@
 {
   "id": "4292",
-  "name": "Wioska barbarzy\u0144ska",
+  "name": "Bunkier Uderzeniowy",
   "location": [
     445,
     513
   ],
   "bonus": null,
-  "points": 295,
+  "points": 445,
   "safe": false,
   "scout": false,
-  "tribe": "0",
+  "tribe": "531",
   "owner": "849140775",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779322603
+  "last_seen": 1779400168
 }

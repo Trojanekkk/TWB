@@ -1,0 +1,20 @@
+{
+  "id": "9474",
+  "name": 0,
+  "location": [
+    404,
+    530
+  ],
+  "bonus": [
+    "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
+    "bonus/storage.png"
+  ],
+  "points": 226,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779436496
+}

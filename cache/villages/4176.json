@@ -1,17 +1,17 @@
 {
   "id": "4176",
-  "name": "Wioska Vertals",
+  "name": "006",
   "location": [
     435,
     596
   ],
   "bonus": null,
-  "points": 2849,
+  "points": 3232,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "698680223",
+  "tribe": "54",
+  "owner": "849181532",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779423266
 }

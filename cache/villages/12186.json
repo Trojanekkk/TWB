@@ -1,6 +1,6 @@
 {
   "id": "12186",
-  "name": "003",
+  "name": "003 Bramy Hadesa",
   "location": [
     411,
     570
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja \u017celaza",
     "bonus/iron.png"
   ],
-  "points": 316,
+  "points": 352,
   "safe": false,
   "scout": false,
   "tribe": "242",
   "owner": "7468083",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779322588
+  "last_seen": 1779385357
 }

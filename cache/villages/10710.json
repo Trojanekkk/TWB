@@ -1,17 +1,17 @@
 {
   "id": "10710",
-  "name": "001",
+  "name": "004 Igraszki",
   "location": [
     424,
     574
   ],
   "bonus": null,
-  "points": 1871,
+  "points": 1894,
   "safe": false,
   "scout": false,
-  "tribe": "203",
-  "owner": "849301682",
+  "tribe": "37",
+  "owner": "849295268",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779388664
 }

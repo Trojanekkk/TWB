@@ -1,17 +1,17 @@
 {
   "id": "11852",
-  "name": 0,
+  "name": "#4 Sielsia",
   "location": [
     422,
     576
   ],
   "bonus": null,
-  "points": 203,
+  "points": 399,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "849302556",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779388664
 }

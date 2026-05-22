@@ -1,0 +1,20 @@
+{
+  "id": "16882",
+  "name": "Wioska .08.",
+  "location": [
+    446,
+    626
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 891,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "699342409",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779433030
+}

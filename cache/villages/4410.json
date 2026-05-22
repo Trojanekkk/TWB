@@ -1,17 +1,17 @@
 {
   "id": "4410",
-  "name": "| 006 | Monako",
+  "name": "| 007 | Barcelona",
   "location": [
     459,
     569
   ],
   "bonus": null,
-  "points": 1690,
+  "points": 1864,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "849293022",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779326697
+  "last_seen": 1779436439
 }

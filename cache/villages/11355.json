@@ -1,17 +1,17 @@
 {
   "id": "11355",
-  "name": "akmil 2",
+  "name": "Queens",
   "location": [
     406,
     550
   ],
   "bonus": null,
-  "points": 730,
+  "points": 840,
   "safe": false,
   "scout": false,
-  "tribe": "62",
-  "owner": "1203698",
+  "tribe": "242",
+  "owner": "849309810",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779322588
+  "last_seen": 1779385257
 }

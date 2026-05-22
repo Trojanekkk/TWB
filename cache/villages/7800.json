@@ -1,17 +1,17 @@
 {
   "id": "7800",
-  "name": "Wioska Goorzel",
+  "name": "Riverrun",
   "location": [
     436,
     592
   ],
   "bonus": null,
-  "points": 880,
+  "points": 990,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849277129",
+  "tribe": "37",
+  "owner": "849282358",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779423266
 }

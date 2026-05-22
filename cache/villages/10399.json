@@ -1,17 +1,17 @@
 {
   "id": "10399",
-  "name": "Popaprana wiocha III",
+  "name": "0005.",
   "location": [
     433,
     576
   ],
   "bonus": null,
-  "points": 3956,
+  "points": 3827,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849287272",
+  "tribe": "37",
+  "owner": "8083365",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779388664
 }

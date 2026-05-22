@@ -1,17 +1,17 @@
 {
   "id": "12288",
-  "name": "Wioska LubAxP",
+  "name": "Capital",
   "location": [
     441,
     599
   ],
   "bonus": null,
-  "points": 4224,
+  "points": 4687,
   "safe": false,
   "scout": false,
   "tribe": "54",
   "owner": "8265633",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779123706
+  "last_seen": 1779424462
 }

@@ -120,9 +120,7 @@
     },
     "upgrades": {
       "archer": 1,
-      "light": 1,
-      "spear": 1,
-      "sword": 1
+      "light": 1
     },
     "farm": [
       {
@@ -147,10 +145,7 @@
     },
     "upgrades": {
       "heavy": 1,
-      "archer": 1,
-      "light": 1,
-      "spear": 1,
-      "sword": 1
+      "light": 1
     },
     "farm": [
       {

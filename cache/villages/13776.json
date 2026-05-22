@@ -1,0 +1,20 @@
+{
+  "id": "13776",
+  "name": "\u017bule",
+  "location": [
+    398,
+    572
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 2001,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "698913235",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779400111
+}

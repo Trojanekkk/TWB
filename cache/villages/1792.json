@@ -1,6 +1,6 @@
 {
   "id": "1792",
-  "name": "Wioska szymu\u015b\u015b\u015b",
+  "name": 0,
   "location": [
     466,
     567
@@ -9,9 +9,9 @@
   "points": 36,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699093709",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779291075
+  "last_seen": 1779424562
 }

@@ -1,17 +1,17 @@
 {
   "id": "11258",
-  "name": "RBR 001",
+  "name": "01-02 Wenus",
   "location": [
     425,
     581
   ],
   "bonus": null,
-  "points": 2944,
+  "points": 3093,
   "safe": false,
   "scout": false,
   "tribe": "183",
-  "owner": "849291121",
+  "owner": "849293716",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779423266
 }

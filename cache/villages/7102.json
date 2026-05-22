@@ -1,17 +1,17 @@
 {
   "id": "7102",
-  "name": "Wioska Maro2008",
+  "name": 0,
   "location": [
     491,
     579
   ],
   "bonus": null,
-  "points": 82,
+  "points": 75,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849309045",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779287112
+  "last_seen": 1779360156
 }

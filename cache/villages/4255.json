@@ -1,0 +1,20 @@
+{
+  "id": "4255",
+  "name": 0,
+  "location": [
+    498,
+    539
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 208,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779369689
+}

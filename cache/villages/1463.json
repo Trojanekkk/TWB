@@ -1,17 +1,17 @@
 {
   "id": "1463",
-  "name": "Konstantynopolitaneczka",
+  "name": "006",
   "location": [
     407,
     573
   ],
   "bonus": null,
-  "points": 2102,
+  "points": 2170,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849302130",
+  "tribe": "54",
+  "owner": "849297429",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779322588
+  "last_seen": 1779385357
 }

@@ -1,6 +1,6 @@
 {
   "id": "18067",
-  "name": "Wioska SeexyDaddy",
+  "name": 0,
   "location": [
     422,
     614
@@ -9,9 +9,9 @@
   "points": 36,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699832737",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779265850
+  "last_seen": 1779423266
 }

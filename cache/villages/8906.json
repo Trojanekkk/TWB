@@ -1,17 +1,17 @@
 {
   "id": "8906",
-  "name": "Wioska Moto-Diabe\u0142",
+  "name": 0,
   "location": [
     491,
     594
   ],
   "bonus": null,
-  "points": 289,
+  "points": 287,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "6290178",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779326844
+  "last_seen": 1779425734
 }

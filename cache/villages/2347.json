@@ -1,0 +1,20 @@
+{
+  "id": "2347",
+  "name": 0,
+  "location": [
+    499,
+    530
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 177,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779369689
+}

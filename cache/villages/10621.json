@@ -1,17 +1,17 @@
 {
   "id": "10621",
-  "name": "Wioska los kamilos",
+  "name": "0006.",
   "location": [
     427,
     575
   ],
   "bonus": null,
-  "points": 2895,
+  "points": 2794,
   "safe": false,
   "scout": false,
-  "tribe": "544",
-  "owner": "849288960",
+  "tribe": "37",
+  "owner": "8083365",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222395
+  "last_seen": 1779388664
 }
