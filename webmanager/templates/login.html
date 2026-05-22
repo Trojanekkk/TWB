@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>TWB - Login</title>
+  </head>
+  <body class="bg-light">
+    <main class="container" style="max-width: 420px; padding-top: 12vh;">
+      <h1 class="h3 mb-4">TWB management</h1>
+
+      {% if error %}
+      <div class="alert {{ 'alert-warning' if auth_missing else 'alert-danger' }}" role="alert">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="post" action="{{ url_for('login') }}">
+        <input type="hidden" name="next" value="{{ next or '/' }}">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            autocomplete="current-password"
+            required
+            autofocus
+            {% if auth_missing %}disabled{% endif %}
+          >
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" {% if auth_missing %}disabled{% endif %}>Log in</button>
+      </form>
+    </main>
+  </body>
+</html>

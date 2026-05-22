@@ -1,9 +1,14 @@
 import json
+import hmac
 import os
 import sys
 sys.path.insert(0, "../")
+from urllib.parse import urlparse
 
-from flask import Flask, jsonify, send_from_directory, request, render_template
+from flask import (
+    Flask, jsonify, redirect, send_from_directory, request, render_template,
+    session, url_for
+)
 
 try:
     from webmanager.helpfile import help_file, buildings
@@ -22,8 +27,116 @@ except ImportError:
 
 bm = BotManager()
 
+
+AUTH_PASSWORD_ENV = "TWB_WEB_PASSWORD"
+SECRET_KEY_ENV = "TWB_SECRET_KEY"
+AUTH_EXEMPT_ENDPOINTS = {"login", "logout", "static"}
+
+
+def load_env_file(path):
+    if not os.path.exists(path):
+        return
+
+    with open(path) as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+
+            key, value = line.split("=", 1)
+            key = key.strip()
+            if key.startswith("export "):
+                key = key.replace("export ", "", 1).strip()
+            if not key or key in os.environ:
+                continue
+
+            value = value.strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+                value = value[1:-1]
+            os.environ[key] = value
+
+
+def get_configured_password():
+    return os.environ.get(AUTH_PASSWORD_ENV, "")
+
+
+def is_safe_redirect(target):
+    if not target:
+        return False
+    parsed = urlparse(target)
+    return parsed.scheme == "" and parsed.netloc == "" and target.startswith("/") and not target.startswith("//")
+
+
+def wants_json_response():
+    return (
+        request.path.startswith(("/api/", "/bot/", "/app/config/"))
+        or request.path.endswith("/save")
+        or request.accept_mimetypes.best == "application/json"
+    )
+
+
+def auth_required_response(status=401):
+    if wants_json_response():
+        return jsonify({"ok": False, "error": "authentication_required"}), status
+
+    next_url = request.full_path if request.query_string else request.path
+    return redirect(url_for("login", next=next_url))
+
+
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+load_env_file(os.path.join(PROJECT_ROOT, ".env"))
+
 app = Flask(__name__)
 app.config["DEBUG"] = True
+app.config["SECRET_KEY"] = os.environ.get(SECRET_KEY_ENV) or os.urandom(32)
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+
+@app.before_request
+def require_authentication():
+    if request.endpoint in AUTH_EXEMPT_ENDPOINTS:
+        return None
+
+    password = get_configured_password()
+    if not password:
+        error = "%s is not configured in .env." % AUTH_PASSWORD_ENV
+        if wants_json_response():
+            return jsonify({"ok": False, "error": error}), 503
+        return render_template("login.html", error=error, auth_missing=True, next="/"), 503
+
+    if session.get("authenticated"):
+        return None
+
+    return auth_required_response()
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    password = get_configured_password()
+    next_url = request.args.get("next") or request.form.get("next") or url_for("get_home")
+    if not is_safe_redirect(next_url):
+        next_url = url_for("get_home")
+
+    error = None
+    auth_missing = not bool(password)
+
+    if auth_missing:
+        error = "%s is not configured in .env." % AUTH_PASSWORD_ENV
+    elif request.method == 'POST':
+        supplied_password = request.form.get("password", "")
+        if hmac.compare_digest(supplied_password, password):
+            session["authenticated"] = True
+            return redirect(next_url)
+        error = "Incorrect password."
+
+    return render_template("login.html", error=error, auth_missing=auth_missing, next=next_url), 503 if auth_missing else 200
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 
 def positive_int_arg(name, default, max_value=None):

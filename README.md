@@ -43,7 +43,7 @@ You can find the cookie string in the following location (Chrome):
 
 You need to use the cookie: header value
 
-*optional: If everything is set-up correctly and the bot is running you can `cd` into the webmanager directory and start the bot interface by running `server.py`. You can access this dashboard by visiting http://127.0.0.1:5000/ in your browser.
+*optional: If everything is set-up correctly and the bot is running, create a `.env` file in the project root with `TWB_WEB_PASSWORD=your-password`, then `cd` into the webmanager directory and start the bot interface by running `server.py`. You can access this dashboard by visiting http://127.0.0.1:5000/ in your browser.
 A lot of new features will be added to the dashboard soon.*
 
 More information about configuring the bot can be found in the readme directory!
