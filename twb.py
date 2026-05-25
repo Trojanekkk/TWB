@@ -33,6 +33,7 @@ import coloredlogs
 import requests
 
 from core.botstatus import BotStatus
+from core.garbage_collector import GarbageCollector
 from core.notification import Notification
 from core.updater import check_update
 from core.filemanager import FileManager
@@ -91,6 +92,7 @@ class TWB:
         self.should_run = True
         self.runs = 0
         self.found_villages = []
+        self.last_gc_at = 0
 
     @staticmethod
     def configure_python_file_logging(logging_config):
@@ -231,6 +233,29 @@ class TWB:
             print("Deployed new configuration file")
 
         return config
+
+    def maybe_collect_garbage(self, config, force=False):
+        bot_config = config.get("bot", {})
+        if not bot_config.get("cache_gc_enabled", True):
+            return
+
+        interval_hours = float(bot_config.get("cache_gc_interval_hours", 24) or 24)
+        interval_seconds = max(1, interval_hours) * 3600
+        now = time.time()
+        if not force and self.last_gc_at and self.last_gc_at + interval_seconds > now:
+            return
+
+        active_paths = []
+        if TWB.python_log_handler:
+            active_paths.append(TWB.python_log_handler.baseFilename)
+
+        try:
+            GarbageCollector.from_config(config, active_paths=active_paths).collect()
+            self.last_gc_at = now
+        except Exception:
+            logging.getLogger("GarbageCollector").exception(
+                "Garbage collection failed"
+            )
 
     @staticmethod
     def migrate_reporting_to_logging(config):
@@ -428,6 +453,7 @@ class TWB:
         """
         Notification.send("TWB is starting up")
         config = self.config()
+        self.maybe_collect_garbage(config, force=True)
         if not self.internet_online():
             print("Internet seems to be down, waiting till its back online...")
             sleep = 0
@@ -484,6 +510,7 @@ class TWB:
                 )
             else:
                 config = self.config()
+                self.maybe_collect_garbage(config)
                 self.wrapper.configure_from_bot_config(config["bot"])
                 warmup_village = next(iter(config["villages"]), None)
                 self.wrapper.maybe_humanize(warmup_village, warmup=True)
@@ -610,6 +637,8 @@ class TWB:
             "cache/managed",
             "cache/hunter",
             "cache/farms",
+            "cache/farm_stats",
+            "cache/map_discovery",
             "cache/request_events",
         ]
         FileManager.create_directories(directories)

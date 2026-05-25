@@ -34,6 +34,9 @@ Active delay configures the minimal time the bot will wait until next run during
 **Delay Factor and Attack Delay Factor**
 delay_factor controls the per-request delay for normal bot actions. attack_delay_factor overrides that delay only while sending attacks, including opening the rally point, confirming, and submitting the attack. If attack_delay_factor is omitted, attacks use delay_factor.
 
+**Cache Retention**
+The bot can remove stale runtime files from `cache` automatically. `cache_gc_enabled` enables the garbage collector, `cache_retention_days` controls the age limit, `cache_gc_interval_hours` controls how often cleanup can run, and `cache_gc_roots` controls which relative directories are scanned. The default keeps 14 days.
+
 **Forced Peace Times**
 An array of times that you cannot attack (christmas etc..). Should be in the form of:
 ```

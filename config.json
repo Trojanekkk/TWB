@@ -41,6 +41,12 @@
     "humanizer_idle_gap_min": 300,
     "humanizer_idle_gap_max": 900,
     "humanizer_warmup_after_seconds": 900,
+    "cache_gc_enabled": true,
+    "cache_retention_days": 14,
+    "cache_gc_interval_hours": 24,
+    "cache_gc_roots": [
+      "cache"
+    ],
     "check_update": true
   },
   "building": {
