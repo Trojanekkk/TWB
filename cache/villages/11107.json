@@ -1,17 +1,17 @@
 {
   "id": "11107",
-  "name": "Epstin Iland 002",
+  "name": "03 Seul",
   "location": [
     485,
     608
   ],
   "bonus": null,
-  "points": 1250,
+  "points": 1420,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849302000",
+  "tribe": "166",
+  "owner": "849301859",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369779
+  "last_seen": 1779678391
 }

@@ -1,6 +1,6 @@
 {
   "id": "5767",
-  "name": 0,
+  "name": "wioska 4",
   "location": [
     487,
     559
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja drewna",
     "bonus/wood.png"
   ],
-  "points": 320,
+  "points": 365,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "698948528",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779425629
+  "last_seen": 1779495681
 }

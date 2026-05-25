@@ -1,17 +1,17 @@
 {
   "id": "4027",
-  "name": "Aleksandria",
+  "name": "JNK",
   "location": [
     490,
     561
   ],
   "bonus": null,
-  "points": 1775,
+  "points": 2267,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "698138942",
+  "tribe": "84",
+  "owner": "8562249",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

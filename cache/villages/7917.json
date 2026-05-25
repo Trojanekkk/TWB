@@ -1,6 +1,6 @@
 {
   "id": "7917",
-  "name": 0,
+  "name": "*0011* \u0142ap Go\u0142\u0119bia",
   "location": [
     418,
     538
@@ -9,12 +9,12 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 324,
+  "points": 349,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436496
+  "last_seen": 1779645071
 }

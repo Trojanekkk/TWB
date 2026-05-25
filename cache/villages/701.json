@@ -1,17 +1,17 @@
 {
   "id": "701",
-  "name": "TWIERDZA",
+  "name": "002",
   "location": [
     413,
     575
   ],
   "bonus": null,
-  "points": 1820,
+  "points": 2115,
   "safe": false,
   "scout": false,
-  "tribe": "80",
-  "owner": "849288903",
+  "tribe": "238",
+  "owner": "699735025",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779651970
 }

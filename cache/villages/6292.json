@@ -1,17 +1,17 @@
 {
   "id": "6292",
-  "name": "Wioska MrFreedom",
+  "name": 0,
   "location": [
     509,
     576
   ],
   "bonus": null,
-  "points": 209,
+  "points": 217,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849292009",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433085
+  "last_seen": 1779693348
 }

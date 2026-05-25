@@ -1,17 +1,17 @@
 {
   "id": "10590",
-  "name": "Wioska madame eryk1990",
+  "name": 0,
   "location": [
     499,
     606
   ],
   "bonus": null,
-  "points": 36,
+  "points": 44,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849308242",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369779
+  "last_seen": 1779678391
 }

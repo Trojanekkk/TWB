@@ -1,17 +1,17 @@
 {
   "id": "15688",
-  "name": "AC PAJACE 001",
+  "name": "006",
   "location": [
     475,
     591
   ],
   "bonus": null,
-  "points": 1682,
+  "points": 1534,
   "safe": false,
   "scout": false,
-  "tribe": "162",
-  "owner": "849310135",
+  "tribe": "166",
+  "owner": "849207827",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779291075
+  "last_seen": 1779499384
 }

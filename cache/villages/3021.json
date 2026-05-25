@@ -1,17 +1,17 @@
 {
   "id": "3021",
-  "name": 0,
+  "name": "Shire",
   "location": [
     476,
     560
   ],
   "bonus": null,
-  "points": 142,
+  "points": 242,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779424562
+  "last_seen": 1779690872
 }

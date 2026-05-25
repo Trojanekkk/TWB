@@ -1,0 +1,20 @@
+{
+  "id": "18323",
+  "name": "005",
+  "location": [
+    398,
+    596
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 3132,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "699429153",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779696210
+}

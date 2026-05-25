@@ -1,17 +1,17 @@
 {
   "id": "12401",
-  "name": 0,
+  "name": "002 Cypel Posejdona",
   "location": [
     409,
     572
   ],
   "bonus": null,
-  "points": 307,
+  "points": 372,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "7468083",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779651970
 }

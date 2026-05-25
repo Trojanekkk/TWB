@@ -1,17 +1,17 @@
 {
   "id": "10526",
-  "name": 0,
+  "name": "0x7FFFFFFFF078",
   "location": [
     414,
     554
   ],
   "bonus": null,
-  "points": 235,
+  "points": 686,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "699270335",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385257
+  "last_seen": 1779700668
 }

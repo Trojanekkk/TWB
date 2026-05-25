@@ -1,0 +1,20 @@
+{
+  "id": "1270",
+  "name": "004 kapeluch",
+  "location": [
+    504,
+    547
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 2280,
+  "safe": false,
+  "scout": false,
+  "tribe": "505",
+  "owner": "3810014",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779638012
+}

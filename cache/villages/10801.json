@@ -1,17 +1,17 @@
 {
   "id": "10801",
-  "name": "Wioska TrzymPuche",
+  "name": "Ob\u0142\u0119d 1.2",
   "location": [
     428,
     579
   ],
   "bonus": null,
-  "points": 2373,
+  "points": 2612,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849255743",
+  "tribe": "183",
+  "owner": "849292836",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779388664
+  "last_seen": 1779700595
 }

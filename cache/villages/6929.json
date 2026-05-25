@@ -1,6 +1,6 @@
 {
   "id": "6929",
-  "name": "#01",
+  "name": 0,
   "location": [
     516,
     560
@@ -9,9 +9,9 @@
   "points": 1294,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699785455",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433085
+  "last_seen": 1779693348
 }

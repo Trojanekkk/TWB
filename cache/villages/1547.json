@@ -1,17 +1,17 @@
 {
   "id": "1547",
-  "name": "Wioska I Am Second",
+  "name": 0,
   "location": [
     424,
     567
   ],
   "bonus": null,
-  "points": 738,
+  "points": 841,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849298939",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779388664
+  "last_seen": 1779700595
 }

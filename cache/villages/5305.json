@@ -1,17 +1,17 @@
 {
   "id": "5305",
-  "name": "Wioska SUPER KR\u00d3L PAWE\u0141.",
+  "name": 0,
   "location": [
     398,
     561
   ],
   "bonus": null,
-  "points": 326,
+  "points": 323,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849117778",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779400111
+  "last_seen": 1779702050
 }

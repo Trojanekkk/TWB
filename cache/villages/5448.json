@@ -1,17 +1,17 @@
 {
   "id": "5448",
-  "name": "Tomkownia 01",
+  "name": "006",
   "location": [
     436,
     545
   ],
   "bonus": null,
-  "points": 3452,
+  "points": 3650,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849155357",
+  "tribe": "37",
+  "owner": "699574658",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222308
+  "last_seen": 1779700668
 }

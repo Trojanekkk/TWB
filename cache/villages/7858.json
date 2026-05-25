@@ -1,0 +1,17 @@
+{
+  "id": "7858",
+  "name": "Coruscant",
+  "location": [
+    413,
+    512
+  ],
+  "bonus": null,
+  "points": 2247,
+  "safe": false,
+  "scout": false,
+  "tribe": "238",
+  "owner": "7141600",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779645071
+}

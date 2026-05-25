@@ -1,6 +1,6 @@
 {
   "id": "14168",
-  "name": "Wioska LoBv",
+  "name": 0,
   "location": [
     406,
     581
@@ -9,9 +9,9 @@
   "points": 311,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849256885",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779700706
 }

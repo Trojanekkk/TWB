@@ -1,17 +1,17 @@
 {
   "id": "9759",
-  "name": "Wioska lord erykos",
+  "name": "Ta Technix",
   "location": [
     435,
     576
   ],
   "bonus": null,
-  "points": 1268,
+  "points": 1417,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849302777",
+  "tribe": "183",
+  "owner": "849257362",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779388664
+  "last_seen": 1779700595
 }

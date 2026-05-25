@@ -1,17 +1,17 @@
 {
   "id": "6132",
-  "name": "KOKSOWNIK",
+  "name": "Pochinki",
   "location": [
     441,
     515
   ],
   "bonus": null,
-  "points": 2621,
+  "points": 3326,
   "safe": false,
   "scout": false,
   "tribe": "84",
   "owner": "849278935",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779400168
+  "last_seen": 1779702126
 }

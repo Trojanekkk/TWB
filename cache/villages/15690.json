@@ -1,17 +1,17 @@
 {
   "id": "15690",
-  "name": "Wioska poloniailowo",
+  "name": "002",
   "location": [
     407,
     596
   ],
   "bonus": null,
-  "points": 984,
+  "points": 1105,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849101567",
+  "tribe": "535",
+  "owner": "849307943",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779700706
 }

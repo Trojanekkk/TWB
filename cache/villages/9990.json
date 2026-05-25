@@ -1,17 +1,17 @@
 {
   "id": "9990",
-  "name": 0,
+  "name": "Lanckorona",
   "location": [
     404,
     537
   ],
   "bonus": null,
-  "points": 272,
+  "points": 472,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "82",
+  "owner": "1553464",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436496
+  "last_seen": 1779645071
 }

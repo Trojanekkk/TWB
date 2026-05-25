@@ -1,17 +1,17 @@
 {
   "id": "13230",
-  "name": 0,
+  "name": "Srebrna Zatoka",
   "location": [
     486,
     619
   ],
   "bonus": null,
-  "points": 202,
+  "points": 543,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "849252516",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369779
+  "last_seen": 1779678391
 }

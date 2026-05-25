@@ -1,17 +1,17 @@
 {
   "id": "1671",
-  "name": "Wioska IVAR-TheBoneless",
+  "name": 0,
   "location": [
     419,
     581
   ],
   "bonus": null,
-  "points": 982,
+  "points": 965,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "848925429",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779700706
 }

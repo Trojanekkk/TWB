@@ -1,0 +1,20 @@
+{
+  "id": "4449",
+  "name": "Osada koczownik\u00f3w",
+  "location": [
+    518,
+    554
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 907,
+  "safe": false,
+  "scout": false,
+  "tribe": "35",
+  "owner": "699590737",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779638012
+}

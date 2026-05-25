@@ -1,0 +1,20 @@
+{
+  "id": "12661",
+  "name": "Kosiara",
+  "location": [
+    396,
+    549
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 2691,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "848933074",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702050
+}

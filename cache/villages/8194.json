@@ -1,17 +1,17 @@
 {
   "id": "8194",
-  "name": 0,
+  "name": "Asiek",
   "location": [
     452,
     613
   ],
   "bonus": null,
-  "points": 604,
+  "points": 814,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699736496",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360022
+  "last_seen": 1779676897
 }

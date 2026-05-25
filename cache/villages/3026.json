@@ -1,17 +1,17 @@
 {
   "id": "3026",
-  "name": 0,
+  "name": "Wioska 5",
   "location": [
     480,
     563
   ],
   "bonus": null,
-  "points": 173,
+  "points": 232,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "698948528",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

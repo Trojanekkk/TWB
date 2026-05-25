@@ -1,6 +1,6 @@
 {
   "id": "4604",
-  "name": 0,
+  "name": "Osada koczownik\u00f3w",
   "location": [
     495,
     576
@@ -9,12 +9,12 @@
     "33% szybsze szkolenie w stajni",
     "bonus/stable.png"
   ],
-  "points": 218,
+  "points": 424,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "183",
+  "owner": "7290118",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

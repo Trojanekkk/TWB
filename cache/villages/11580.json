@@ -1,6 +1,6 @@
 {
   "id": "11580",
-  "name": "Wioska Impek..",
+  "name": 0,
   "location": [
     479,
     605
@@ -9,9 +9,9 @@
   "points": 319,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8746634",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779383413
+  "last_seen": 1779460234
 }

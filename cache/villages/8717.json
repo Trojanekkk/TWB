@@ -1,0 +1,20 @@
+{
+  "id": "8717",
+  "name": "Osada Wa\u0142karzy",
+  "location": [
+    410,
+    519
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 673,
+  "safe": false,
+  "scout": false,
+  "tribe": "0",
+  "owner": "849298840",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779645071
+}

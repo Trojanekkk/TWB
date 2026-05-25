@@ -1,17 +1,17 @@
 {
   "id": "4768",
-  "name": "Wioska madziekk",
+  "name": "002 Wioska madziekk",
   "location": [
     458,
     572
   ],
   "bonus": null,
-  "points": 2045,
+  "points": 2387,
   "safe": false,
   "scout": false,
   "tribe": "41",
   "owner": "849209479",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436439
+  "last_seen": 1779702011
 }

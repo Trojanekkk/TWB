@@ -4,7 +4,7 @@
   "scout": true,
   "safe": true,
   "high_profile": false,
-  "low_profile": false,
+  "low_profile": true,
   "last_attack": 1779444260,
   "last_scout": 0,
   "last_attacker": "6797",

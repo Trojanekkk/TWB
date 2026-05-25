@@ -1,6 +1,6 @@
 {
   "id": "3105",
-  "name": 0,
+  "name": "!05",
   "location": [
     472,
     566
@@ -9,12 +9,12 @@
     "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
     "bonus/storage.png"
   ],
-  "points": 229,
+  "points": 387,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "166",
+  "owner": "849297827",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779424562
+  "last_seen": 1779690872
 }

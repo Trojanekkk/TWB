@@ -1,17 +1,17 @@
 {
   "id": "1224",
-  "name": "C001",
+  "name": "OO3",
   "location": [
     475,
     548
   ],
   "bonus": null,
-  "points": 622,
+  "points": 786,
   "safe": false,
   "scout": false,
-  "tribe": "41",
-  "owner": "6301789",
+  "tribe": "84",
+  "owner": "9131784",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779290998
+  "last_seen": 1779499287
 }

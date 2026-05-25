@@ -1,17 +1,17 @@
 {
   "id": "11957",
-  "name": "Wioska HandballCzersk",
+  "name": "001",
   "location": [
     449,
     600
   ],
   "bonus": null,
-  "points": 3093,
+  "points": 3471,
   "safe": false,
   "scout": false,
-  "tribe": "166",
+  "tribe": "54",
   "owner": "928145",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360022
+  "last_seen": 1779676896
 }

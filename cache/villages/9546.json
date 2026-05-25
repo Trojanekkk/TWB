@@ -1,17 +1,17 @@
 {
   "id": "9546",
-  "name": "Wioska Ejndriu",
+  "name": 0,
   "location": [
     428,
     563
   ],
   "bonus": null,
-  "points": 618,
+  "points": 613,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849308927",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779388664
+  "last_seen": 1779700595
 }

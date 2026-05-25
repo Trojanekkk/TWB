@@ -1,0 +1,20 @@
+{
+  "id": "15312",
+  "name": "007 Morannon",
+  "location": [
+    461,
+    626
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 739,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "698271048",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779519433
+}

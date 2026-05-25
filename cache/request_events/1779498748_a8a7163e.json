@@ -1,0 +1,7 @@
+{
+  "when": 1779498748,
+  "method": "POST",
+  "url": "https://pl229.plemiona.pl/game.php?ajaxaction=research&village=7866&screen=smith",
+  "status": 200,
+  "event": "request"
+}

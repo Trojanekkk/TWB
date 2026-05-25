@@ -1,17 +1,17 @@
 {
   "id": "11402",
-  "name": "Wioska 002",
+  "name": "099",
   "location": [
     451,
     599
   ],
   "bonus": null,
-  "points": 401,
+  "points": 605,
   "safe": false,
   "scout": false,
-  "tribe": "166",
+  "tribe": "54",
   "owner": "928145",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779424463
+  "last_seen": 1779690772
 }

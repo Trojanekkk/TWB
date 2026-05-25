@@ -1,17 +1,17 @@
 {
   "id": "10187",
-  "name": 0,
+  "name": "bicz002",
   "location": [
     401,
     524
   ],
   "bonus": null,
-  "points": 294,
+  "points": 461,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "17",
+  "owner": "849309945",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436496
+  "last_seen": 1779645071
 }

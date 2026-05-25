@@ -1,17 +1,17 @@
 {
   "id": "11193",
-  "name": 0,
+  "name": "Harlem",
   "location": [
     405,
     551
   ],
   "bonus": null,
-  "points": 211,
+  "points": 342,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "849309810",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385257
+  "last_seen": 1779700668
 }

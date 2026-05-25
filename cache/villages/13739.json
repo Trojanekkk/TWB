@@ -1,17 +1,17 @@
 {
   "id": "13739",
-  "name": 0,
+  "name": "Start",
   "location": [
     401,
     575
   ],
   "bonus": null,
-  "points": 322,
+  "points": 481,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "82",
+  "owner": "8464549",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779651970
 }

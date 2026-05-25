@@ -5,13 +5,13 @@
   "safe": true,
   "high_profile": false,
   "low_profile": true,
-  "last_attack": 1779277475,
+  "last_attack": 1779641404,
   "last_scout": 0,
   "last_attacker": "5844",
   "latest_resources": {},
   "latest_buildings": {},
   "latest_defence_units": {},
-  "latest_report_at": 1779138522,
+  "latest_report_at": 1779284316,
   "last_loot": 112,
   "total_loot": 1040,
   "avg_loot": 208,
@@ -30,9 +30,9 @@
       "safe": true
     },
     "5844": {
-      "last_attack": 1779277475,
+      "last_attack": 1779641404,
       "last_scout": 0,
-      "attacks": 4,
+      "attacks": 5,
       "scouts": 0,
       "safe": true
     }

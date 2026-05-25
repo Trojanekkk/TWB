@@ -1,17 +1,17 @@
 {
   "id": "13008",
-  "name": 0,
+  "name": "#006 Zwyci\u0119stwo",
   "location": [
     498,
     617
   ],
   "bonus": null,
-  "points": 292,
+  "points": 543,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "698747136",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369779
+  "last_seen": 1779678391
 }

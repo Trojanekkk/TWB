@@ -1,0 +1,20 @@
+{
+  "id": "5279",
+  "name": "Osada koczownik\u00f3w",
+  "location": [
+    457,
+    484
+  ],
+  "bonus": [
+    "50% szybsza produkcja w warsztacie",
+    "bonus/garage.png"
+  ],
+  "points": 331,
+  "safe": false,
+  "scout": false,
+  "tribe": "2",
+  "owner": "849207430",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702126
+}

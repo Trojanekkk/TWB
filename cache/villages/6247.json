@@ -1,6 +1,6 @@
 {
   "id": "6247",
-  "name": 0,
+  "name": "Wioska 4",
   "location": [
     486,
     567
@@ -9,12 +9,12 @@
     "33% szybsze szkolenie w koszarach ",
     "bonus/barracks.png"
   ],
-  "points": 188,
+  "points": 328,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "699667333",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

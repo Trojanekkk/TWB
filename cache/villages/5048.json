@@ -1,17 +1,17 @@
 {
   "id": "5048",
-  "name": "PiF PaF 001",
+  "name": "Zwiad",
   "location": [
     422,
     589
   ],
   "bonus": null,
-  "points": 998,
+  "points": 1183,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849003630",
+  "tribe": "242",
+  "owner": "849277481",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423266
+  "last_seen": 1779700706
 }

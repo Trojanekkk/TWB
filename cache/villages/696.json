@@ -1,17 +1,17 @@
 {
   "id": "696",
-  "name": 0,
+  "name": "006 Suwa\u0142ki",
   "location": [
     444,
     535
   ],
   "bonus": null,
-  "points": 228,
+  "points": 500,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "849235851",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779322603
+  "last_seen": 1779643451
 }

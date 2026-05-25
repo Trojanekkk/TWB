@@ -1,17 +1,17 @@
 {
   "id": "3357",
-  "name": 0,
+  "name": "KM\u0141 DLA WMSW",
   "location": [
     484,
     565
   ],
   "bonus": null,
-  "points": 296,
+  "points": 384,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "8562249",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

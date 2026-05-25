@@ -1,17 +1,17 @@
 {
   "id": "9534",
-  "name": 0,
+  "name": "Slaa2",
   "location": [
     422,
     560
   ],
   "bonus": null,
-  "points": 602,
+  "points": 808,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "0",
+  "owner": "849283609",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779388664
+  "last_seen": 1779700595
 }

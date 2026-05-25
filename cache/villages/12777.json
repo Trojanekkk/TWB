@@ -1,0 +1,20 @@
+{
+  "id": "12777",
+  "name": "002W\u00f3zek warzyw",
+  "location": [
+    393,
+    546
+  ],
+  "bonus": [
+    "50% szybsza produkcja w warsztacie",
+    "bonus/garage.png"
+  ],
+  "points": 620,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "7453832",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702050
+}

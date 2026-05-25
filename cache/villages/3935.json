@@ -1,0 +1,20 @@
+{
+  "id": "3935",
+  "name": "Wioska Smerf\u00f3w.",
+  "location": [
+    466,
+    510
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja \u017celaza",
+    "bonus/iron.png"
+  ],
+  "points": 2785,
+  "safe": false,
+  "scout": false,
+  "tribe": "37",
+  "owner": "849305992",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779519373
+}

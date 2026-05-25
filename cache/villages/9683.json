@@ -1,0 +1,20 @@
+{
+  "id": "9683",
+  "name": "ZAKON BILIK 02",
+  "location": [
+    517,
+    599
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 2584,
+  "safe": false,
+  "scout": false,
+  "tribe": "117",
+  "owner": "849309701",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779638113
+}

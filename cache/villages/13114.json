@@ -1,17 +1,17 @@
 {
   "id": "13114",
-  "name": 0,
+  "name": "Wildgoose",
   "location": [
     440,
     605
   ],
   "bonus": null,
-  "points": 315,
+  "points": 1126,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699443920",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360022
+  "last_seen": 1779676896
 }

@@ -1,17 +1,17 @@
 {
   "id": "16963",
-  "name": 0,
+  "name": "Wiocha 3",
   "location": [
     451,
     631
   ],
   "bonus": null,
-  "points": 166,
+  "points": 254,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "698625595",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433030
+  "last_seen": 1779693266
 }

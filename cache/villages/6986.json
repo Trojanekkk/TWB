@@ -1,17 +1,17 @@
 {
   "id": "6986",
-  "name": 0,
+  "name": "STWK 003",
   "location": [
     507,
     567
   ],
   "bonus": null,
-  "points": 472,
+  "points": 637,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "13",
+  "owner": "849250785",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433085
+  "last_seen": 1779693348
 }

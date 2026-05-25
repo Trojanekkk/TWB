@@ -1,17 +1,17 @@
 {
   "id": "8111",
-  "name": "Wioska Robson x linbaba",
+  "name": 0,
   "location": [
     447,
     576
   ],
   "bonus": null,
-  "points": 74,
+  "points": 72,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8056223",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436439
+  "last_seen": 1779702011
 }

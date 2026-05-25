@@ -1,17 +1,17 @@
 {
   "id": "3811",
-  "name": "Wioska niszczyciel1994sss",
+  "name": 0,
   "location": [
     471,
     566
   ],
   "bonus": null,
-  "points": 197,
+  "points": 189,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8605350",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779424562
+  "last_seen": 1779690872
 }

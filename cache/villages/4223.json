@@ -1,0 +1,20 @@
+{
+  "id": "4223",
+  "name": "002 GNOJARZ",
+  "location": [
+    453,
+    481
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 3430,
+  "safe": false,
+  "scout": false,
+  "tribe": "2",
+  "owner": "849207430",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702126
+}

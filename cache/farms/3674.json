@@ -5,9 +5,9 @@
   "safe": true,
   "high_profile": false,
   "low_profile": false,
-  "last_attack": 1779380690,
+  "last_attack": 1779698096,
   "last_scout": 0,
-  "last_attacker": "5844",
+  "last_attacker": "6797",
   "latest_resources": {},
   "latest_buildings": {},
   "latest_defence_units": {},
@@ -23,16 +23,16 @@
   "loss_percentage": 0.0,
   "sources": {
     "6797": {
-      "last_attack": 1779032914,
+      "last_attack": 1779698096,
       "last_scout": 0,
-      "attacks": 3,
+      "attacks": 4,
       "scouts": 0,
       "safe": true
     },
     "5844": {
-      "last_attack": 1779380690,
+      "last_attack": 1779640513,
       "last_scout": 0,
-      "attacks": 10,
+      "attacks": 12,
       "scouts": 0,
       "safe": true
     }

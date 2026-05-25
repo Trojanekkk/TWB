@@ -1,17 +1,17 @@
 {
   "id": "7303",
-  "name": "Wioska karta smierci",
+  "name": "| 006 | Monako",
   "location": [
     465,
     575
   ],
   "bonus": null,
-  "points": 2276,
+  "points": 2846,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "849293022",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779424562
+  "last_seen": 1779690872
 }

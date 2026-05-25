@@ -1,17 +1,17 @@
 {
   "id": "19269",
-  "name": "Wioska arek1223",
+  "name": 0,
   "location": [
     411,
     612
   ],
   "bonus": null,
-  "points": 139,
+  "points": 133,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "1509230",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436575
+  "last_seen": 1779645141
 }

@@ -1,17 +1,17 @@
 {
   "id": "5295",
-  "name": 0,
+  "name": "Osada 08",
   "location": [
     441,
     558
   ],
   "bonus": null,
-  "points": 526,
+  "points": 799,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423098
+  "last_seen": 1779702011
 }

@@ -1,17 +1,17 @@
 {
   "id": "9153",
-  "name": 0,
+  "name": "Abi229/2",
   "location": [
     418,
     589
   ],
   "bonus": null,
-  "points": 601,
+  "points": 715,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "849263618",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779700706
 }

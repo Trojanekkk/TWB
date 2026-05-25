@@ -1,17 +1,17 @@
 {
   "id": "19607",
-  "name": 0,
+  "name": "Ares",
   "location": [
     448,
     633
   ],
   "bonus": null,
-  "points": 150,
+  "points": 252,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699571314",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433030
+  "last_seen": 1779693266
 }

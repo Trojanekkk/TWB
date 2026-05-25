@@ -1,17 +1,17 @@
 {
   "id": "17421",
-  "name": 0,
+  "name": "Wioska .13.",
   "location": [
     445,
     630
   ],
   "bonus": null,
-  "points": 202,
+  "points": 513,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699342409",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433030
+  "last_seen": 1779693266
 }

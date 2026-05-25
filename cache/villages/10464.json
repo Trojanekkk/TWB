@@ -1,17 +1,17 @@
 {
   "id": "10464",
-  "name": "Stolica",
+  "name": "229 - 003",
   "location": [
     496,
     602
   ],
   "bonus": null,
-  "points": 830,
+  "points": 925,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849309722",
+  "tribe": "166",
+  "owner": "849304553",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369779
+  "last_seen": 1779678391
 }

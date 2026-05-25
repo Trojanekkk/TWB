@@ -1,0 +1,20 @@
+{
+  "id": "5734",
+  "name": "Chorz\u00f3w",
+  "location": [
+    441,
+    484
+  ],
+  "bonus": [
+    "10% wi\u0119cej ludno\u015bci",
+    "bonus/farm.png"
+  ],
+  "points": 593,
+  "safe": false,
+  "scout": false,
+  "tribe": "238",
+  "owner": "2615837",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702126
+}

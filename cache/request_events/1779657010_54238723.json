@@ -1,0 +1,7 @@
+{
+  "when": 1779657010,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=5375&screen=barracks",
+  "status": 200,
+  "event": "request"
+}

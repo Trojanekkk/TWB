@@ -1,17 +1,17 @@
 {
   "id": "3112",
-  "name": "Wioska nasta74",
+  "name": 0,
   "location": [
     438,
     553
   ],
   "bonus": null,
-  "points": 380,
+  "points": 381,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "647517",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222308
+  "last_seen": 1779700668
 }

@@ -1,17 +1,17 @@
 {
   "id": "17838",
-  "name": 0,
+  "name": "we zostaw okok",
   "location": [
     415,
     609
   ],
   "bonus": null,
-  "points": 188,
+  "points": 351,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "0",
+  "owner": "849203600",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436575
+  "last_seen": 1779645141
 }

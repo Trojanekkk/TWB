@@ -1,6 +1,6 @@
 {
   "id": "1851",
-  "name": "Osada koczownik\u00f3w",
+  "name": "Wioska 3",
   "location": [
     494,
     569
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja drewna",
     "bonus/wood.png"
   ],
-  "points": 318,
+  "points": 663,
   "safe": false,
   "scout": false,
   "tribe": "84",
   "owner": "699667333",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

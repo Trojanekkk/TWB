@@ -1,0 +1,20 @@
+{
+  "id": "2332",
+  "name": "Osada koczownik\u00f3w",
+  "location": [
+    461,
+    505
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 2604,
+  "safe": false,
+  "scout": false,
+  "tribe": "61",
+  "owner": "699539197",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779519373
+}

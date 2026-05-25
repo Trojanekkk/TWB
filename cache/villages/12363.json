@@ -1,17 +1,17 @@
 {
   "id": "12363",
-  "name": "Wioska Kangal",
+  "name": 0,
   "location": [
     410,
     572
   ],
   "bonus": null,
-  "points": 131,
+  "points": 126,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "698196893",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779651970
 }

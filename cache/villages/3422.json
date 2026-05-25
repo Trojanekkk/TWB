@@ -1,17 +1,17 @@
 {
   "id": "3422",
-  "name": "Wioska NajlepszyGraczTegoPlemia",
+  "name": 0,
   "location": [
     481,
     568
   ],
   "bonus": null,
-  "points": 287,
+  "points": 295,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "6410609",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779360156
+  "last_seen": 1779676964
 }

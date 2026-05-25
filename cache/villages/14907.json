@@ -1,17 +1,17 @@
 {
   "id": "14907",
-  "name": 0,
+  "name": "Burdel",
   "location": [
     397,
     575
   ],
   "bonus": null,
-  "points": 291,
+  "points": 618,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "37",
+  "owner": "698913235",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779400111
+  "last_seen": 1779702050
 }

@@ -1,17 +1,17 @@
 {
   "id": "13650",
-  "name": "Wioska xkaruchax",
+  "name": 0,
   "location": [
     403,
     575
   ],
   "bonus": null,
-  "points": 306,
+  "points": 314,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "6837477",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779385357
+  "last_seen": 1779651970
 }

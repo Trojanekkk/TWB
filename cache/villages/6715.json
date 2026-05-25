@@ -1,17 +1,17 @@
 {
   "id": "6715",
-  "name": 0,
+  "name": "Nagasaki",
   "location": [
     469,
     617
   ],
   "bonus": null,
-  "points": 798,
+  "points": 838,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "849287783",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779383413
+  "last_seen": 1779460234
 }

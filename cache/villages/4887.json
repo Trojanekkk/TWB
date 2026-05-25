@@ -1,17 +1,17 @@
 {
   "id": "4887",
-  "name": "Wioska kokosik000",
+  "name": 0,
   "location": [
     433,
     552
   ],
   "bonus": null,
-  "points": 126,
+  "points": 164,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699879243",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779222308
+  "last_seen": 1779700668
 }

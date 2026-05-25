@@ -1,17 +1,17 @@
 {
   "id": "15867",
-  "name": 0,
+  "name": "DDD004",
   "location": [
     441,
     620
   ],
   "bonus": null,
-  "points": 311,
+  "points": 383,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "849097118",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779433030
+  "last_seen": 1779693266
 }

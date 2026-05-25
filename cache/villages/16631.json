@@ -1,0 +1,20 @@
+{
+  "id": "16631",
+  "name": 0,
+  "location": [
+    469,
+    629
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja \u017celaza",
+    "bonus/iron.png"
+  ],
+  "points": 165,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779519433
+}

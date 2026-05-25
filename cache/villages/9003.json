@@ -1,17 +1,17 @@
 {
   "id": "9003",
-  "name": "Wioska Ellavenor",
+  "name": "0005",
   "location": [
     467,
     588
   ],
   "bonus": null,
-  "points": 2151,
+  "points": 2128,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699714444",
+  "tribe": "166",
+  "owner": "849215847",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779291075
+  "last_seen": 1779499384
 }

@@ -3,6 +3,6 @@
   "state": "inactive",
   "reason": "manual_stop",
   "message": "Bot stopped manually from web interface",
-  "pid": 104552,
-  "updated_at": 1779450110
+  "pid": 118299,
+  "updated_at": 1779702450
 }

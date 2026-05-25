@@ -1,0 +1,17 @@
+{
+  "id": "7841",
+  "name": "Minas Tirith",
+  "location": [
+    500,
+    589
+  ],
+  "bonus": null,
+  "points": 513,
+  "safe": false,
+  "scout": false,
+  "tribe": "0",
+  "owner": "849307186",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779638113
+}

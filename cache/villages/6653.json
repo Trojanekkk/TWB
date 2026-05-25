@@ -1,17 +1,17 @@
 {
   "id": "6653",
-  "name": "Wioska BigChonker",
+  "name": 0,
   "location": [
     490,
     523
   ],
   "bonus": null,
-  "points": 825,
+  "points": 842,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849303559",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779369689
+  "last_seen": 1779678307
 }

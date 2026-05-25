@@ -1,17 +1,17 @@
 {
   "id": "9501",
-  "name": "Wioska Hatorhator",
+  "name": "003 Hatorhator",
   "location": [
     407,
     537
   ],
   "bonus": null,
-  "points": 505,
+  "points": 595,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849308931",
+  "tribe": "37",
+  "owner": "9131999",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779436496
+  "last_seen": 1779645071
 }

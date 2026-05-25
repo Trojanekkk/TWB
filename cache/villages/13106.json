@@ -1,0 +1,20 @@
+{
+  "id": "13106",
+  "name": "a.v.a.t.a.r.",
+  "location": [
+    385,
+    538
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 958,
+  "safe": false,
+  "scout": false,
+  "tribe": "183",
+  "owner": "1386871",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779669233
+}

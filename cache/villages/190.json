@@ -1,0 +1,20 @@
+{
+  "id": "190",
+  "name": "Jw004",
+  "location": [
+    455,
+    487
+  ],
+  "bonus": [
+    "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
+    "bonus/storage.png"
+  ],
+  "points": 384,
+  "safe": false,
+  "scout": false,
+  "tribe": "61",
+  "owner": "8743532",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779702126
+}

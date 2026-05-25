@@ -1,17 +1,17 @@
 {
   "id": "15624",
-  "name": "Wioska 1",
+  "name": "Tybori v7",
   "location": [
     394,
     575
   ],
   "bonus": null,
-  "points": 1594,
+  "points": 1877,
   "safe": false,
   "scout": false,
-  "tribe": "462",
-  "owner": "849120939",
+  "tribe": "54",
+  "owner": "849065706",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779400111
+  "last_seen": 1779702050
 }
