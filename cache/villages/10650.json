@@ -1,17 +1,17 @@
 {
   "id": "10650",
-  "name": "Wioska barbarzy\u0144ska",
+  "name": "Algoma",
   "location": [
     444,
     588
   ],
   "bonus": null,
-  "points": 387,
+  "points": 746,
   "safe": false,
   "scout": false,
   "tribe": "54",
   "owner": "699443920",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690772
+  "last_seen": 1779920477
 }

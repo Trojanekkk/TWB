@@ -1,17 +1,17 @@
 {
   "id": "7999",
-  "name": 0,
+  "name": "Dw\u00f3r Carycy 07",
   "location": [
     443,
     569
   ],
   "bonus": null,
-  "points": 272,
+  "points": 716,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849244130",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

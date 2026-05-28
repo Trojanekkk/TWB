@@ -1,6 +1,6 @@
 {
   "id": "12733",
-  "name": 0,
+  "name": "Biedronka",
   "location": [
     415,
     579
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 296,
+  "points": 468,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "849309728",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

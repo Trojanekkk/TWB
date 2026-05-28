@@ -1,17 +1,17 @@
 {
   "id": "7735",
-  "name": "Wioska Hildegard",
+  "name": "003,Hildegard",
   "location": [
     472,
     586
   ],
   "bonus": null,
-  "points": 751,
+  "points": 843,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849027644",
+  "tribe": "166",
+  "owner": "7271768",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499384
+  "last_seen": 1779920477
 }

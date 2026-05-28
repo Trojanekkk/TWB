@@ -1,6 +1,6 @@
 {
   "id": "55",
-  "name": 0,
+  "name": "Wioska 020",
   "location": [
     458,
     563
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja \u017celaza",
     "bonus/iron.png"
   ],
-  "points": 341,
+  "points": 1254,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "41",
+  "owner": "1350456",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

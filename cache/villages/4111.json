@@ -1,17 +1,17 @@
 {
   "id": "4111",
-  "name": "Wioska William Zdobywca",
+  "name": "1 Wioska William Zdobywca",
   "location": [
     452,
     506
   ],
   "bonus": null,
-  "points": 5387,
+  "points": 5585,
   "safe": false,
   "scout": false,
   "tribe": "0",
   "owner": "698462328",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702126
+  "last_seen": 1779907357
 }

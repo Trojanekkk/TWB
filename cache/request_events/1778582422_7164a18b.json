@@ -1,7 +1,0 @@
-{
-  "when": 1778582422,
-  "method": "POST",
-  "url": "https://pl229.plemiona.pl/game.php?village=8054&screen=place&try=confirm",
-  "status": 200,
-  "event": "request"
-}

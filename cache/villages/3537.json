@@ -1,17 +1,17 @@
 {
   "id": "3537",
-  "name": "Wioska advines1",
+  "name": 0,
   "location": [
     428,
     524
   ],
   "bonus": null,
-  "points": 36,
+  "points": 41,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "7312947",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

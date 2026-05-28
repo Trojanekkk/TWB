@@ -1,17 +1,17 @@
 {
   "id": "14571",
-  "name": "Ma\u0142a wioska",
+  "name": "003",
   "location": [
     441,
     613
   ],
   "bonus": null,
-  "points": 1556,
+  "points": 1706,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849239563",
+  "tribe": "82",
+  "owner": "699573261",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779676896
+  "last_seen": 1779992187
 }

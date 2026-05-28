@@ -1,17 +1,17 @@
 {
   "id": "10885",
-  "name": 0,
+  "name": "*0014* Hola Hola",
   "location": [
     400,
     525
   ],
   "bonus": null,
-  "points": 262,
+  "points": 1013,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779926074
 }

@@ -1,0 +1,20 @@
+{
+  "id": "20711",
+  "name": "Bastion 006",
+  "location": [
+    442,
+    641
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 482,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "849309801",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779883286
+}

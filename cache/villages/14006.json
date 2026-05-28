@@ -1,17 +1,17 @@
 {
   "id": "14006",
-  "name": 0,
+  "name": "Wioska barbarzy\u0144ska",
   "location": [
     388,
     556
   ],
   "bonus": null,
-  "points": 229,
+  "points": 297,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "849285985",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702050
+  "last_seen": 1779981069
 }

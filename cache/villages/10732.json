@@ -1,17 +1,17 @@
 {
   "id": "10732",
-  "name": 0,
+  "name": "04 Shanghaj",
   "location": [
     477,
     604
   ],
   "bonus": null,
-  "points": 201,
+  "points": 322,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "166",
+  "owner": "849301859",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

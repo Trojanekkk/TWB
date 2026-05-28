@@ -1,17 +1,17 @@
 {
   "id": "13760",
-  "name": "Wioska kubalux",
+  "name": "Neapol",
   "location": [
     432,
     606
   ],
   "bonus": null,
-  "points": 1306,
+  "points": 1527,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849309931",
+  "tribe": "82",
+  "owner": "849294085",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423266
+  "last_seen": 1779992187
 }

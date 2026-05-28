@@ -1,17 +1,17 @@
 {
   "id": "6293",
-  "name": 0,
+  "name": "swojak 3",
   "location": [
     442,
     540
   ],
   "bonus": null,
-  "points": 179,
+  "points": 523,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849281306",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

@@ -1,0 +1,20 @@
+{
+  "id": "11030",
+  "name": "*0006* Stajnia u Dudka",
+  "location": [
+    396,
+    519
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 6367,
+  "safe": false,
+  "scout": false,
+  "tribe": "177",
+  "owner": "698473696",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779924998
+}

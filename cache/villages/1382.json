@@ -1,17 +1,17 @@
 {
   "id": "1382",
-  "name": "Wioska GrzesiekVGT",
+  "name": "Wioska 001",
   "location": [
     473,
     618
   ],
   "bonus": null,
-  "points": 3499,
+  "points": 4118,
   "safe": false,
   "scout": false,
   "tribe": "531",
   "owner": "1049266",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

@@ -1,6 +1,6 @@
 {
   "id": "14460",
-  "name": 0,
+  "name": "Mediolan",
   "location": [
     433,
     610
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja \u017celaza",
     "bonus/iron.png"
   ],
-  "points": 202,
+  "points": 513,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "82",
+  "owner": "849294085",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423266
+  "last_seen": 1779992187
 }

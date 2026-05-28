@@ -1,17 +1,17 @@
 {
   "id": "8315",
-  "name": 0,
+  "name": "P05",
   "location": [
     407,
     500
   ],
   "bonus": null,
-  "points": 233,
+  "points": 595,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "238",
+  "owner": "849292213",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779978210
 }

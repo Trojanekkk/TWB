@@ -1,17 +1,17 @@
 {
   "id": "11886",
-  "name": "Wioska So\u0142y x Zukuna",
+  "name": 0,
   "location": [
     469,
     607
   ],
   "bonus": null,
-  "points": 453,
+  "points": 445,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "848910113",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

@@ -1,17 +1,17 @@
 {
   "id": "1547",
-  "name": 0,
+  "name": "B01 - Polana",
   "location": [
     424,
     567
   ],
   "bonus": null,
-  "points": 841,
+  "points": 1334,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

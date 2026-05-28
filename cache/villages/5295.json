@@ -1,17 +1,17 @@
 {
   "id": "5295",
-  "name": "Osada 08",
+  "name": "08 - Barbi",
   "location": [
     441,
     558
   ],
   "bonus": null,
-  "points": 799,
+  "points": 1649,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

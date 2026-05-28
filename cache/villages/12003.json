@@ -1,17 +1,17 @@
 {
   "id": "12003",
-  "name": 0,
+  "name": "[12] Asior i Dzieciok",
   "location": [
     393,
     529
   ],
   "bonus": null,
-  "points": 279,
+  "points": 723,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "849289525",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

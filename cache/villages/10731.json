@@ -1,17 +1,17 @@
 {
   "id": "10731",
-  "name": 0,
+  "name": "Szlachcic",
   "location": [
     475,
     604
   ],
   "bonus": null,
-  "points": 229,
+  "points": 701,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "166",
+  "owner": "849275523",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

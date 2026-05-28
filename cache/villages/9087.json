@@ -1,17 +1,17 @@
 {
   "id": "9087",
-  "name": 0,
+  "name": "Castle",
   "location": [
     408,
     528
   ],
   "bonus": null,
-  "points": 292,
+  "points": 589,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "0",
+  "owner": "1086351",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779926074
 }

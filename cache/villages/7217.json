@@ -1,6 +1,6 @@
 {
   "id": "7217",
-  "name": 0,
+  "name": "Belfegor- -Upi\u00f3r Luwru",
   "location": [
     424,
     539
@@ -9,12 +9,12 @@
     "33% szybsze szkolenie w koszarach ",
     "bonus/barracks.png"
   ],
-  "points": 284,
+  "points": 1086,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "699875213",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

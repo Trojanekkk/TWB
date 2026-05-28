@@ -1,0 +1,7 @@
+{
+  "when": 1779993435,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=340263376&screen=place&target=7697",
+  "status": 200,
+  "event": "request"
+}

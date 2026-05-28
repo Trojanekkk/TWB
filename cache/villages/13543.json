@@ -1,17 +1,17 @@
 {
   "id": "13543",
-  "name": 0,
+  "name": "008 Angband",
   "location": [
     468,
     620
   ],
   "bonus": null,
-  "points": 943,
+  "points": 1144,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "698271048",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519433
+  "last_seen": 1779847348
 }

@@ -1,0 +1,20 @@
+{
+  "id": "13460",
+  "name": "002. CATS",
+  "location": [
+    381,
+    501
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 4920,
+  "safe": false,
+  "scout": false,
+  "tribe": "177",
+  "owner": "2987941",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779924998
+}

@@ -1,17 +1,17 @@
 {
   "id": "4788",
-  "name": 0,
+  "name": "005stanislawow.",
   "location": [
     435,
     505
   ],
   "bonus": null,
-  "points": 333,
+  "points": 500,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "699566545",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697661
+  "last_seen": 1779990863
 }

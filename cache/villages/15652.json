@@ -1,17 +1,17 @@
 {
   "id": "15652",
-  "name": "Wioska mateuszS1",
+  "name": 0,
   "location": [
     398,
     586
   ],
   "bonus": null,
-  "points": 103,
+  "points": 107,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849242890",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779696210
+  "last_seen": 1779925042
 }

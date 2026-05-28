@@ -1,17 +1,17 @@
 {
   "id": "13335",
-  "name": "Wioska Nonek x Jochym x sledziu",
+  "name": 0,
   "location": [
     408,
     578
   ],
   "bonus": null,
-  "points": 443,
+  "points": 463,
   "safe": false,
   "scout": false,
-  "tribe": "4",
-  "owner": "699243907",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

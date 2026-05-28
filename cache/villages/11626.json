@@ -1,17 +1,17 @@
 {
   "id": "11626",
-  "name": 0,
+  "name": "*0019* Do Sto\u0142u Podano",
   "location": [
     392,
     525
   ],
   "bonus": null,
-  "points": 138,
+  "points": 801,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

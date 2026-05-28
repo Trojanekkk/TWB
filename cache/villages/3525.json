@@ -1,17 +1,17 @@
 {
   "id": "3525",
-  "name": "Twierdza",
+  "name": "Forteca",
   "location": [
     462,
     592
   ],
   "bonus": null,
-  "points": 5251,
+  "points": 6366,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "7235989",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499384
+  "last_seen": 1779920477
 }

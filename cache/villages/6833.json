@@ -1,17 +1,17 @@
 {
   "id": "6833",
-  "name": "Wioska Old West",
+  "name": "010 eXe.",
   "location": [
     481,
     530
   ],
   "bonus": null,
-  "points": 3618,
+  "points": 3752,
   "safe": false,
   "scout": false,
   "tribe": "84",
-  "owner": "849306233",
+  "owner": "849299602",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678307
+  "last_seen": 1779876606
 }

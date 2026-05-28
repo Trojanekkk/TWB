@@ -1,17 +1,17 @@
 {
   "id": "10900",
-  "name": "Wioska Talion",
+  "name": "0x7FFFFFFFF0D0",
   "location": [
     415,
     565
   ],
   "bonus": null,
-  "points": 260,
+  "points": 700,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "698642903",
+  "tribe": "242",
+  "owner": "699270335",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

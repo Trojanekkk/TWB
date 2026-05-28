@@ -1,17 +1,17 @@
 {
   "id": "22840",
-  "name": "Wioska Myszon",
+  "name": "003",
   "location": [
     384,
     609
   ],
   "bonus": null,
-  "points": 1759,
+  "points": 2207,
   "safe": false,
   "scout": false,
-  "tribe": "344",
-  "owner": "849299560",
+  "tribe": "82",
+  "owner": "849307943",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669261
+  "last_seen": 1779925042
 }

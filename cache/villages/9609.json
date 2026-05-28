@@ -1,17 +1,17 @@
 {
   "id": "9609",
-  "name": "Casterly Rock",
+  "name": "0x7FFFFFFFF0E0",
   "location": [
     406,
     563
   ],
   "bonus": null,
-  "points": 4671,
+  "points": 4541,
   "safe": false,
   "scout": false,
-  "tribe": "37",
-  "owner": "6165802",
+  "tribe": "242",
+  "owner": "699270335",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

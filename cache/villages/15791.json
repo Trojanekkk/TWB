@@ -1,17 +1,17 @@
 {
   "id": "15791",
-  "name": 0,
+  "name": "Moria",
   "location": [
     418,
     604
   ],
   "bonus": null,
-  "points": 224,
+  "points": 630,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "133",
+  "owner": "8296235",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645141
+  "last_seen": 1779978301
 }

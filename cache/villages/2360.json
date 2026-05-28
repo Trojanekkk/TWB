@@ -1,17 +1,17 @@
 {
   "id": "2360",
-  "name": 0,
+  "name": "Petyferia Petgwartu 2",
   "location": [
     471,
     544
   ],
   "bonus": null,
-  "points": 210,
+  "points": 427,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849310755",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

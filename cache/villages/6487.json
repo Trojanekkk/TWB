@@ -1,6 +1,6 @@
 {
   "id": "6487",
-  "name": 0,
+  "name": "here we go again",
   "location": [
     433,
     522
@@ -9,12 +9,12 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 223,
+  "points": 1041,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "638",
+  "owner": "2214814",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

@@ -1,0 +1,20 @@
+{
+  "id": "16342",
+  "name": "002. Bro",
+  "location": [
+    373,
+    549
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 1719,
+  "safe": false,
+  "scout": false,
+  "tribe": "238",
+  "owner": "849211752",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779922509
+}

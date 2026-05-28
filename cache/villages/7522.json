@@ -1,17 +1,17 @@
 {
   "id": "7522",
-  "name": 0,
+  "name": "09 - Luda Prawo",
   "location": [
     442,
     564
   ],
   "bonus": null,
-  "points": 290,
+  "points": 438,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

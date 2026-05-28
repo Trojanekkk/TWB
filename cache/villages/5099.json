@@ -1,17 +1,17 @@
 {
   "id": "5099",
-  "name": "02.Bagienice",
+  "name": "002.Bagienice",
   "location": [
     487,
     549
   ],
   "bonus": null,
-  "points": 1054,
+  "points": 1295,
   "safe": false,
   "scout": false,
   "tribe": "84",
   "owner": "849301814",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

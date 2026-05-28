@@ -1,7 +1,0 @@
-{
-  "when": 1777714906,
-  "method": "GET",
-  "url": "https://pl229.plemiona.pl/game.php?screen=overview",
-  "status": 200,
-  "event": "request"
-}

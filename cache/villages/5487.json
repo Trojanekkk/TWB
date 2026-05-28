@@ -1,17 +1,17 @@
 {
   "id": "5487",
-  "name": 0,
+  "name": "Petyferia Petropolis 1",
   "location": [
     490,
     546
   ],
   "bonus": null,
-  "points": 52,
+  "points": 426,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849310755",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

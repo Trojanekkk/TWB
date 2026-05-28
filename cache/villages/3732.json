@@ -1,17 +1,17 @@
 {
   "id": "3732",
-  "name": 0,
+  "name": "Helloween",
   "location": [
     448,
     526
   ],
   "bonus": null,
-  "points": 215,
+  "points": 298,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "7165525",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779643451
+  "last_seen": 1779960711
 }

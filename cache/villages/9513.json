@@ -1,17 +1,17 @@
 {
   "id": "9513",
-  "name": "trzecia",
+  "name": "003",
   "location": [
     460,
     608
   ],
   "bonus": null,
-  "points": 2743,
+  "points": 3235,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699046065",
+  "tribe": "166",
+  "owner": "849226925",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

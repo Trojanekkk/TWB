@@ -1,17 +1,17 @@
 {
   "id": "22136",
-  "name": "Masz farta nie gram na powa\u017cnie",
+  "name": 0,
   "location": [
     391,
     612
   ],
   "bonus": null,
-  "points": 348,
+  "points": 361,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8452429",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669261
+  "last_seen": 1779925042
 }

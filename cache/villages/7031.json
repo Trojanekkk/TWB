@@ -1,6 +1,6 @@
 {
   "id": "7031",
-  "name": "Osada koczownik\u00f3w",
+  "name": "wioska 3",
   "location": [
     479,
     576
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 285,
+  "points": 485,
   "safe": false,
   "scout": false,
   "tribe": "166",
   "owner": "699681418",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690872
+  "last_seen": 1779992283
 }

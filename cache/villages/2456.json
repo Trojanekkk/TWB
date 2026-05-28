@@ -1,17 +1,17 @@
 {
   "id": "2456",
-  "name": "Mysteria",
+  "name": 0,
   "location": [
     466,
     528
   ],
   "bonus": null,
-  "points": 970,
+  "points": 1076,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849300530",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460141
+  "last_seen": 1779960711
 }

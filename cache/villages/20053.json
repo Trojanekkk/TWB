@@ -1,17 +1,17 @@
 {
   "id": "20053",
-  "name": "Wioska Patataja",
+  "name": 0,
   "location": [
     432,
     571
   ],
   "bonus": null,
-  "points": 267,
+  "points": 305,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849306600",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

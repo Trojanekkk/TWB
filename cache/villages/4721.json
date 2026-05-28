@@ -1,6 +1,6 @@
 {
   "id": "4721",
-  "name": "005 Glina",
+  "name": "A005 Glina",
   "location": [
     508,
     577
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 2532,
+  "points": 3191,
   "safe": false,
   "scout": false,
   "tribe": "35",
   "owner": "699390457",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779693348
+  "last_seen": 1779940811
 }

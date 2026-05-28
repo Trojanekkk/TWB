@@ -1,17 +1,17 @@
 {
   "id": "9780",
-  "name": 0,
+  "name": "Jawor",
   "location": [
     432,
     576
   ],
   "bonus": null,
-  "points": 301,
+  "points": 487,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849291987",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

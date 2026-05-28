@@ -1,17 +1,17 @@
 {
   "id": "18737",
-  "name": "Wioska Ksi\u0105\u017c\u0119 Dzony Czarny IV",
+  "name": 0,
   "location": [
     435,
     626
   ],
   "bonus": null,
-  "points": 234,
+  "points": 226,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849002785",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697737
+  "last_seen": 1779990925
 }

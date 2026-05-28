@@ -1,0 +1,20 @@
+{
+  "id": "1728",
+  "name": "003 Night City",
+  "location": [
+    534,
+    561
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 2720,
+  "safe": false,
+  "scout": false,
+  "tribe": "35",
+  "owner": "6234302",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779883351
+}

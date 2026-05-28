@@ -1,0 +1,20 @@
+{
+  "id": "2473",
+  "name": "Poldek2",
+  "location": [
+    432,
+    493
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 1413,
+  "safe": false,
+  "scout": false,
+  "tribe": "238",
+  "owner": "849250462",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779955783
+}

@@ -1,6 +1,6 @@
 {
   "id": "18089",
-  "name": 0,
+  "name": "Wioska .16.",
   "location": [
     444,
     631
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 179,
+  "points": 416,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "699342409",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779693266
+  "last_seen": 1779940766
 }

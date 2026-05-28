@@ -1,17 +1,17 @@
 {
   "id": "3245",
-  "name": 0,
+  "name": "010 barbarzy\u0144ska",
   "location": [
     449,
     546
   ],
   "bonus": null,
-  "points": 290,
+  "points": 931,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "2206657",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

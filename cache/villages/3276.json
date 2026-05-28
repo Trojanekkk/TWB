@@ -1,6 +1,6 @@
 {
   "id": "3276",
-  "name": 0,
+  "name": "Osada koczownik\u00f3w",
   "location": [
     443,
     486
@@ -9,12 +9,12 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 236,
+  "points": 776,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "238",
+  "owner": "2615837",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702126
+  "last_seen": 1779961797
 }

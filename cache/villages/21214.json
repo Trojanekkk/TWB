@@ -1,17 +1,17 @@
 {
   "id": "21214",
-  "name": "Wioska Indywidualista x Beton",
+  "name": 0,
   "location": [
     403,
     613
   ],
   "bonus": null,
-  "points": 129,
+  "points": 121,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849178087",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645141
+  "last_seen": 1779978301
 }

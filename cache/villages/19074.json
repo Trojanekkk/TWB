@@ -1,6 +1,6 @@
 {
   "id": "19074",
-  "name": "Wioska Szymoo",
+  "name": 0,
   "location": [
     386,
     585
@@ -9,9 +9,9 @@
   "points": 63,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849310611",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779696210
+  "last_seen": 1779925042
 }

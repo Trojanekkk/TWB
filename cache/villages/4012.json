@@ -1,17 +1,17 @@
 {
   "id": "4012",
-  "name": 0,
+  "name": "POD BACHUSEM",
   "location": [
     465,
     537
   ],
   "bonus": null,
-  "points": 241,
+  "points": 513,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "41",
+  "owner": "698486044",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460141
+  "last_seen": 1779960711
 }

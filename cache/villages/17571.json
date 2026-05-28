@@ -1,17 +1,17 @@
 {
   "id": "17571",
-  "name": "Wioska zalicja12",
+  "name": "Ardea",
   "location": [
     388,
     587
   ],
   "bonus": null,
-  "points": 1117,
+  "points": 1331,
   "safe": false,
   "scout": false,
-  "tribe": "344",
-  "owner": "2441377",
+  "tribe": "535",
+  "owner": "849122527",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779696210
+  "last_seen": 1779925042
 }

@@ -1,17 +1,17 @@
 {
   "id": "1599",
-  "name": "001. Kasugayama",
+  "name": "06 Dreamfyre",
   "location": [
     485,
     543
   ],
   "bonus": null,
-  "points": 2310,
+  "points": 2209,
   "safe": false,
   "scout": false,
-  "tribe": "69",
-  "owner": "698330062",
+  "tribe": "84",
+  "owner": "849203834",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

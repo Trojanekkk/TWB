@@ -1,17 +1,17 @@
 {
   "id": "6339",
-  "name": "003",
+  "name": "burnas22-cwe*",
   "location": [
     470,
     502
   ],
   "bonus": null,
-  "points": 1837,
+  "points": 1725,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "0",
   "owner": "849296216",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519373
+  "last_seen": 1779847316
 }

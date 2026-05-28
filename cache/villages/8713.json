@@ -1,17 +1,17 @@
 {
   "id": "8713",
-  "name": "Lech kolejorz.",
+  "name": "Miasto podziemnej pomara\u0144czy.",
   "location": [
     385,
     535
   ],
   "bonus": null,
-  "points": 7729,
+  "points": 8378,
   "safe": false,
   "scout": false,
   "tribe": "242",
   "owner": "2624692",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

@@ -1,17 +1,17 @@
 {
   "id": "23632",
-  "name": "Wioska hdmikamila",
+  "name": 0,
   "location": [
     386,
     609
   ],
   "bonus": null,
-  "points": 36,
+  "points": 35,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849309833",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669261
+  "last_seen": 1779925042
 }

@@ -1,17 +1,17 @@
 {
   "id": "2605",
-  "name": 0,
+  "name": "Isengard",
   "location": [
     477,
     558
   ],
   "bonus": null,
-  "points": 269,
+  "points": 676,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

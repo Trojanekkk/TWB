@@ -1,17 +1,17 @@
 {
   "id": "7697",
-  "name": "Wioska MechanikUR2",
+  "name": 0,
   "location": [
     442,
     569
   ],
   "bonus": null,
-  "points": 392,
+  "points": 391,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849288256",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

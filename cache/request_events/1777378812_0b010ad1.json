@@ -1,7 +1,0 @@
-{
-  "when": 1777378812,
-  "method": "POST",
-  "url": "https://pl229.plemiona.pl/game.php?village=5844&screen=market&mode=all_own_offer&action=delete_offers",
-  "status": 200,
-  "event": "request"
-}

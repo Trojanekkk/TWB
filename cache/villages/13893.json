@@ -1,0 +1,20 @@
+{
+  "id": "13893",
+  "name": "003. Tutaj na pewno DEFF",
+  "location": [
+    499,
+    626
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w stajni",
+    "bonus/stable.png"
+  ],
+  "points": 1169,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "698651200",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779941865
+}

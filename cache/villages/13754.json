@@ -1,17 +1,17 @@
 {
   "id": "13754",
-  "name": "...PP...",
+  "name": 0,
   "location": [
     384,
     542
   ],
   "bonus": null,
-  "points": 249,
+  "points": 246,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "9149420",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702050
+  "last_seen": 1779981069
 }

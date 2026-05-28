@@ -1,0 +1,20 @@
+{
+  "id": "19473",
+  "name": "Nanice",
+  "location": [
+    363,
+    555
+  ],
+  "bonus": [
+    "10% wi\u0119cej ludno\u015bci",
+    "bonus/farm.png"
+  ],
+  "points": 305,
+  "safe": false,
+  "scout": false,
+  "tribe": "531",
+  "owner": "849310489",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779922509
+}

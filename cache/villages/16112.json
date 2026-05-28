@@ -1,6 +1,6 @@
 {
   "id": "16112",
-  "name": "##7",
+  "name": "##07",
   "location": [
     461,
     631
@@ -9,12 +9,12 @@
     "33% szybsze szkolenie w koszarach ",
     "bonus/barracks.png"
   ],
-  "points": 678,
+  "points": 1245,
   "safe": false,
   "scout": false,
   "tribe": "54",
   "owner": "8739142",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519433
+  "last_seen": 1779847348
 }

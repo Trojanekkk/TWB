@@ -1,17 +1,17 @@
 {
   "id": "744",
-  "name": "Wioska gallardo3",
+  "name": 0,
   "location": [
     497,
     502
   ],
   "bonus": null,
-  "points": 36,
+  "points": 27,
   "safe": false,
   "scout": false,
-  "tribe": "25",
-  "owner": "8298412",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678307
+  "last_seen": 1779941751
 }

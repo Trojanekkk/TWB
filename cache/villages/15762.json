@@ -1,6 +1,6 @@
 {
   "id": "15762",
-  "name": 0,
+  "name": "KRESKA:)",
   "location": [
     382,
     556
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja \u017celaza",
     "bonus/iron.png"
   ],
-  "points": 299,
+  "points": 594,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "54",
+  "owner": "698310600",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702050
+  "last_seen": 1779981069
 }

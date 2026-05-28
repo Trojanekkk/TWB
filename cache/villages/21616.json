@@ -1,17 +1,17 @@
 {
   "id": "21616",
-  "name": "Wioska Urro",
+  "name": "05. Wioska Urro",
   "location": [
     415,
     583
   ],
   "bonus": null,
-  "points": 1691,
+  "points": 2006,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "849282257",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700706
+  "last_seen": 1779888333
 }

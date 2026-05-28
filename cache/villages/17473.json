@@ -1,17 +1,17 @@
 {
   "id": "17473",
-  "name": "Wioska Kaffanek",
+  "name": "Burzonko",
   "location": [
     471,
     639
   ],
   "bonus": null,
-  "points": 2180,
+  "points": 2198,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "3334899",
+  "tribe": "54",
+  "owner": "849158103",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519433
+  "last_seen": 1779847348
 }

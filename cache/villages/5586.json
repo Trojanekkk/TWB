@@ -1,17 +1,17 @@
 {
   "id": "5586",
-  "name": 0,
+  "name": "Berezka",
   "location": [
     462,
     545
   ],
   "bonus": null,
-  "points": 270,
+  "points": 567,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "41",
+  "owner": "849301258",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

@@ -1,17 +1,17 @@
 {
   "id": "16352",
-  "name": "Wioska Dzika Lama",
+  "name": "07. Wioska Dzika Lama",
   "location": [
     418,
     606
   ],
   "bonus": null,
-  "points": 3399,
+  "points": 3748,
   "safe": false,
   "scout": false,
-  "tribe": "203",
-  "owner": "849310229",
+  "tribe": "54",
+  "owner": "849282257",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645141
+  "last_seen": 1779978301
 }

@@ -1,17 +1,17 @@
 {
   "id": "10009",
-  "name": "Wioska Thom",
+  "name": "Wioska barbarzy\u0144ska",
   "location": [
     440,
     579
   ],
   "bonus": null,
-  "points": 1253,
+  "points": 1383,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "90200",
+  "tribe": "635",
+  "owner": "848937842",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

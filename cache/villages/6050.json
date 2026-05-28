@@ -1,17 +1,17 @@
 {
   "id": "6050",
-  "name": 0,
+  "name": "Leeds United",
   "location": [
     456,
     528
   ],
   "bonus": null,
-  "points": 329,
+  "points": 409,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849294822",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779643451
+  "last_seen": 1779960711
 }

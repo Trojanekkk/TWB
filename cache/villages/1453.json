@@ -1,17 +1,17 @@
 {
   "id": "1453",
-  "name": "L001",
+  "name": "K53",
   "location": [
     399,
     563
   ],
   "bonus": null,
-  "points": 5222,
+  "points": 5089,
   "safe": false,
   "scout": false,
-  "tribe": "583",
-  "owner": "849301146",
+  "tribe": "635",
+  "owner": "698580310",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702050
+  "last_seen": 1779958549
 }

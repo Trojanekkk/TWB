@@ -1,17 +1,17 @@
 {
   "id": "2879",
-  "name": 0,
+  "name": "Ben [011]",
   "location": [
     419,
     501
   ],
   "bonus": null,
-  "points": 285,
+  "points": 1228,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "699422258",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779978210
 }

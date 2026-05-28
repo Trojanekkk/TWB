@@ -1,17 +1,17 @@
 {
   "id": "5164",
-  "name": "Wioska Yoqura",
+  "name": 0,
   "location": [
     451,
     543
   ],
   "bonus": null,
-  "points": 87,
+  "points": 94,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849068299",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

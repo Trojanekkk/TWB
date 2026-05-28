@@ -1,0 +1,7 @@
+{
+  "when": 1779825292,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=7866&screen=place&mode=scavenge",
+  "status": 200,
+  "event": "request"
+}

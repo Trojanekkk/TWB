@@ -1,17 +1,17 @@
 {
   "id": "2232",
-  "name": 0,
+  "name": "Pontar",
   "location": [
     474,
     564
   ],
   "bonus": null,
-  "points": 292,
+  "points": 742,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690872
+  "last_seen": 1779992283
 }

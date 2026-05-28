@@ -1,0 +1,15 @@
+{
+  "type": "attack",
+  "origin": "5844",
+  "dest": "4713",
+  "losses": {},
+  "extra": {
+    "when": 1779914739,
+    "units_sent": {
+      "light": 3
+    },
+    "units_losses": {
+      "light": 3
+    }
+  }
+}

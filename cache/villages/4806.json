@@ -1,17 +1,17 @@
 {
   "id": "4806",
-  "name": 0,
+  "name": "Stawki 01",
   "location": [
     508,
     561
   ],
   "bonus": null,
-  "points": 303,
+  "points": 405,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "13",
+  "owner": "849250726",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779693348
+  "last_seen": 1779940811
 }

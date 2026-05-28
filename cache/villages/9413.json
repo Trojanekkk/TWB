@@ -1,17 +1,17 @@
 {
   "id": "9413",
-  "name": 0,
+  "name": "B03 - Cyrk",
   "location": [
     425,
     563
   ],
   "bonus": null,
-  "points": 289,
+  "points": 494,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

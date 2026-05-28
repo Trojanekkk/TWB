@@ -1,17 +1,17 @@
 {
   "id": "8731",
-  "name": "Wioska lordMati.",
+  "name": 0,
   "location": [
     412,
     528
   ],
   "bonus": null,
-  "points": 355,
+  "points": 333,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849308131",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779926074
 }

@@ -1,17 +1,17 @@
 {
   "id": "8427",
-  "name": "Wioska Cerkini",
+  "name": "Kioto",
   "location": [
     465,
     612
   ],
   "bonus": null,
-  "points": 1629,
+  "points": 1785,
   "safe": false,
   "scout": false,
-  "tribe": "80",
-  "owner": "849017840",
+  "tribe": "54",
+  "owner": "849287783",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

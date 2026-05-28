@@ -1,17 +1,17 @@
 {
   "id": "3888",
-  "name": 0,
+  "name": "009 Chobot",
   "location": [
     475,
     574
   ],
   "bonus": null,
-  "points": 356,
+  "points": 793,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849309614",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690872
+  "last_seen": 1779992283
 }

@@ -1,6 +1,6 @@
 {
   "id": "18596",
-  "name": "Wioska mario2026",
+  "name": 0,
   "location": [
     389,
     590
@@ -9,9 +9,9 @@
   "points": 193,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849294604",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779696210
+  "last_seen": 1779925042
 }

@@ -1,17 +1,17 @@
 {
   "id": "1671",
-  "name": 0,
+  "name": "Ghana",
   "location": [
     419,
     581
   ],
   "bonus": null,
-  "points": 965,
+  "points": 1273,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "699500655",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700706
+  "last_seen": 1779888333
 }

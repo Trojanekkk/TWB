@@ -1,0 +1,20 @@
+{
+  "id": "2380",
+  "name": "DASDF03",
+  "location": [
+    537,
+    564
+  ],
+  "bonus": [
+    "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
+    "bonus/all.png"
+  ],
+  "points": 1419,
+  "safe": false,
+  "scout": false,
+  "tribe": "35",
+  "owner": "849304294",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779883351
+}

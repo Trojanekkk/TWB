@@ -1,17 +1,17 @@
 {
   "id": "10704",
-  "name": "Wioska Dzanker",
+  "name": 0,
   "location": [
     417,
     563
   ],
   "bonus": null,
-  "points": 201,
+  "points": 214,
   "safe": false,
   "scout": false,
-  "tribe": "126",
-  "owner": "9165688",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

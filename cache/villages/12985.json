@@ -1,17 +1,17 @@
 {
   "id": "12985",
-  "name": "Wioska warkoczynka",
+  "name": "K53",
   "location": [
     387,
     550
   ],
   "bonus": null,
-  "points": 3237,
+  "points": 3657,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "698580310",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702050
+  "last_seen": 1779981069
 }

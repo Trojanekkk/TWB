@@ -1,17 +1,17 @@
 {
   "id": "10016",
-  "name": "CEDYNIA",
+  "name": 0,
   "location": [
     489,
     600
   ],
   "bonus": null,
-  "points": 363,
+  "points": 372,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849256236",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678391
+  "last_seen": 1779876697
 }

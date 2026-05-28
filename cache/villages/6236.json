@@ -1,6 +1,6 @@
 {
   "id": "6236",
-  "name": 0,
+  "name": "Bo to z\u0142a kobieta byla",
   "location": [
     433,
     535
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja gliny",
     "bonus/stone.png"
   ],
-  "points": 221,
+  "points": 579,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "0",
+  "owner": "849276255",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

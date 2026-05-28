@@ -1,17 +1,17 @@
 {
   "id": "11448",
-  "name": "Wioska dinko94",
+  "name": 0,
   "location": [
     497,
     608
   ],
   "bonus": null,
-  "points": 166,
+  "points": 168,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849089413",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678391
+  "last_seen": 1779876697
 }

@@ -1,17 +1,17 @@
 {
   "id": "17699",
-  "name": "Wioska KibelOporanku",
+  "name": "004. KibelOporanku[*]",
   "location": [
     490,
     554
   ],
   "bonus": null,
-  "points": 2876,
+  "points": 3224,
   "safe": false,
   "scout": false,
   "tribe": "84",
-  "owner": "849310404",
+  "owner": "849301814",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

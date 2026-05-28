@@ -1,17 +1,17 @@
 {
   "id": "2544",
-  "name": 0,
+  "name": "009. DobryJezu",
   "location": [
     449,
     554
   ],
   "bonus": null,
-  "points": 245,
+  "points": 254,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849211179",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

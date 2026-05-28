@@ -1,17 +1,17 @@
 {
   "id": "2516",
-  "name": 0,
+  "name": "Stefan\u00f3wka",
   "location": [
     469,
     540
   ],
   "bonus": null,
-  "points": 426,
+  "points": 672,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849309167",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

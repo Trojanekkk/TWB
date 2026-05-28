@@ -1,17 +1,17 @@
 {
   "id": "4029",
-  "name": "001. zbieram pp pa\u0144szc remii1991",
+  "name": 0,
   "location": [
     427,
     595
   ],
   "bonus": null,
-  "points": 1573,
+  "points": 1722,
   "safe": false,
   "scout": false,
-  "tribe": "4",
-  "owner": "698142767",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700706
+  "last_seen": 1779888333
 }

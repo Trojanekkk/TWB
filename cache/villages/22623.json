@@ -1,0 +1,20 @@
+{
+  "id": "22623",
+  "name": "NY 5",
+  "location": [
+    427,
+    643
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 176,
+  "safe": false,
+  "scout": false,
+  "tribe": "82",
+  "owner": "849210878",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779955839
+}

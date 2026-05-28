@@ -1,6 +1,6 @@
 {
   "id": "8922",
-  "name": 0,
+  "name": "003",
   "location": [
     503,
     595
@@ -9,12 +9,12 @@
     "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
     "bonus/all.png"
   ],
-  "points": 213,
+  "points": 417,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "117",
+  "owner": "849309666",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779638113
+  "last_seen": 1779881895
 }

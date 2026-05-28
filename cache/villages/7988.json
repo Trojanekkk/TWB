@@ -1,17 +1,17 @@
 {
   "id": "7988",
-  "name": 0,
+  "name": "-003- Zamek Olsztyn",
   "location": [
     410,
     501
   ],
   "bonus": null,
-  "points": 292,
+  "points": 534,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "82",
+  "owner": "849309917",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779978210
 }

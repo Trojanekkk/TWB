@@ -1,6 +1,6 @@
 {
   "id": "9218",
-  "name": 0,
+  "name": "*0012* Siatk\u00f3wka Pla\u017cowa",
   "location": [
     403,
     517
@@ -9,12 +9,12 @@
     "50% wi\u0119ksza pojemno\u015b\u0107 spichlerza i handlarzy",
     "bonus/storage.png"
   ],
-  "points": 296,
+  "points": 1304,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779978210
 }

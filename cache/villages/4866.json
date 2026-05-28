@@ -1,0 +1,20 @@
+{
+  "id": "4866",
+  "name": 0,
+  "location": [
+    460,
+    490
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 364,
+  "safe": false,
+  "scout": false,
+  "tribe": null,
+  "owner": "0",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779847316
+}

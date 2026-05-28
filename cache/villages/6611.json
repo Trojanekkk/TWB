@@ -1,17 +1,17 @@
 {
   "id": "6611",
-  "name": 0,
+  "name": "008. Amen",
   "location": [
     448,
     554
   ],
   "bonus": null,
-  "points": 313,
+  "points": 376,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849211179",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994828
 }

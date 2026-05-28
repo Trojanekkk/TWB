@@ -1,17 +1,17 @@
 {
   "id": "8543",
-  "name": 0,
+  "name": "#2 Londyn",
   "location": [
     428,
     562
   ],
   "bonus": null,
-  "points": 360,
+  "points": 471,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "82",
+  "owner": "849299072",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

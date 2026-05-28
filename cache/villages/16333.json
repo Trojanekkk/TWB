@@ -1,0 +1,20 @@
+{
+  "id": "16333",
+  "name": "005. Skibidi",
+  "location": [
+    377,
+    552
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 570,
+  "safe": false,
+  "scout": false,
+  "tribe": "238",
+  "owner": "849211752",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779922509
+}

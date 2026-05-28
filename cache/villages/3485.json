@@ -1,17 +1,17 @@
 {
   "id": "3485",
-  "name": 0,
+  "name": "Posterunek 2",
   "location": [
     484,
     557
   ],
   "bonus": null,
-  "points": 294,
+  "points": 567,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849305450",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

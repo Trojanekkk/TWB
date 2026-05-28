@@ -1,17 +1,17 @@
 {
   "id": "7462",
-  "name": "Osada 06",
+  "name": "06 - Prawo",
   "location": [
     447,
     566
   ],
   "bonus": null,
-  "points": 2353,
+  "points": 3316,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "8386696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702011
+  "last_seen": 1779994625
 }

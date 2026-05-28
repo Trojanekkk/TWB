@@ -1,17 +1,17 @@
 {
   "id": "17637",
-  "name": 0,
+  "name": "0007. Malbork",
   "location": [
     427,
     620
   ],
   "bonus": null,
-  "points": 612,
+  "points": 1281,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "8083365",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697737
+  "last_seen": 1779990925
 }

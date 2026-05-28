@@ -1,17 +1,17 @@
 {
   "id": "5525",
-  "name": 0,
+  "name": "Buba",
   "location": [
     442,
     492
   ],
   "bonus": null,
-  "points": 310,
+  "points": 457,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "238",
+  "owner": "1814695",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702126
+  "last_seen": 1779961797
 }

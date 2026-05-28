@@ -1,17 +1,17 @@
 {
   "id": "8522",
-  "name": "001",
+  "name": "Lewa",
   "location": [
     404,
     574
   ],
   "bonus": null,
-  "points": 1093,
+  "points": 1550,
   "safe": false,
   "scout": false,
-  "tribe": "238",
+  "tribe": "635",
   "owner": "699735025",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779651970
+  "last_seen": 1779958549
 }

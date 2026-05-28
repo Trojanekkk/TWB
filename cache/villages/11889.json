@@ -1,17 +1,17 @@
 {
   "id": "11889",
-  "name": "Marko 1",
+  "name": "Marko 1 full",
   "location": [
     390,
     521
   ],
   "bonus": null,
-  "points": 702,
+  "points": 658,
   "safe": false,
   "scout": false,
   "tribe": "0",
   "owner": "7078544",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

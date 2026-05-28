@@ -1,6 +1,6 @@
 {
   "id": "1607",
-  "name": 0,
+  "name": "02 Bolo\u0144ski inwigilacje",
   "location": [
     444,
     531
@@ -9,12 +9,12 @@
     "100% wi\u0119ksza produkcja \u017celaza",
     "bonus/iron.png"
   ],
-  "points": 244,
+  "points": 400,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849308196",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779643451
+  "last_seen": 1779960711
 }

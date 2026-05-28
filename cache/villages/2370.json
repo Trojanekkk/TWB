@@ -1,17 +1,17 @@
 {
   "id": "2370",
-  "name": "Wioska LORD BILI",
+  "name": "4. SnowCity",
   "location": [
     487,
     520
   ],
   "bonus": null,
-  "points": 3479,
+  "points": 3568,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "8828495",
+  "tribe": "2",
+  "owner": "849310111",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678307
+  "last_seen": 1779876606
 }

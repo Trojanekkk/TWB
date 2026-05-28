@@ -1,0 +1,20 @@
+{
+  "id": "2423",
+  "name": "Mstowo",
+  "location": [
+    502,
+    529
+  ],
+  "bonus": [
+    "50% szybsza produkcja w warsztacie",
+    "bonus/garage.png"
+  ],
+  "points": 814,
+  "safe": false,
+  "scout": false,
+  "tribe": "35",
+  "owner": "1441465",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779979471
+}

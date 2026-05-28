@@ -1,0 +1,20 @@
+{
+  "id": "10330",
+  "name": "ZAKON BILIK 08",
+  "location": [
+    504,
+    601
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja drewna",
+    "bonus/wood.png"
+  ],
+  "points": 5553,
+  "safe": false,
+  "scout": false,
+  "tribe": "117",
+  "owner": "849309701",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779979563
+}

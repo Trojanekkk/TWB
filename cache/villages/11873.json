@@ -1,17 +1,17 @@
 {
   "id": "11873",
-  "name": "Wioska JAraMyThC29",
+  "name": 0,
   "location": [
     395,
     536
   ],
   "bonus": null,
-  "points": 449,
+  "points": 418,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849306987",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

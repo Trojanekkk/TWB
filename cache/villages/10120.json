@@ -1,17 +1,17 @@
 {
   "id": "10120",
-  "name": 0,
+  "name": "*0016* Zebranie So\u0142eckie",
   "location": [
     401,
     518
   ],
   "bonus": null,
-  "points": 316,
+  "points": 1228,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779645071
+  "last_seen": 1779978210
 }

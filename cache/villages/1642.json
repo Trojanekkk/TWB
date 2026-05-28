@@ -1,17 +1,17 @@
 {
   "id": "1642",
-  "name": "Wioska barbarzy\u0144ska",
+  "name": "Osada I Po\u0142udnie",
   "location": [
     487,
     554
   ],
   "bonus": null,
-  "points": 190,
+  "points": 678,
   "safe": false,
   "scout": false,
   "tribe": "84",
   "owner": "849309300",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

@@ -1,17 +1,17 @@
 {
   "id": "7242",
-  "name": "Wioska Chambro",
+  "name": "01. Wioska Chambro",
   "location": [
     409,
     585
   ],
   "bonus": null,
-  "points": 6779,
+  "points": 7057,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "849282257",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700706
+  "last_seen": 1779888333
 }

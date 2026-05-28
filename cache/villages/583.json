@@ -1,6 +1,6 @@
 {
   "id": "583",
-  "name": "Osada koczownik\u00f3w",
+  "name": "Osada koczkodan\u00f3w",
   "location": [
     481,
     502
@@ -9,12 +9,12 @@
     "30% wi\u0119ksza produkcja surowc\u00f3w (wszystkie surowce)",
     "bonus/all.png"
   ],
-  "points": 436,
+  "points": 580,
   "safe": false,
   "scout": false,
   "tribe": "0",
-  "owner": "8848850",
+  "owner": "849218584",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678307
+  "last_seen": 1779941751
 }

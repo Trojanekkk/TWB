@@ -1,17 +1,17 @@
 {
   "id": "20299",
-  "name": "Wioska M\u00f3\u00f3n",
+  "name": 0,
   "location": [
     387,
     592
   ],
   "bonus": null,
-  "points": 240,
+  "points": 231,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "3234683",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779696210
+  "last_seen": 1779925042
 }

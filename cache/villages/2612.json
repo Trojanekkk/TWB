@@ -1,17 +1,17 @@
 {
   "id": "2612",
-  "name": "Wielka niewiadoma",
+  "name": "003zamosc",
   "location": [
     437,
     506
   ],
   "bonus": null,
-  "points": 2823,
+  "points": 3660,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "699566545",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697661
+  "last_seen": 1779990863
 }

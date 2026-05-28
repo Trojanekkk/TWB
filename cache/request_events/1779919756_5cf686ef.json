@@ -1,0 +1,7 @@
+{
+  "when": 1779919756,
+  "method": "GET",
+  "url": "https://pl229.plemiona.pl/game.php?village=6797&screen=ranking",
+  "status": 200,
+  "event": "humanizer_ambient"
+}

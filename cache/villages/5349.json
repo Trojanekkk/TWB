@@ -1,17 +1,17 @@
 {
   "id": "5349",
-  "name": 0,
+  "name": "@ CYRK 0019",
   "location": [
     478,
     508
   ],
   "bonus": null,
-  "points": 283,
+  "points": 2015,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "2",
+  "owner": "849080197",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519373
+  "last_seen": 1779847316
 }

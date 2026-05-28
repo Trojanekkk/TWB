@@ -1,17 +1,17 @@
 {
   "id": "12338",
-  "name": 0,
+  "name": "[11] Holenderski Deszcz",
   "location": [
     392,
     529
   ],
   "bonus": null,
-  "points": 299,
+  "points": 668,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "242",
+  "owner": "849289525",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

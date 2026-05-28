@@ -1,7 +1,0 @@
-{
-  "when": 1778247844,
-  "method": "POST",
-  "url": "https://pl229.plemiona.pl/game.php?ajaxaction=quest_complete&village=8054&screen=api&quest=101&skip=false",
-  "status": 200,
-  "event": "request"
-}

@@ -2,15 +2,16 @@
   "id": "5985",
   "name": "Wioska ***iwcia***",
   "location": [
-    454,
-    560
+    382,
+    502
   ],
   "bonus": null,
-  "points": 144,
+  "points": 1024,
   "safe": false,
   "scout": false,
-  "tribe": "62",
+  "tribe": "0",
   "owner": "849264295",
   "buildings": {},
-  "resources": {}
+  "resources": {},
+  "last_seen": 1779924998
 }

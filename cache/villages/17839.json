@@ -1,6 +1,6 @@
 {
   "id": "17839",
-  "name": "Osada koczownik\u00f3w",
+  "name": "~006~ Potok Tibbeta",
   "location": [
     434,
     625
@@ -9,12 +9,12 @@
     "33% szybsze szkolenie w stajni",
     "bonus/stable.png"
   ],
-  "points": 251,
+  "points": 946,
   "safe": false,
   "scout": false,
   "tribe": "54",
   "owner": "8761492",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697737
+  "last_seen": 1779990925
 }

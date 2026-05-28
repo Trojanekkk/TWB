@@ -1,0 +1,20 @@
+{
+  "id": "9919",
+  "name": "Osada odbytnik\u00f3w",
+  "location": [
+    401,
+    490
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 508,
+  "safe": false,
+  "scout": false,
+  "tribe": "0",
+  "owner": "698738332",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779978210
+}

@@ -1,17 +1,17 @@
 {
   "id": "11875",
-  "name": "Wioska zh17",
+  "name": "Z 01",
   "location": [
     480,
     609
   ],
   "bonus": null,
-  "points": 2678,
+  "points": 3550,
   "safe": false,
   "scout": false,
-  "tribe": "0",
+  "tribe": "631",
   "owner": "7822298",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678391
+  "last_seen": 1779876697
 }

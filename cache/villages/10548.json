@@ -1,17 +1,17 @@
 {
   "id": "10548",
-  "name": 0,
+  "name": "Polkowice",
   "location": [
     430,
     576
   ],
   "bonus": null,
-  "points": 342,
+  "points": 680,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849291987",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

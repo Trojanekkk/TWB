@@ -1,17 +1,17 @@
 {
   "id": "2883",
-  "name": "Wioska jo49",
+  "name": 0,
   "location": [
     479,
     573
   ],
   "bonus": null,
-  "points": 201,
+  "points": 200,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849294056",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690872
+  "last_seen": 1779992283
 }

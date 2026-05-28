@@ -1,17 +1,17 @@
 {
   "id": "5331",
-  "name": 0,
+  "name": "BaradDur",
   "location": [
     476,
     557
   ],
   "bonus": null,
-  "points": 299,
+  "points": 783,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

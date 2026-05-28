@@ -1,0 +1,20 @@
+{
+  "id": "14175",
+  "name": "cWioska",
+  "location": [
+    490,
+    627
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 842,
+  "safe": false,
+  "scout": false,
+  "tribe": "54",
+  "owner": "8487320",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779941865
+}

@@ -1,17 +1,17 @@
 {
   "id": "7667",
-  "name": "Wioska jak skepta",
+  "name": 0,
   "location": [
     423,
     538
   ],
   "bonus": null,
-  "points": 36,
+  "points": 49,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699796464",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

@@ -1,17 +1,17 @@
 {
   "id": "2001",
-  "name": 0,
+  "name": "Polanczyk",
   "location": [
     462,
     543
   ],
   "bonus": null,
-  "points": 286,
+  "points": 498,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "41",
+  "owner": "849301258",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779499287
+  "last_seen": 1779920394
 }

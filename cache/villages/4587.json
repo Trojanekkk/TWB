@@ -1,17 +1,17 @@
 {
   "id": "4587",
-  "name": "Krasnobr\u00f3d",
+  "name": "001Krasnobr\u00f3d",
   "location": [
     436,
     500
   ],
   "bonus": null,
-  "points": 6279,
+  "points": 7154,
   "safe": false,
   "scout": false,
-  "tribe": "37",
+  "tribe": "635",
   "owner": "699566545",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779697661
+  "last_seen": 1779990863
 }

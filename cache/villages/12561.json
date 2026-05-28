@@ -1,17 +1,17 @@
 {
   "id": "12561",
-  "name": 0,
+  "name": "#6 Silesia",
   "location": [
     420,
     579
   ],
   "bonus": null,
-  "points": 761,
+  "points": 1111,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "635",
+  "owner": "849302556",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779700595
+  "last_seen": 1779994728
 }

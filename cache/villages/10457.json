@@ -1,0 +1,20 @@
+{
+  "id": "10457",
+  "name": "ZAKON BILIK 09",
+  "location": [
+    505,
+    601
+  ],
+  "bonus": [
+    "33% szybsze szkolenie w koszarach ",
+    "bonus/barracks.png"
+  ],
+  "points": 4010,
+  "safe": false,
+  "scout": false,
+  "tribe": "117",
+  "owner": "849309701",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779979563
+}

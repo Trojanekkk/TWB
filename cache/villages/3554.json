@@ -1,0 +1,20 @@
+{
+  "id": "3554",
+  "name": "SZARAK + HONTO = CZARNO KRWISTY",
+  "location": [
+    502,
+    538
+  ],
+  "bonus": [
+    "10% wi\u0119cej ludno\u015bci",
+    "bonus/farm.png"
+  ],
+  "points": 4179,
+  "safe": false,
+  "scout": false,
+  "tribe": "2",
+  "owner": "849154997",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779979471
+}

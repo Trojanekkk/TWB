@@ -1,17 +1,17 @@
 {
   "id": "11122",
-  "name": "Wioska kol1ber",
+  "name": 0,
   "location": [
     398,
     528
   ],
   "bonus": null,
-  "points": 412,
+  "points": 445,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849207318",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

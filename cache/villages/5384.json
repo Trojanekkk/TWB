@@ -1,0 +1,20 @@
+{
+  "id": "5384",
+  "name": "002",
+  "location": [
+    436,
+    487
+  ],
+  "bonus": [
+    "100% wi\u0119ksza produkcja gliny",
+    "bonus/stone.png"
+  ],
+  "points": 816,
+  "safe": false,
+  "scout": false,
+  "tribe": "61",
+  "owner": "699150188",
+  "buildings": {},
+  "resources": {},
+  "last_seen": 1779955783
+}

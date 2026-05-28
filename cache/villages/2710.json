@@ -1,17 +1,17 @@
 {
   "id": "2710",
-  "name": "Wioska Furiaad",
+  "name": 0,
   "location": [
     486,
     556
   ],
   "bonus": null,
-  "points": 177,
+  "points": 201,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "699700747",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779495681
+  "last_seen": 1779817088
 }

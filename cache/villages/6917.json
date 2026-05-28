@@ -1,6 +1,6 @@
 {
   "id": "6917",
-  "name": "Wioska decoy",
+  "name": 0,
   "location": [
     432,
     530
@@ -9,9 +9,9 @@
   "points": 36,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "849307398",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779423185
+  "last_seen": 1779958618
 }

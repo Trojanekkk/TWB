@@ -1,6 +1,6 @@
 {
   "id": "2686",
-  "name": "xxx",
+  "name": "@ CYRK 0004",
   "location": [
     479,
     502
@@ -9,12 +9,12 @@
     "10% wi\u0119cej ludno\u015bci",
     "bonus/farm.png"
   ],
-  "points": 375,
+  "points": 2126,
   "safe": false,
   "scout": false,
   "tribe": "2",
   "owner": "849080197",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519373
+  "last_seen": 1779847316
 }

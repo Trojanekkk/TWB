@@ -1,6 +1,6 @@
 {
   "id": "16643",
-  "name": "Wioska przeemek23",
+  "name": 0,
   "location": [
     462,
     630
@@ -9,9 +9,9 @@
   "points": 321,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "1401591",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779519433
+  "last_seen": 1779847348
 }

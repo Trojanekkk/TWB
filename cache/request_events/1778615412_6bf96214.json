@@ -1,7 +1,0 @@
-{
-  "when": 1778615412,
-  "method": "GET",
-  "url": "https://pl229.plemiona.pl/game.php?village=8054&screen=main&action=upgrade_building&id=smith&type=main&h=e9617663",
-  "status": 200,
-  "event": "request"
-}

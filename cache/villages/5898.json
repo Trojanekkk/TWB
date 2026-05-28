@@ -1,17 +1,17 @@
 {
   "id": "5898",
-  "name": 0,
+  "name": "6 - Dmuchawa",
   "location": [
     448,
     517
   ],
   "bonus": null,
-  "points": 258,
+  "points": 350,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "699161593",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779702126
+  "last_seen": 1779907357
 }

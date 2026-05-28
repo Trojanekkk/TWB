@@ -1,17 +1,17 @@
 {
   "id": "12045",
-  "name": 0,
+  "name": "*0017* Jestem kotem",
   "location": [
     394,
     525
   ],
   "bonus": null,
-  "points": 211,
+  "points": 949,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "177",
+  "owner": "698473696",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779669233
+  "last_seen": 1779924998
 }

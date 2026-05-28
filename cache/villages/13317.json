@@ -1,17 +1,17 @@
 {
   "id": "13317",
-  "name": "Wioska marczelito",
+  "name": 0,
   "location": [
     471,
     619
   ],
   "bonus": null,
-  "points": 454,
+  "points": 516,
   "safe": false,
   "scout": false,
-  "tribe": "213",
-  "owner": "848977499",
+  "tribe": null,
+  "owner": "0",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779460234
+  "last_seen": 1779960796
 }

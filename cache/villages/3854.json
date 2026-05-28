@@ -1,17 +1,17 @@
 {
   "id": "3854",
-  "name": 0,
+  "name": "Numenor",
   "location": [
     476,
     565
   ],
   "bonus": null,
-  "points": 254,
+  "points": 436,
   "safe": false,
   "scout": false,
-  "tribe": null,
-  "owner": "0",
+  "tribe": "84",
+  "owner": "849260681",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779690872
+  "last_seen": 1779992283
 }

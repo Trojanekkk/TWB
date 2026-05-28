@@ -1,17 +1,17 @@
 {
   "id": "9961",
-  "name": "Wioska Sir Zordon",
+  "name": "004",
   "location": [
     482,
     597
   ],
   "bonus": null,
-  "points": 4542,
+  "points": 4656,
   "safe": false,
   "scout": false,
-  "tribe": "0",
-  "owner": "478956",
+  "tribe": "117",
+  "owner": "849254312",
   "buildings": {},
   "resources": {},
-  "last_seen": 1779678390
+  "last_seen": 1779817209
 }
