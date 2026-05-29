@@ -266,7 +266,6 @@ class Extractor:
         )
         overview_html = production_table.group(1) if production_table else res
 
-        add_villages(re.findall(r'\bdata-id=["\'](\d+)["\']', overview_html))
         add_villages(re.findall(r'\bdata-village-id=["\'](\d+)["\']', overview_html))
         add_villages(re.findall(r'game\.php\?[^"\'<>\s]*?village=(\d+)', overview_html))
 

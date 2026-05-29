@@ -89,6 +89,7 @@
     "max_points": 50,
     "find_player_owned": false,
     "search_radius": 100,
+    "target_cache_max_age_hours": 24,
     "default_away_time": 3600,
     "full_loot_away_time": 1800,
     "low_loot_away_time": 7200,

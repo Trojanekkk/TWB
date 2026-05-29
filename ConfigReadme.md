@@ -82,6 +82,8 @@ The `map` section controls how much of the map is discovered into `cache/village
 
 When `map.discovery_enabled` is true, each managed village slowly visits additional map centers around itself. `map.discovery_radius` sets how far those centers can be, `map.discovery_step` controls spacing between centers, and `map.max_discovery_requests_per_run` caps extra map requests per village cycle. Keep this cap low because map discovery adds visible page visits.
 
+`farms.target_cache_max_age_hours` is a farming safety guard. Targets whose `cache/villages` entry has not been refreshed within this many hours are skipped, because a stale barbarian entry can become player-owned before the bot notices. Set it to `0` only if you intentionally want to trust old map cache.
+
 ## Market
 The market feature automatically manages the resources in your village. This is especially nice whenever the builder is low on a certain resource and has plenty of others.
 "max_trade_duration" configures the max amount of trade time in hours, this should be kept low.

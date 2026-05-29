@@ -51,6 +51,7 @@ class AttackManager:
     farm_low_loot_threshold = 100
     farm_exploration_ratio = 0.25
     farm_exploration_min_targets = 2
+    farm_target_cache_max_age_hours = 24
     attack_delay_factor = None
 
     # Night bonus protection: defenders get +200% defence during night-bonus
@@ -205,6 +206,9 @@ class AttackManager:
         return -1 so the caller falls through to the next farm template.
         """
         target_village, distance = target[0], target[1]
+        if not self.target_is_allowed(target_village["id"], target_village):
+            return 0
+
         send_template = dict(template)
         scaled_for_night = False
 
@@ -381,66 +385,8 @@ class AttackManager:
         allowed_player_farms = {str(farm) for farm in self.extra_farm}
         for vid in self.map.villages:
             village = self.map.villages[vid]
-            if village["owner"] != "0":
-                if not self.target_player_owned:
-                    if vid not in self.ignored:
-                        self.logger.debug(
-                            "Ignoring village %s because player-owned farming is disabled",
-                            vid
-                        )
-                        self.ignored.append(vid)
-                    continue
-                if str(vid) not in allowed_player_farms:
-                    if vid not in self.ignored:
-                        self.logger.debug(
-                            "Ignoring village %s because player owned, add to additional_farms to auto attack",
-                            vid
-                        )
-                        self.ignored.append(vid)
-                    continue
-            if village["owner"] == "0" and str(vid) in allowed_player_farms:
-                if vid not in self.ignored:
-                    self.logger.debug(
-                        "Village %s is listed in additional_farms but is currently barbarian; treating as normal farm",
-                        vid
-                    )
-            if my_village and "points" in my_village and "points" in village:
-                if village["points"] >= self.farm_maxpoints:
-                    if vid not in self.ignored:
-                        self.logger.debug(
-                            "Ignoring village %s because points %d exceeds limit %d",
-                            vid, village["points"], self.farm_maxpoints
-                        )
-                        self.ignored.append(vid)
-                    continue
-                if village["points"] <= self.farm_minpoints:
-                    if vid not in self.ignored:
-                        self.logger.debug(
-                            "Ignoring village %s because points %d below limit %d",
-                            vid, village["points"], self.farm_minpoints
-                        )
-                        self.ignored.append(vid)
-                    continue
-                if (
-                        village["points"] >= my_village["points"]
-                        and not self.target_high_points
-                ):
-                    if vid not in self.ignored:
-                        self.logger.debug(
-                            "Ignoring village %s because of higher points %d -> %d",
-                            vid, my_village["points"], village["points"]
-                        )
-                        self.ignored.append(vid)
-                    continue
-                if vid in self._unknown_ignored:
-                    continue
-            if village["owner"] != "0":
-                get_h = time.localtime().tm_hour
-                if get_h in range(0, 8) or get_h == 23:
-                    self.logger.debug(
-                        "Village %s will be ignored because it is player owned and attack between 23h-8h", vid
-                    )
-                    continue
+            if not self.target_is_allowed(vid, village, my_village, allowed_player_farms):
+                continue
             distance = self.map.get_dist(village["location"])
             if distance > self.farm_radius:
                 if vid not in self.ignored:
@@ -460,6 +406,141 @@ class AttackManager:
         )
         ranked_targets = sorted(output, key=lambda x: (-x[2], x[1]))
         self.targets = self.diversify_targets(ranked_targets)
+
+    def target_is_allowed(self, vid, village, my_village=None, allowed_player_farms=None):
+        village = self.refresh_target_cache_entry(vid, village)
+        if allowed_player_farms is None:
+            allowed_player_farms = {str(farm) for farm in self.extra_farm}
+        owner = str(village.get("owner", ""))
+        if owner != "0":
+            if not self.target_player_owned:
+                self.ignore_target(
+                    vid,
+                    "Ignoring village %s because player-owned farming is disabled",
+                    vid,
+                )
+                return False
+            if str(vid) not in allowed_player_farms:
+                self.ignore_target(
+                    vid,
+                    "Ignoring village %s because player owned, add to additional_farms to auto attack",
+                    vid,
+                )
+                return False
+            get_h = time.localtime().tm_hour
+            if get_h in range(0, 8) or get_h == 23:
+                self.ignore_target(
+                    vid,
+                    "Ignoring village %s because it is player owned and attack is between 23h-8h",
+                    vid,
+                )
+                return False
+        elif str(vid) in allowed_player_farms and vid not in self.ignored:
+            self.logger.debug(
+                "Village %s is listed in additional_farms but is currently barbarian; treating as normal farm",
+                vid,
+            )
+
+        if self.target_cache_is_stale(village):
+            self.ignore_target(
+                vid,
+                "Ignoring village %s because map cache is stale",
+                vid,
+            )
+            return False
+
+        points = self.safe_int(village.get("points"))
+        min_points = self.safe_int(self.farm_minpoints)
+        max_points = self.safe_int(self.farm_maxpoints)
+        if points is None:
+            self.ignore_target(
+                vid,
+                "Ignoring village %s because target points are unknown",
+                vid,
+            )
+            return False
+        if max_points is not None and points >= max_points:
+            self.ignore_target(
+                vid,
+                "Ignoring village %s because points %d exceeds limit %d",
+                vid,
+                points,
+                max_points,
+            )
+            return False
+        if min_points is not None and points <= min_points:
+            self.ignore_target(
+                vid,
+                "Ignoring village %s because points %d below limit %d",
+                vid,
+                points,
+                min_points,
+            )
+            return False
+
+        my_points = self.safe_int((my_village or {}).get("points"))
+        if my_points is not None and points >= my_points and not self.target_high_points:
+            self.ignore_target(
+                vid,
+                "Ignoring village %s because of higher points %d -> %d",
+                vid,
+                my_points,
+                points,
+            )
+            return False
+
+        if vid in self._unknown_ignored:
+            return False
+        return True
+
+    def refresh_target_cache_entry(self, vid, village):
+        cached = FileManager.load_json_file(f"cache/villages/{vid}.json")
+        if not isinstance(cached, dict):
+            return village
+
+        cached_seen = self.safe_int(cached.get("last_seen")) or 0
+        current_seen = self.safe_int(village.get("last_seen")) or 0
+        if cached_seen < current_seen:
+            return village
+
+        village.clear()
+        village.update(cached)
+        if self.map:
+            self.map.villages[str(vid)] = village
+            location = village.get("location")
+            if location:
+                self.map.map_pos[str(vid)] = location
+        return village
+
+    def target_cache_is_stale(self, village):
+        max_age_hours = self.safe_float(self.farm_target_cache_max_age_hours)
+        if max_age_hours is None:
+            max_age_hours = 24
+        if max_age_hours <= 0:
+            return False
+        last_seen = self.safe_int(village.get("last_seen"))
+        if not last_seen:
+            return True
+        return last_seen + max_age_hours * 3600 < time.time()
+
+    def ignore_target(self, vid, message, *args):
+        if vid not in self.ignored:
+            self.logger.debug(message, *args)
+            self.ignored.append(vid)
+
+    @staticmethod
+    def safe_int(value):
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    @staticmethod
+    def safe_float(value):
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
 
     def attacked(
             self,
@@ -626,6 +707,16 @@ class AttackManager:
         """
         Send a TW attack
         """
+        target = self.map.villages.get(str(vid)) if self.map else None
+        if not isinstance(target, dict):
+            target = FileManager.load_json_file(f"cache/villages/{vid}.json")
+        if not isinstance(target, dict):
+            self.logger.warning("Not attacking %s because target is missing from map cache", vid)
+            return False
+        if not self.target_is_allowed(str(vid), target):
+            self.logger.info("Not attacking %s because target is no longer allowed", vid)
+            return False
+
         original_delay = self.wrapper.delay
         if self.attack_delay_factor is not None:
             try:

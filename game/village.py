@@ -562,6 +562,9 @@ class Village:
         self.attack.farm_exploration_min_targets = self.get_config(
             section="farms", parameter="farm_exploration_min_targets", default=2
         )
+        self.attack.farm_target_cache_max_age_hours = self.get_config(
+            section="farms", parameter="target_cache_max_age_hours", default=24
+        )
         self.attack.attack_delay_factor = self.get_config(
             section="bot",
             parameter="attack_delay_factor",

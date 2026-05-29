@@ -103,6 +103,7 @@ class VillageManager:
             "max_points",
             "find_player_owned",
             "search_radius",
+            "target_cache_max_age_hours",
             "default_away_time",
             "full_loot_away_time",
             "low_loot_away_time",

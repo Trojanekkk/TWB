@@ -206,6 +206,7 @@
                 delay={{ profile.bot.delay_factor | default("-") }}/{% if profile.bot.attack_delay_factor is defined %}{{ profile.bot.attack_delay_factor }}{% else %}{{ profile.bot.delay_factor | default("-") }}{% endif %},
                 wait={{ profile.farms.full_loot_away_time | default("-") }}/{{ profile.farms.default_away_time | default("-") }}/{{ profile.farms.low_loot_away_time | default("-") }},
                 scout={{ profile.farms.force_scout_if_available | default("-") }},
+                cache={{ profile.farms.target_cache_max_age_hours | default("-") }}h,
                 map={{ profile.map.discovery_enabled | default("-") }}/{{ profile.map.discovery_radius | default("-") }}
             </td>
         </tr>

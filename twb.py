@@ -305,8 +305,11 @@ class TWB:
         discovered_villages = []
         seen_villages = set()
         overview_ids = list(overview_page.villages_data.keys())
-        extracted_ids = Extractor.village_ids_from_overview(overview_page.result_get.text)
-        for village_id in overview_ids + extracted_ids:
+        if overview_ids:
+            village_ids = overview_ids
+        else:
+            village_ids = Extractor.village_ids_from_overview(overview_page.result_get.text)
+        for village_id in village_ids:
             village_id = str(village_id)
             if village_id not in seen_villages:
                 discovered_villages.append(village_id)

@@ -49,6 +49,7 @@ help_file = {
     'farms.max_points': 'The maximum points of villages to attack (also checks custom_farms)',
     'farms.find_player_owned': 'Allow farming player-owned villages, but only when their village IDs are listed in additional_farms',
     'farms.search_radius': 'Max radius of villages to attack (fields)',
+    'farms.target_cache_max_age_hours': 'Skip farm targets whose map cache entry is older than this many hours; set to 0 to disable',
     'farms.default_away_time': 'Default time in seconds to sleep before attacking a village again',
     'farms.full_loot_away_time': 'Away time for villages with high resource gain',
     'farms.low_loot_away_time': 'Away time for villages with low resource gain',
